@@ -1,22 +1,24 @@
-
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
 import {Client} from "@/app/Client";
+import {getDatabase} from "@/database/operations";
 
-export const dynamic = 'force-dynamic'; 
+export const dynamic = 'force-dynamic';
 
 export default async function Index() {
-	const supabase = createServerComponentClient( { cookies } );
-	// const done = await getData()
+	"use server";
+	const database = getDatabase();
+	const done = await database.getDoneActivities();
+	const user = await database.getUser();
 
-	const { data: done } = await supabase.from( 'done-activities' ).select();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
+
+	async function addDoneActivity ( activity: string ) {
+		"use server";
+		const db = getDatabase();
+		await db.addDoneActivity( activity );
+	}
 
 	return (
 		<div className="w-full h-screen flex flex-col items-center">
-			<Client user={user} done={done}/>
+			<Client user={user} done={done} add={addDoneActivity} />
 			{/*<div className="w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/10 to-transparent" />*/}
 		</div> );
 }

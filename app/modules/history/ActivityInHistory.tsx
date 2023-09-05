@@ -6,5 +6,5 @@ interface IProps {
 }
 
 export const ActivityInHistory = ( {activity}: IProps ) => {
-	return <div key={activity.id} className="bg-blue-400 text-center rounded-lg py-3 px-3">{activity.type}</div>;
+	return <div key={activity.id} className="bg-blue-400 text-center rounded-lg p-3 m-3">{activity.type}</div>;
 };

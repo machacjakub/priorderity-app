@@ -15,10 +15,14 @@ interface IProps {
 
 export const ModalWindow = ( {onClose, isOpen, children}: IProps ) => {
 	return (
-		<Window onClick={onClose} style={{display: isOpen ? '' : 'none'}}>
-			<div onClick={( e ) => e.stopPropagation()}>
-				{children}
-			</div>
-		</Window>
+		<>
+			{isOpen &&
+				<Window onClick={onClose}>
+					<div onClick={( e ) => e.stopPropagation()}>
+						{children}
+					</div>
+				</Window>
+			}
+		</>
 	);
 };

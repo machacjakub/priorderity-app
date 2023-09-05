@@ -7,7 +7,7 @@ interface IProps {
 
 export const ActivitiesList = ( {activities}: IProps ) => {
 	return (
-		<div className="p-3">
+		<div className="my-6 mx-3">
 			{activities.map( ( activity ) => ( <ActivityInHistory activity={activity} key={activity.id}/> ) )}
 		</div>
 	);

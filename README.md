@@ -19,11 +19,9 @@ Check out the [`/app/_examples`](./app/_examples/) folder for an example of crea
 
 ### Create `todo` table and seed with data (optional)
 
-Navigate to [your project's SQL Editor](https://app.supabase.com/project/_/sql), click `New query`, paste the contents of the [init.sql](./supabase/migrations/20230618024722_init.sql) file and click `RUN`.
-
 This will create a basic `todos` table, enable Row Level Security (RLS), and write RLS policies enabling `select` and `insert` actions for `authenticated` users.
 
-To seed your `todos` table with some dummy data, run the contents of the [seed.sql](./supabase/seed.sql) file.
+To seed your `todos` table with some dummy data, run the contents of the [seed.sql](database/seed.sql) file.
 
 ## Feedback and issues
 
