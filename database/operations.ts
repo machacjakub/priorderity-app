@@ -1,7 +1,18 @@
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
+import {User} from "@supabase/gotrue-js";
+import {IDoneActivity} from "@/app/types";
+import {Nullable} from "fputils";
+import {PostgrestError} from "@supabase/supabase-js";
 
-export const getDatabase = () => {
+export interface IDbOperations {
+	getUser: () => Promise<Nullable<User>>;
+	getDoneActivities: () => Promise<Nullable<IDoneActivity[]>>;
+	addDoneActivity: ( activityType: string ) => Promise<Nullable<PostgrestError>>;
+	deleteDoneActivity: ( activityId: number ) => Promise<Nullable<PostgrestError>>;
+}
+
+export const getDatabase = ():IDbOperations => {
 	const supabase = createServerComponentClient( { cookies } );
 
 	return {
@@ -13,10 +24,21 @@ export const getDatabase = () => {
 			const { data: done } = await supabase.from( 'done-activities' ).select();
 			return done;
 		},
-		addDoneActivity: async ( activity: string ) => {
+		addDoneActivity: async ( activityType: string ) => {
 			const { data: { user }} = await supabase.auth.getUser();
-			const { data, error } = await supabase.from( 'done-activities' )
-				.insert( {type: activity, user_id: user?.id } );
+			const { data, error } = await supabase
+				.from( 'done-activities' )
+				.insert( {type: activityType, user_id: user?.id } );
+			if ( error ){
+				return error;
+			}
+			return data;
+		},
+		deleteDoneActivity: async ( activityId: number ) => {
+			const { data, error } = await supabase
+				.from( 'done-activities' )
+				.delete()
+				.eq( 'id', activityId );
 			if ( error ){
 				return error;
 			}

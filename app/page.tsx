@@ -19,6 +19,5 @@ export default async function Index() {
 	return (
 		<div className="w-full h-screen flex flex-col items-center">
 			<Client user={user} done={done} add={addDoneActivity} />
-			{/*<div className="w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/10 to-transparent" />*/}
 		</div> );
 }

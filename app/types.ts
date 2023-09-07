@@ -1,6 +1,7 @@
 export interface IDoneActivity {
     id: number;
     type: string;
+    created_at: Date;
 }
 
 export type CategoryAttributes = null | { points: number, duration: number };
