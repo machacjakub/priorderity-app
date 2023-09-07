@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import {IDoneActivity} from "@/app/types";
 import {ActivitiesInHistoryList} from "@/app/modules/history/ActivitiesInHistoryList";
 import {getDayName, isSameDay, WeekDayNumber} from "@/app/modules/utils";
