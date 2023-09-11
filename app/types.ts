@@ -14,3 +14,11 @@ export interface IActivityAttributes {
     career: CategoryAttributes;
     realization: CategoryAttributes;
 }
+
+export interface IHealthStats {
+    mental: number,
+    physical: number,
+    career: number,
+    social: number,
+    realization: number
+}

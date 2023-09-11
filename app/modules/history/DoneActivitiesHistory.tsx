@@ -20,8 +20,8 @@ export const DoneActivitiesHistory = ( {doneActivities}: IProps ) => {
 		<div className="my-6 mx-3">
 			{days.map( ( day, i ) => {
 				return (
-					<div key={i} className="bg-foreground/10 border-b-2 border-b-violet-400/90 text-foreground p-3 m-3 rounded-xl bg-gradient-to-bl from-foreground/10 via-transparent to-transparent">
-						<div className="text-foreground/80 px-3">{day.title}</div>
+					<div key={i} className="bg-foreground/10 border-b-2 border-b-violet-400/90 text-foreground p-2 mx-3 my-2 rounded-xl bg-gradient-to-bl from-foreground/10 via-transparent to-transparent">
+						<div className="text-foreground/80 px-2">{day.title}</div>
 						<ActivitiesInHistoryList activities={day.activities}/>
 					</div> );
 			} )}

@@ -8,6 +8,8 @@ import useBoolean from "@/app/utils/hooks/useBoolean";
 import {ActivitiesToAdd} from "@/app/modules/attributes-stats/ActivitiesToAdd";
 import {DasboardSectionHeading} from "@/app/modules/components/DasboardSectionHeading";
 import {DoneActivitiesHistory} from "@/app/modules/history/DoneActivitiesHistory";
+import {HealthBars} from "@/app/modules/health-bars/HealthBars";
+import {getHealthStats} from "@/app/modules/health-bars/utils";
 
 interface IProps {
 	user: Nullable<User>;
@@ -23,7 +25,11 @@ export const Client = ( {user, done, add}: IProps ) => {
 			<div className="w-full h-full animate-in text-foreground">
 				<div className="w-full h-full grid grid-cols-4 grid-rows-3 gap-4">
 					<div className="bg-blue-100 dark:bg-gray-900 flex justify-center items-center row-span-3">to-do</div>
-					<div className="bg-blue-100 dark:bg-gray-900 flex justify-center items-center col-span-2">health-bars</div>
+					<div className="bg-background col-span-2">
+						<DasboardSectionHeading>Stats</DasboardSectionHeading>
+						<div className="w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/25 to-transparent" />
+						<HealthBars healthStats={getHealthStats( done ?? [] )}/>
+					</div>
 					<div className="bg-background row-span-3">
 						<DasboardSectionHeading>History</DasboardSectionHeading>
 						<div className="w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/25 to-transparent" />
