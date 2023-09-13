@@ -1,5 +1,4 @@
 import {ConfigProvider, Progress, Typography} from "antd";
-import styled from "styled-components";
 
 interface IProps {
     title: string;
@@ -13,19 +12,10 @@ const getColor = ( percentage: number ) => {
 	return `rgb(${red},${green},${blue})`;
 };
 
-
-const BarContainer = styled.div`
-  text-align: center;
-  background-color: #F3F3F3;
-  padding: 20px;
-  border-radius: 30px;
-  flex-grow: 3;
-  margin: 0 10px;
-`;
-
 export const Bar = ( {title, percentage}: IProps ) => {
 	const realPercentage = percentage > 100 ? 100 : percentage;
-	const progressBarSize = window.innerHeight / 15;
+	const progressBarSize = globalThis.window.innerHeight / 15;
+
 	return (
 		<div className="text-center px-3 m-1 rounded-2xl flex-shrink">
 			<ConfigProvider theme={{

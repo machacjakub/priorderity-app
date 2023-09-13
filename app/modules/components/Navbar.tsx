@@ -12,7 +12,7 @@ interface IProps {
 
 export const Navbar = ( {user, onProfileClick}: IProps ) => {
 	return (
-		<div className="w-full h-16 text-foreground grid grid-cols-3 items-center border-b border-b-foreground/10">
+		<div className="w-full h-16 text-foreground grid grid-cols-3 items-center border-b border-b-foreground/10 fixed z-50">
 			<div className="max-w-min px-8"><MenuOutlined style={{fontSize: '25px'}}/></div>
 			<div className="text-3xl lg:text-4xl w !leading-tight mx-auto max-w-xl text-center">
 				Priorderity

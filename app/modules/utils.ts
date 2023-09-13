@@ -14,3 +14,9 @@ export const getDayName = ( dayNumber: WeekDayNumber ) => {
 	return dayNames[dayNumber];
 };
 
+export const getNewItemsFromPayload = ( items: { id: number }[], payload: { new: any, old: { id: number } } ): any[] => {
+	if ( JSON.stringify( payload.new ) === '{}' ) {
+		return [...items.filter( ( item: any ) => payload.old.id !== item.id )];
+	}
+	return [...items, payload.new];
+};

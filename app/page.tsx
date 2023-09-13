@@ -10,14 +10,8 @@ export default async function Index() {
 	const user = await database.getUser();
 
 
-	async function addDoneActivity ( activity: string ) {
-		"use server";
-		const db = getDatabase();
-		await db.addDoneActivity( activity );
-	}
-
 	return (
 		<div className="w-full h-screen flex flex-col items-center">
-			<Client user={user} done={done} add={addDoneActivity} />
+			<Client user={user} done={done} />
 		</div> );
 }

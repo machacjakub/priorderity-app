@@ -17,7 +17,7 @@ export const DoneActivitiesHistory = ( {doneActivities}: IProps ) => {
 		};
 	} );
 	return (
-		<div className="my-6 mx-3">
+		<div className="mt-6 mx-3">
 			{days.map( ( day, i ) => {
 				return (
 					<div key={i} className="bg-foreground/10 border-b-2 border-b-violet-400/90 text-foreground p-2 mx-3 my-2 rounded-xl bg-gradient-to-bl from-foreground/10 via-transparent to-transparent">
