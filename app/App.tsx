@@ -18,12 +18,12 @@ interface IProps {
 	user: Nullable<User>;
     done: Nullable<IDoneActivity[]>;
 }
-export const Client = ( {user, done}: IProps ) => {
+export const App = ( {user, done}: IProps ) => {
 	const [doneActivities, setDoneActivities] = useState<IDoneActivity[]>( done ?? [] );
 	const supabase = createClientComponentClient();
 	const profileNavIsDisplayed = useBoolean( false );
 	useEffect( () => {
-		supabase
+		const channel = supabase
 			.channel( 'schema-db-changes' )
 			.on(
 				'postgres_changes',
@@ -40,6 +40,9 @@ export const Client = ( {user, done}: IProps ) => {
 				}
 			)
 			.subscribe();
+		return () => {
+			supabase.removeChannel( channel );
+		};
 	}, [] );
 	return (
 		<div className="w-full h-screen flex flex-col items-center">

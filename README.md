@@ -12,7 +12,7 @@ Description to be added...
 
 Check out the [`/app/_examples`](./app/_examples/) folder for an example of creating a Supabase client in:
 
-- [Client Components](./app/_examples/client-component/page.tsx)
+- [App Components](./app/_examples/client-component/page.tsx)
 - [Server Components](./app/_examples/server-component/page.tsx)
 - [Route Handlers](./app/_examples/route-handler/route.ts)
 - [Server Actions](./app/_examples/server-action/page.tsx)
