@@ -1,3 +1,3 @@
-export const SignUpButton = ( {text, small, tailwind}: {text: string, small?: boolean, tailwind?: string} ) => {
-	return <button className={`text-black font-semibold bg-gradient-to-r from-white to-cyan-200 px-4 ${small ? 'py-1' : 'py-3'} mx-2 rounded-md border border-black hover:from-violet-200 hover:to-cyan-300`} >{text}</button>;
+export const SignUpButton = ( {children, small, tailwind, formAction}: {children: string, small?: boolean, tailwind?: string, formAction?: string} ) => {
+	return <button formAction={formAction} className={`text-black ${small ? 'text-md' : 'text-xl'} font-semibold bg-gradient-to-r from-violet-300 to-cyan-300 ${small ? 'px-4' : 'px-6'} ${small ? 'py-1' : 'py-3'} rounded-md hover:from-violet-200 hover:to-cyan-200 ${tailwind}`} >{children}</button>;
 };

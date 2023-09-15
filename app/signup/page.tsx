@@ -1,12 +1,11 @@
 import Link from 'next/link';
-import Messages from './messages';
 import {SignUpButton} from "@/app/modules/components/SignUpButton";
-import {LogInButton} from "@/app/modules/components/LoginButton";
+import Messages from "@/app/login/messages";
 
-export default function Login() {
+export default function Signup() {
 	return (
 		<div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
-			<Link 
+			<Link
 				href="/"
 				className="absolute left-8 top-8 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
 			>
@@ -24,7 +23,7 @@ export default function Login() {
 				>
 					<polyline points="15 18 9 12 15 6" />
 				</svg>{' '}
-        Back
+                Back
 			</Link>
 
 			<form
@@ -33,7 +32,7 @@ export default function Login() {
 				method="post"
 			>
 				<label className="text-md" htmlFor="email">
-          Email
+                    Email
 				</label>
 				<input
 					className="rounded-md px-4 py-2 bg-inherit border mb-6"
@@ -42,7 +41,7 @@ export default function Login() {
 					required
 				/>
 				<label className="text-md" htmlFor="password">
-          Password
+                    Password
 				</label>
 				<input
 					className="rounded-md px-4 py-2 bg-inherit border mb-6"
@@ -51,14 +50,11 @@ export default function Login() {
 					placeholder="••••••••"
 					required
 				/>
-				<LogInButton tailwind="bg-blue-400 mb-2" small>
-          Sign In
-				</LogInButton>
 				<SignUpButton
 					formAction="/auth/sign-up"
 					small
 				>
-          Sign Up
+                    Sign Up
 				</SignUpButton>
 				<Messages />
 			</form>

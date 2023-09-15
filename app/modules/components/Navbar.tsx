@@ -5,6 +5,7 @@ import {User} from "@supabase/gotrue-js";
 import {Nullable} from "fputils";
 import { UserOutlined} from "@ant-design/icons";
 import {SignUpButton} from "@/app/modules/components/SignUpButton";
+import {LogInButton} from "@/app/modules/components/LoginButton";
 
 interface IProps {
     user?: Nullable<User>;
@@ -24,12 +25,15 @@ export const Navbar = ( {user, onProfileClick}: IProps ) => {
 						<UserOutlined style={{fontSize: '25px'}} onClick={onProfileClick}/>
 					</div>
 				) : ( <div>
-					<SignUpButton text="Sign Up" small={true}/>
+					<Link
+						href="/signup"
+					>
+						<SignUpButton small>Sign up</SignUpButton>
+					</Link>
 					<Link
 						href="/login"
-						className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
 					>
-						Login
+						<LogInButton small tailwind="text-white ml-4">Log in</LogInButton>
 					</Link>
 				</div>
 				)}
