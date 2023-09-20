@@ -53,17 +53,14 @@ export const App = ( {user, done}: IProps ) => {
 					<div className="bg-blue-100 dark:bg-gray-900 flex justify-center items-center row-span-3 mt-16">to-do</div>
 					<div className="bg-background col-span-2 mt-16">
 						<DasboardSectionHeading>Stats</DasboardSectionHeading>
-						<div className="w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/25 to-transparent" />
 						<HealthBars healthStats={getHealthStats( doneActivities ?? [] )}/>
 					</div>
-					<div className="bg-background row-span-3 overflow-auto mt-16">
+					<div className="bg-background row-span-3 overflow-scroll mt-16 top">
 						<DasboardSectionHeading>History</DasboardSectionHeading>
-						<div className="w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/25 to-transparent" />
 						<DoneActivitiesHistory doneActivities={doneActivities ?? []}/>
 					</div>
 					<div className="bg-background col-span-2 row-span-2 overflow-auto mt-16">
 						<DasboardSectionHeading>Activities</DasboardSectionHeading>
-						<div className="w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/25 to-transparent" />
 						<ActivitiesToAdd/>
 					</div>
 				</div>
