@@ -43,12 +43,12 @@ export const predefinedActivities: IActivityAttributes[] = [
 		realization: {points: 4, duration: 22}
 	},
 	{
-		type: 'call-bome',
+		type: 'vzdelavani',
 		physical: null,
-		mental: {points: 5, duration: 20},
-		social: {points: 10, duration: 72},
+		mental: {points: 4, duration: 48},
+		social: null,
 		career: null,
-		realization: null
+		realization: {points: 10, duration: 120}
 	},
 	{
 		type: 'friends',

@@ -21,11 +21,12 @@ export const getDatabase = ():IDbOperations => {
 			return user;
 		},
 		getDoneActivities: async () => {
-			const { data: done } = await supabase.from( 'done-activities' ).select();
+			const { data: done } = await supabase.from( 'done-activities' ).select().order( 'created_at', {ascending: false} );
 			return done;
 		},
 		addDoneActivity: async ( activityType: string ) => {
 			const { data: { user }} = await supabase.auth.getUser();
+
 			const { data, error } = await supabase
 				.from( 'done-activities' )
 				.insert( {type: activityType, user_id: user?.id } );

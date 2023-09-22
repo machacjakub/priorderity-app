@@ -1,3 +1,4 @@
+'use client';
 import {Bar} from "./Bar";
 import {IHealthStats} from "@/app/types";
 
