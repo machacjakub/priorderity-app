@@ -15,7 +15,7 @@ export const TodoForm = ( {onClose, isOpen}:IProps ) => {
 		const priority = formData.get( 'priority' );
 
 		await handleAddPlannedActivity( {name: String( name ), priority: Number( priority )} );
-
+		onClose();
 	};
 	const hasDeadline = useBoolean( false );
 	return (
