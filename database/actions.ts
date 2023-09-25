@@ -14,6 +14,15 @@ export const handleAddDoneActivity = async ( type: string ) => {
 
 	revalidatePath( '/' );
 };
+
+export const handleAddPlannedActivity = async ( {name, priority}: {name: string, priority: number} ) => {
+	const { data: { user }} = await supabase.auth.getUser();
+	await supabase
+		.from( 'planned' )
+		.insert( {name, priority, user_id: user?.id } );
+
+	revalidatePath( '/' );
+};
 export const handleDeleteDoneActivity = async ( activityId: number ) => {
 	await supabase
 		.from( 'done-activities' )

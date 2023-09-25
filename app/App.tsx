@@ -2,7 +2,7 @@
 
 import {User} from "@supabase/gotrue-js";
 import {Navbar} from "@/app/modules/components/Navbar";
-import {IDoneActivity} from "@/app/types";
+import {IDoneActivity, IPlannedActivity} from "@/app/types";
 import {Nullable} from "fputils";
 import {ActivitiesToAdd} from "@/app/modules/attributes-stats/ActivitiesToAdd";
 import {DoneActivitiesHistory} from "@/app/modules/history/DoneActivitiesHistory";
@@ -17,8 +17,9 @@ import {TodoForm} from "@/app/modules/todo/TodoForm";
 interface IProps {
 	user: Nullable<User>;
     done: Nullable<IDoneActivity[]>;
+    planned: Nullable<IPlannedActivity[]>;
 }
-export const App = ( {user, done}: IProps ) => {
+export const App = ( {user, done, planned}: IProps ) => {
 	const profileNavIsDisplayed = useBoolean( false );
 	const todoFormDisplayed = useBoolean( false );
 	const [optimisticActivities, addOptimisticActivity] = useOptimistic<IDoneActivity[], string>(
@@ -36,7 +37,7 @@ export const App = ( {user, done}: IProps ) => {
 			<div className="w-full h-full animate-in text-foreground">
 				<div className="w-full h-full grid grid-cols-4 grid-rows-3 gap-4">
 					<div className="bg-background col-span-1 row-span-3 overflow-auto mt-16 relative">
-						<ActivitiesToDo onFormOpen={todoFormDisplayed.setTrue}/>
+						<ActivitiesToDo onFormOpen={todoFormDisplayed.setTrue} planned={planned ?? []}/>
 					</div>
 					<div className="bg-background col-span-2 mt-16">
 						<HealthBars healthStats={getHealthStats( done ?? [] )}/>
