@@ -1,13 +1,14 @@
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
 import {User} from "@supabase/gotrue-js";
-import {IDoneActivity} from "@/app/types";
+import {IDoneActivity, IPlannedActivity} from "@/app/types";
 import {Nullable} from "fputils";
 import {PostgrestError} from "@supabase/supabase-js";
 
 export interface IDbOperations {
 	getUser: () => Promise<Nullable<User>>;
 	getDoneActivities: () => Promise<Nullable<IDoneActivity[]>>;
+	getPlannedActivities: () => Promise<Nullable<IPlannedActivity[]>>;
 	addDoneActivity: ( activityType: string ) => Promise<Nullable<PostgrestError>>;
 	deleteDoneActivity: ( activityId: number ) => Promise<Nullable<PostgrestError>>;
 }
@@ -22,6 +23,10 @@ export const getDatabase = ():IDbOperations => {
 		},
 		getDoneActivities: async () => {
 			const { data: done } = await supabase.from( 'done-activities' ).select().order( 'created_at', {ascending: false} );
+			return done;
+		},
+		getPlannedActivities: async () => {
+			const { data: done } = await supabase.from( 'planned' ).select().order( 'priority', {ascending: false} );
 			return done;
 		},
 		addDoneActivity: async ( activityType: string ) => {

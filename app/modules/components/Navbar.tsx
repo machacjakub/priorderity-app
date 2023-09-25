@@ -6,8 +6,6 @@ import {Nullable} from "fputils";
 import { UserOutlined} from "@ant-design/icons";
 import {SignUpButton} from "@/app/modules/components/SignUpButton";
 import {LogInButton} from "@/app/modules/components/LoginButton";
-import {ProfileNavigation} from "@/app/modules/profile/ProfileNavigation";
-import useBoolean from "@/app/utils/hooks/useBoolean";
 
 interface IProps {
     user?: Nullable<User>;
@@ -15,7 +13,6 @@ interface IProps {
 }
 
 export const Navbar = ( {user, onProfileClick}: IProps ) => {
-	const profileNavIsDisplayed = useBoolean( false );
 	return (
 		<div className="w-full h-16 text-foreground grid grid-cols-3 items-center border-b border-b-foreground/10 fixed z-20 backdrop-blur-lg">
 			<div className="text-3xl lg:text-4xl w !leading-tight mx-3 max-w-xl tracking-wide">
@@ -25,6 +22,7 @@ export const Navbar = ( {user, onProfileClick}: IProps ) => {
 			<div className="text-right px-8 fs">
 				{user ? (
 					<div className="">
+						{/*<SettingOutlined style={{fontSize: '25px'}} className="mx-8"/>*/}
 						<UserOutlined style={{fontSize: '25px'}} onClick={onProfileClick}/>
 					</div>
 				) : ( <div>
@@ -41,7 +39,6 @@ export const Navbar = ( {user, onProfileClick}: IProps ) => {
 				</div>
 				)}
 			</div>
-			{profileNavIsDisplayed.value && <ProfileNavigation user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>}
 		</div>
 	);
 };

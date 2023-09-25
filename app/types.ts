@@ -4,6 +4,13 @@ export interface IDoneActivity {
     created_at: Date;
 }
 
+export interface IPlannedActivity {
+    id: number;
+    name: string;
+    created_at: Date;
+    priority: number;
+}
+
 export type CategoryAttributes = null | { points: number, duration: number };
 
 export interface IActivityAttributes {
