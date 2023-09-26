@@ -21,7 +21,7 @@ export const Navbar = ( {user, onProfileClick}: IProps ) => {
 			<div></div>
 			<div className="text-right px-8 fs">
 				{user ? (
-					<div className="">
+					<div className="text-foreground w-min float-right hover:text-cyan-200/75">
 						{/*<SettingOutlined style={{fontSize: '25px'}} className="mx-8"/>*/}
 						<UserOutlined style={{fontSize: '25px'}} onClick={onProfileClick}/>
 					</div>
