@@ -1,6 +1,6 @@
 import {ModalWindow} from "@/app/modules/components/ModalWindow";
 import {FadingLine} from "@/app/modules/components/FadingLine";
-import {Switch} from "@/app/Switch";
+import {Switch} from "@/app/modules/components/Switch";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import { handleAddPlannedActivity} from "@/database/actions";
 
@@ -13,8 +13,12 @@ export const TodoForm = ( {onClose, isOpen}:IProps ) => {
 	const handleSubmit = async ( formData: FormData ) => {
 		const name = formData.get( 'name' );
 		const priority = formData.get( 'priority' );
+		const deadline = formData.get( 'deadline' );
+		console.log( 'deadline: ', deadline );
+		console.log( 'deadline: ',JSON.stringify( deadline ) );
 
-		await handleAddPlannedActivity( {name: String( name ), priority: Number( priority )} );
+
+		await handleAddPlannedActivity( {name: String( name ), priority: Number( priority ), deadline: new Date( deadline as string )} );
 		onClose();
 	};
 	const hasDeadline = useBoolean( false );
@@ -27,7 +31,7 @@ export const TodoForm = ( {onClose, isOpen}:IProps ) => {
 					<div className='mt-4 grid grid-cols-4'>
 						<label className="text-right p-2">Title: </label> <input name={'name'} placeholder="title of the todo" className="text-background/80 px-2 m-1 col-span-2"/> <div/>
 						<label className="text-right p-2">Priority: </label> <input name={'priority'} placeholder="0" type='number' className="text-background/80 px-2 m-1 w-20 col-span-2" /> <div/>
-						<label className="text-right p-2">Deadline: </label> <div className="p-1 flex col-span-2"><div className="mt-1.5"><Switch value={hasDeadline.value} size='tiny' onToggle={hasDeadline.toggle} /></div> {hasDeadline.value && ( <input className='px-1 ml-5 w-32 text-background/80' type='date'/> )}</div> <div/>
+						<label className="text-right p-2">Deadline: </label> <div className="p-1 flex col-span-2"><div className="mt-1.5"><Switch value={hasDeadline.value} size='tiny' onToggle={hasDeadline.toggle} /></div> {hasDeadline.value && ( <input className='px-1 ml-5 w-32 text-background/80' type='date' name='deadline'/> )}</div> <div/>
 					</div>
 					<div className='flex justify-between'>
 						<button onClick={onClose} className="bg-red-600/30 px-3 py-2 mt-6 rounded-lg text-foreground hover:bg-red-600/50" >Close</button>
