@@ -43,3 +43,10 @@ export const sumObjectProperties = ( obj1: IHealthStats, obj2: IHealthStats ): I
 		realization: obj1.realization + obj2.realization,
 	};
 };
+
+export const getHealthColor = ( percentage: number ) => {
+	const red = 255 - ( percentage > 60 ? ( percentage - 60 ) * 4 : 0 );
+	const green = 50 + ( percentage > 60 ? 170 : percentage * 2.8 );
+	const blue = percentage < 60 ? 0 : ( percentage - 60 ) * 2;
+	return `rgb(${red},${green},${blue})`;
+};
