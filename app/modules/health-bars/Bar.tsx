@@ -1,4 +1,6 @@
 import {ConfigProvider, Progress, Typography} from "antd";
+import {useEffect, useState} from "react";
+import {isBrowser} from "@/app/modules/utils";
 
 interface IProps {
     title: string;
@@ -13,8 +15,13 @@ const getColor = ( percentage: number ) => {
 };
 
 export const Bar = ( {title, percentage}: IProps ) => {
+	const [progressBarSize, setprogressBarSize] = useState( 20 );
+	useEffect( () => {
+		if ( isBrowser() ) {
+			setprogressBarSize( window.innerHeight /15 );
+		};
+	} );
 	const realPercentage = percentage > 100 ? 100 : percentage;
-	const progressBarSize = globalThis.window.innerHeight / 15;
 
 	return (
 		<div className="text-center px-3 m-1 rounded-2xl flex-shrink">

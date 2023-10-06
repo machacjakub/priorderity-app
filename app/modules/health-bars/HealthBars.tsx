@@ -1,7 +1,7 @@
 'use client';
 import {Bar} from "./Bar";
 import {IHealthStats} from "@/app/types";
-import {DasboardSectionHeading} from "@/app/modules/components/DasboardSectionHeading";
+import {DashboardSectionHeading} from "@/app/modules/components/DashboardSectionHeading";
 
 interface IProps {
 	healthStats: IHealthStats;
@@ -10,7 +10,7 @@ interface IProps {
 export const HealthBars = ( {healthStats}: IProps ) => {
 	return (
 		<>
-			<DasboardSectionHeading>Stats</DasboardSectionHeading>
+			<DashboardSectionHeading>Stats</DashboardSectionHeading>
 			<div className="flex justify-between px-4 py-3 m-5 bg-gradient-to-r from-transparent via-cyan-800/40 to-transparent rounded-3xl">
 				<Bar title={'Mental health'} percentage={healthStats.mental}/>
 				<Bar title={'Physical health'} percentage={healthStats.physical}/>

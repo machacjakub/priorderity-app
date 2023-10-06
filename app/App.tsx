@@ -14,9 +14,12 @@ import useBoolean from "@/app/utils/hooks/useBoolean";
 import {TodoForm} from "@/app/modules/todo/TodoForm";
 import useDoneActivities from "@/app/utils/hooks/useDoneActivities";
 import {Responsive} from "@/app/modules/components/Responsive";
-import {HistoryOutlined, MoreOutlined, PlusOutlined} from "@ant-design/icons";
-import {BottomBarButton} from "@/app/modules/components/mobile/BottomBarButton";
+import { UpOutlined} from "@ant-design/icons";
 import {HealthBarsMobile} from "@/app/modules/health-bars/HealthBarsMobile";
+import {ActivitiesToDoMobile} from "@/app/modules/todo/ActivitiesToDoMobile";
+import {DoneActivitiesHistoryMobile} from "@/app/modules/history/DoneActivitiesHistoryMobile";
+import {ActivitiesToAddMobile} from "@/app/modules/attributes-stats/ActivitiesToAddMobile";
+import {isBrowser} from "@/app/modules/utils";
 
 interface IProps {
 	user: Nullable<User>;
@@ -27,21 +30,33 @@ export const App = ( {user, done, planned}: IProps ) => {
 	const profileNavIsDisplayed = useBoolean( false );
 	const todoFormDisplayed = useBoolean( false );
 	const {doneActivities, addDoneActivity, deleteDoneActivity} = useDoneActivities( done ?? [] );
+
+	function scrollToTop() {
+		if ( !isBrowser() ) return;
+		window.scrollTo( { top: 0, behavior: 'smooth' } );
+	}
 	return (
 		<div>
 			<Responsive.Mobile>
 				{profileNavIsDisplayed.value && <ProfileNavigation user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>}
-				<div className="w-full h-screen flex flex-col items-center">
+				<div className="w-full flex flex-col items-center">
 					<Navbar user={user} onProfileClick={profileNavIsDisplayed.setTrue}/>
 					{todoFormDisplayed.value && <TodoForm onClose={todoFormDisplayed.setFalse} isOpen={todoFormDisplayed.value}/>}
-					<div className='w-screen h-full mt-16 pt-16 overflow-auto'>
+					<div className='w-screen h-full mt-16'>
 						<HealthBarsMobile healthStats={getHealthStats( done ?? [] )}/>
-						<ActivitiesToDo onFormOpen={todoFormDisplayed.setTrue} planned={planned ?? []}/>
-						<div className='fixed bottom-0 w-screen flex justify-between px-6'>
-							<BottomBarButton onClick={todoFormDisplayed.setTrue} icon={<MoreOutlined/>} />
-							<BottomBarButton onClick={todoFormDisplayed.setTrue} icon={<PlusOutlined/>} />
-							<BottomBarButton onClick={todoFormDisplayed.setTrue} icon={<HistoryOutlined/>} />
+						<ActivitiesToDoMobile onFormOpen={todoFormDisplayed.setTrue} planned={planned ?? []}/>
+						<ActivitiesToAddMobile onAdd={addDoneActivity}/>
+						<DoneActivitiesHistoryMobile doneActivities={doneActivities} handleDelete={deleteDoneActivity}/>
+						{/*<div className='fixed bottom-0 w-screen flex justify-between px-6'>*/}
+						{/*	<BottomBarButton onClick={todoFormDisplayed.setTrue} icon={<MoreOutlined/>} />*/}
+						{/*	<BottomBarButton onClick={todoFormDisplayed.setTrue} icon={<PlusOutlined/>} />*/}
+						{/*	<Link href='/history'><BottomBarButton icon={<HistoryOutlined/>} /></Link>*/}
+						{/*</div>*/}
+						<div className='text-center text-foreground m-6' onClick={scrollToTop}>
+							<UpOutlined className='text-3xl' />
+							<p>back to the top</p>
 						</div>
+
 					</div>
 				</div>
 			</Responsive.Mobile>

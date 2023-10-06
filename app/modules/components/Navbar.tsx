@@ -14,7 +14,7 @@ interface IProps {
 
 export const Navbar = ( {user, onProfileClick}: IProps ) => {
 	return (
-		<div className="w-full h-16 text-foreground grid grid-cols-3 items-center border-b border-b-foreground/10 fixed z-20 backdrop-blur-lg">
+		<div className="w-full h-16 text-foreground grid grid-cols-3 items-center border-b border-b-foreground/10 fixed z-20 bg-background/60 backdrop-blur-md">
 			<div className="text-3xl lg:text-4xl w !leading-tight mx-3 max-w-xl tracking-wide">
 				Priorderity
 			</div>
