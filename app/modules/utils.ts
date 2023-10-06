@@ -20,3 +20,5 @@ export const getNewItemsFromPayload = ( items: { id: number }[], payload: { new:
 	}
 	return [...items, payload.new];
 };
+
+export const isBrowser = () => typeof window !== 'undefined';

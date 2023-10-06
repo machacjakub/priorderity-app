@@ -1,0 +1,1 @@
+export const DashboardSectionHeadingMobile = ( {children}: {children: string} ) => <h1 className='text-foreground ml-5'>{children}</h1>;

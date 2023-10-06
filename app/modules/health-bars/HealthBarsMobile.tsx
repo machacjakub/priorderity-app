@@ -12,7 +12,7 @@ const StatsBar = ( {title, stat}: { title: string, stat: number } ) => {
 
 export const HealthBarsMobile = ( {healthStats}: { healthStats: IHealthStats } ) => {
 	return (
-		<div className="fixed top-16 mt-1 w-screen flex justify-evenly">
+		<div className="mt-1 w-screen flex justify-evenly">
 			<StatsBar title={'Mental'} stat={healthStats.mental}/>
 			<StatsBar title={'Physical'} stat={healthStats.physical}/>
 			<StatsBar title={'Career'} stat={healthStats.career}/>
