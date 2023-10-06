@@ -9,6 +9,7 @@ export interface IPlannedActivity {
     name: string;
     created_at: Date;
     priority: number;
+    deadline: Date;
 }
 
 export type CategoryAttributes = null | { points: number, duration: number };
