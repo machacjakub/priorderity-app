@@ -1,16 +1,16 @@
 'use client';
 
-import {IDoneActivity} from "@/app/types";
-import {ActivitiesInHistoryList} from "@/app/modules/history/ActivitiesInHistoryList";
-import {getDayName, isSameDay, WeekDayNumber} from "@/app/modules/utils";
-import {DashboardSectionHeading} from "@/app/modules/components/DashboardSectionHeading";
+import { IDoneActivity } from "@/app/types";
+import { ActivitiesInHistoryList } from "@/app/modules/history/ActivitiesInHistoryList";
+import { getDayName, isSameDay, WeekDayNumber } from "@/app/modules/utils";
+import { DashboardSectionHeading } from "@/app/modules/components/DashboardSectionHeading";
 
 interface IProps {
 	doneActivities: IDoneActivity[];
-	handleDelete: ( id: number ) => void
+	handleDelete: ( id: number ) => void;
 }
 
-export const DoneActivitiesHistory = ( {doneActivities, handleDelete}: IProps ) => {
+export const DoneActivitiesHistory = ( { doneActivities, handleDelete }: IProps ) => {
 	const now = new Date().getTime();
 	const dummyArray = Array( 7 ).fill( null );
 	const days = dummyArray.map( ( day, i ) => {

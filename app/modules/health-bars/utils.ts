@@ -1,6 +1,6 @@
-import {IActivityAttributes, IDoneActivity, IHealthStats} from "@/app/types";
-import {getPredefinedActivitiesAttributes} from "@/app/modules/attributes-stats/predefinedActivities";
-
+import { IActivityAttributes, IDoneActivity, IHealthStats } from "@/app/types";
+import { getPredefinedActivitiesAttributes } from "@/app/modules/attributes-stats/predefinedActivities";
+ 
 export const isValidType = ( type: string, activities: IActivityAttributes[] ) => !!activities.find( activity => activity.type === type );
 const getSingleStatPoints = ( rules: { points: number, duration: number } | null, hours: number ) => {
 	if ( !rules ) return 0;
@@ -31,7 +31,7 @@ export const getHealthStats = ( doneActivities: IDoneActivity[] ): IHealthStats 
 			return acc;
 		}
 		return sumObjectProperties( getCurrentStats( curr, activitiesStats ), acc );
-	}, {mental: 0, physical: 0, career: 0, social: 0, realization: 0} );
+	}, { mental: 0, physical: 0, career: 0, social: 0, realization: 0 } );
 };
 
 export const sumObjectProperties = ( obj1: IHealthStats, obj2: IHealthStats ): IHealthStats => {

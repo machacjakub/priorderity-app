@@ -1,9 +1,9 @@
-import {IPlannedActivity} from "@/app/types";
-import {CloseOutlined} from "@ant-design/icons";
-import {handleDeletePlannedActivity, handleMarkAsDone} from "@/database/actions";
+import { IPlannedActivity } from "@/app/types";
+import { CloseOutlined } from "@ant-design/icons";
+import { handleDeletePlannedActivity, handleMarkAsDone } from "@/database/actions";
 
-export const TodoItem = ( {activity, onDelete}: {activity: IPlannedActivity, onDelete: ( id: number ) => void} ) => {
-
+export const TodoItem = ( { activity, onDelete }: {activity: IPlannedActivity, onDelete: ( id: number ) => void} ) => {
+ 
 	const handleInteraction = async ( ) => {
 		onDelete( activity.id );
 		await handleMarkAsDone( activity.id, activity.name );

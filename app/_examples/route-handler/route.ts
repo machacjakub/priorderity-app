@@ -7,7 +7,7 @@ import { NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 
 
-export async function GET() {
+export async function GET () {
 	// Create a Supabase client configured to use cookies
 	const supabase = createRouteHandlerClient( { cookies } );
 

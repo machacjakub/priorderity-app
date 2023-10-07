@@ -1,25 +1,25 @@
 'use client';
 
-import {User} from "@supabase/gotrue-js";
-import {Navbar} from "@/app/modules/navigation/Navbar";
-import {IDoneActivity} from "@/app/types";
-import {Nullable} from "fputils";
-import {DoneActivitiesHistory} from "@/app/modules/history/DoneActivitiesHistory";
-import {NavigationDrawer} from "@/app/modules/navigation/NavigationDrawer";
+import { User } from "@supabase/gotrue-js";
+import { Navbar } from "@/app/modules/navigation/Navbar";
+import { IDoneActivity } from "@/app/types";
+import { Nullable } from "fputils";
+import { DoneActivitiesHistory } from "@/app/modules/history/DoneActivitiesHistory";
+import { NavigationDrawer } from "@/app/modules/navigation/NavigationDrawer";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import useDoneActivities from "@/app/utils/hooks/useDoneActivities";
-import {Responsive} from "@/app/modules/components/Responsive";
-import {BottomBarButton} from "@/app/modules/components/mobile/BottomBarButton";
-import {MoreOutlined, PlusOutlined, UnorderedListOutlined} from "@ant-design/icons";
+import { Responsive } from "@/app/modules/components/Responsive";
+import { BottomBarButton } from "@/app/modules/components/mobile/BottomBarButton";
+import { MoreOutlined, PlusOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import Link from "next/link";
-
+ 
 interface IProps {
     user: Nullable<User>;
     done: Nullable<IDoneActivity[]>;
 }
-export const HistoryPage = ( {user, done}: IProps ) => {
+export const HistoryPage = ( { user, done }: IProps ) => {
 	const profileNavIsDisplayed = useBoolean( false );
-	const {doneActivities, addDoneActivity, deleteDoneActivity} = useDoneActivities( done ?? [] );
+	const { doneActivities, addDoneActivity, deleteDoneActivity } = useDoneActivities( done ?? [] );
 	return (
 		<div>
 			<Responsive.Mobile>

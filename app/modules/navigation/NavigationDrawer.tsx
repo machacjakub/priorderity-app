@@ -1,15 +1,15 @@
 import LogoutButton from "@/app/modules/components/LogoutButton";
-import {User} from "@supabase/gotrue-js";
-import {Nullable} from "fputils";
-import {ModalWindow} from "@/app/modules/components/ModalWindow";
+import { User } from "@supabase/gotrue-js";
+import { Nullable } from "fputils";
+import { ModalWindow } from "@/app/modules/components/ModalWindow";
 
 interface IProps {
 	onClose: () => void;
 	isOpen: boolean
 	user: Nullable<User>;
 }
-
-export const NavigationDrawer = ( {onClose, isOpen, user}:IProps ) => {
+ 
+export const NavigationDrawer = ( { onClose, isOpen, user }:IProps ) => {
 	return (
 		<div className="w-full h-full z-20">
 			<ModalWindow onClose={onClose} isOpen={isOpen}>

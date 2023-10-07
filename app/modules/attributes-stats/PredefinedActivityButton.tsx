@@ -1,11 +1,11 @@
-import {handleAddDoneActivity} from "@/database/actions";
+import { handleAddDoneActivity } from "@/database/actions";
 
 interface IProps {
     activity: {type: string};
 	handleAdd: ( type: string ) => void;
 }
 
-export const PredefinedActivityButton = ( {activity, handleAdd }: IProps ) => {
+export const PredefinedActivityButton = ( { activity, handleAdd }: IProps ) => { 
 
 	return (
 		<form action={async formData => {
