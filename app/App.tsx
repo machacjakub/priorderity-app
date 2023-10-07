@@ -1,7 +1,7 @@
 'use client';
 
 import {User} from "@supabase/gotrue-js";
-import {Navbar} from "@/app/modules/components/Navbar";
+import {Navbar} from "@/app/modules/navigation/Navbar";
 import {IDoneActivity, IPlannedActivity} from "@/app/types";
 import {Nullable} from "fputils";
 import {ActivitiesToAdd} from "@/app/modules/attributes-stats/ActivitiesToAdd";
@@ -9,17 +9,18 @@ import {DoneActivitiesHistory} from "@/app/modules/history/DoneActivitiesHistory
 import {HealthBars} from "@/app/modules/health-bars/HealthBars";
 import {getHealthStats} from "@/app/modules/health-bars/utils";
 import {ActivitiesToDo} from "@/app/modules/todo/ActivitiesToDo";
-import {ProfileNavigation} from "@/app/modules/profile/ProfileNavigation";
+import {NavigationDrawer} from "@/app/modules/navigation/NavigationDrawer";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import {TodoForm} from "@/app/modules/todo/TodoForm";
 import useDoneActivities from "@/app/utils/hooks/useDoneActivities";
 import {Responsive} from "@/app/modules/components/Responsive";
-import { UpOutlined} from "@ant-design/icons";
+import {PlusOutlined, UpOutlined} from "@ant-design/icons";
 import {HealthBarsMobile} from "@/app/modules/health-bars/HealthBarsMobile";
 import {ActivitiesToDoMobile} from "@/app/modules/todo/ActivitiesToDoMobile";
 import {DoneActivitiesHistoryMobile} from "@/app/modules/history/DoneActivitiesHistoryMobile";
 import {ActivitiesToAddMobile} from "@/app/modules/attributes-stats/ActivitiesToAddMobile";
 import {isBrowser} from "@/app/modules/utils";
+import {BottomBarButton} from "@/app/modules/components/mobile/BottomBarButton";
 
 interface IProps {
 	user: Nullable<User>;
@@ -38,8 +39,8 @@ export const App = ( {user, done, planned}: IProps ) => {
 	return (
 		<div>
 			<Responsive.Mobile>
-				{profileNavIsDisplayed.value && <ProfileNavigation user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>}
-				<div className="w-full flex flex-col items-center">
+				{profileNavIsDisplayed.value && <NavigationDrawer user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>}
+				<div className="w-screen flex flex-col items-center">
 					<Navbar user={user} onProfileClick={profileNavIsDisplayed.setTrue}/>
 					{todoFormDisplayed.value && <TodoForm onClose={todoFormDisplayed.setFalse} isOpen={todoFormDisplayed.value}/>}
 					<div className='w-screen h-full mt-16'>
@@ -47,11 +48,9 @@ export const App = ( {user, done, planned}: IProps ) => {
 						<ActivitiesToDoMobile onFormOpen={todoFormDisplayed.setTrue} planned={planned ?? []}/>
 						<ActivitiesToAddMobile onAdd={addDoneActivity}/>
 						<DoneActivitiesHistoryMobile doneActivities={doneActivities} handleDelete={deleteDoneActivity}/>
-						{/*<div className='fixed bottom-0 w-screen flex justify-between px-6'>*/}
-						{/*	<BottomBarButton onClick={todoFormDisplayed.setTrue} icon={<MoreOutlined/>} />*/}
-						{/*	<BottomBarButton onClick={todoFormDisplayed.setTrue} icon={<PlusOutlined/>} />*/}
-						{/*	<Link href='/history'><BottomBarButton icon={<HistoryOutlined/>} /></Link>*/}
-						{/*</div>*/}
+						<div className='fixed bottom-0 w-screen text-right px-2'>
+							<BottomBarButton onClick={todoFormDisplayed.setTrue} icon={<PlusOutlined/>} />
+						</div>
 						<div className='text-center text-foreground m-6' onClick={scrollToTop}>
 							<UpOutlined className='text-3xl' />
 							<p>back to the top</p>
@@ -63,7 +62,7 @@ export const App = ( {user, done, planned}: IProps ) => {
 			<Responsive.Desktop>
 				<div className="w-full h-screen flex flex-col items-center">
 					<Navbar user={user} onProfileClick={profileNavIsDisplayed.setTrue} />
-					{profileNavIsDisplayed.value && <ProfileNavigation user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>}
+					{profileNavIsDisplayed.value && <NavigationDrawer user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>}
 					{todoFormDisplayed.value && <TodoForm onClose={todoFormDisplayed.setFalse} isOpen={todoFormDisplayed.value}/>}
 					<div className="w-full h-full animate-in text-foreground">
 						<div className="w-full h-full grid grid-cols-4 grid-rows-3 gap-4">

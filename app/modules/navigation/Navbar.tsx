@@ -3,7 +3,7 @@
 import Link from "next/link";
 import {User} from "@supabase/gotrue-js";
 import {Nullable} from "fputils";
-import { UserOutlined} from "@ant-design/icons";
+import {MenuOutlined} from "@ant-design/icons";
 import {SignUpButton} from "@/app/modules/components/SignUpButton";
 import {LogInButton} from "@/app/modules/components/LoginButton";
 
@@ -23,7 +23,7 @@ export const Navbar = ( {user, onProfileClick}: IProps ) => {
 				{user ? (
 					<div className="text-foreground w-min float-right hover:text-cyan-200/75">
 						{/*<SettingOutlined style={{fontSize: '25px'}} className="mx-8"/>*/}
-						<UserOutlined style={{fontSize: '25px'}} onClick={onProfileClick}/>
+						<MenuOutlined style={{fontSize: '25px'}} onClick={onProfileClick}/>
 					</div>
 				) : ( <div>
 					<Link

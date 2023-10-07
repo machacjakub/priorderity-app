@@ -1,11 +1,11 @@
 'use client';
 
 import {User} from "@supabase/gotrue-js";
-import {Navbar} from "@/app/modules/components/Navbar";
+import {Navbar} from "@/app/modules/navigation/Navbar";
 import {IDoneActivity} from "@/app/types";
 import {Nullable} from "fputils";
 import {DoneActivitiesHistory} from "@/app/modules/history/DoneActivitiesHistory";
-import {ProfileNavigation} from "@/app/modules/profile/ProfileNavigation";
+import {NavigationDrawer} from "@/app/modules/navigation/NavigationDrawer";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import useDoneActivities from "@/app/utils/hooks/useDoneActivities";
 import {Responsive} from "@/app/modules/components/Responsive";
@@ -23,7 +23,7 @@ export const HistoryPage = ( {user, done}: IProps ) => {
 	return (
 		<div>
 			<Responsive.Mobile>
-				{profileNavIsDisplayed.value && <ProfileNavigation user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>}
+				{profileNavIsDisplayed.value && <NavigationDrawer user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>}
 				<div className="w-full h-screen flex flex-col items-center">
 					<Navbar user={user} onProfileClick={profileNavIsDisplayed.setTrue}/>
 					{/*<HealthBarsMobile healthStats={getHealthStats( done ?? [] )}/>*/}
@@ -41,7 +41,7 @@ export const HistoryPage = ( {user, done}: IProps ) => {
 			<Responsive.Desktop>
 				<div className="w-full h-screen flex flex-col items-center">
 					<Navbar user={user} onProfileClick={profileNavIsDisplayed.setTrue} />
-					{profileNavIsDisplayed.value && <ProfileNavigation user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>}
+					{profileNavIsDisplayed.value && <NavigationDrawer user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>}
 					<div className="w-screen h-full animate-in overflow-auto mt-16 text-foreground">
 						<DoneActivitiesHistory doneActivities={doneActivities} handleDelete={deleteDoneActivity}/>
 					</div>

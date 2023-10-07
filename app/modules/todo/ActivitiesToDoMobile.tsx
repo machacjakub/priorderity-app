@@ -20,13 +20,13 @@ export const ActivitiesToDoMobile = ( {onFormOpen, planned}: IProps ) => {
 	return (
 		<div className='mt-2'>
 			<DashboardSectionHeadingMobile>To-Do</DashboardSectionHeadingMobile>
-			<div className="m-2 mb-6 text-center">
+			<div className="m-2 mb-6 text-center text-foreground">
 				{optimisticActivities.map( ( acitivity, i ) => {
 					if ( isPreview.value && i > 2 ) {
 						return;
 					}
 					return <TodoItem activity={acitivity} key={acitivity.id} onDelete={deleteOptimisticActivity}/>;} )}
-				<ShowMoreButton isPreview={isPreview}/>
+				{optimisticActivities.length > 3 && <ShowMoreButton isPreview={isPreview}/>}
 			</div>
 		</div>
 	);

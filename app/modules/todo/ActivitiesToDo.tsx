@@ -26,7 +26,7 @@ export const ActivitiesToDo = ( {onFormOpen, planned}: IProps ) => {
 				</h1>
 				<FadingLine/>
 			</div>
-			<div className="m-2 mb-20">
+			<div className="m-2 mb-20 text-foreground">
 				{optimisticActivities.map( acitivity => <TodoItem activity={acitivity} key={acitivity.id} onDelete={deleteOptimisticActivity}/> )}
 			</div>
 		</>
