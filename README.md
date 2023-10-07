@@ -1,3 +1,10 @@
+# Branches and stages
+`main` - `testing-deploy` - https://testing-deploy-priorderity.vercel.app/
+
+`preproduction` - `beta` - https://testing-deploy-priorderity.vercel.app/
+
+`production` - https://testing-deploy-priorderity.vercel.app/
+
 # Priorderity App
 
 Description to be added...

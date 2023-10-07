@@ -1,7 +1,7 @@
 import React from 'react';
 
-export default function SupabaseLogo() {
-	return (
+export default function SupabaseLogo () {
+	return ( 
 		<svg
 			aria-label="Supabase logo"
 			width="140" 

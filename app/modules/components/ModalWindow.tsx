@@ -14,8 +14,8 @@ interface IProps {
     children: any;
 	tailwind?: string;
 }
-
-export const ModalWindow = ( {onClose, isOpen, children, tailwind}: IProps ) => {
+ 
+export const ModalWindow = ( { onClose, isOpen, children, tailwind }: IProps ) => {
 	return (
 		<>
 			{isOpen &&
