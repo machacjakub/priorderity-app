@@ -1,8 +1,8 @@
 'use client';
 
-import {useState} from 'react';
+import { useState } from 'react';
 
-export interface IUseBoolean {
+export interface IUseBoolean { 
     value: boolean;
     setValue: ( value: boolean ) => void;
     setFalse: () => void;
@@ -11,7 +11,7 @@ export interface IUseBoolean {
 }
 
 const useBoolean = ( initial?: boolean ): IUseBoolean => {
-	const [value, setValue] = useState<boolean>( !!initial );
+	const [ value, setValue ] = useState<boolean>( !!initial );
 
 	return {
 		value,

@@ -1,6 +1,6 @@
-import {IActivityAttributes, IDoneActivity, IHealthStats} from "@/app/types";
-import {getPredefinedActivitiesAttributes} from "@/app/modules/attributes-stats/predefinedActivities";
-
+import { IActivityAttributes, IDoneActivity, IHealthStats } from "@/app/types";
+import { getPredefinedActivitiesAttributes } from "@/app/modules/attributes-stats/predefinedActivities";
+ 
 export const isValidType = ( type: string, activities: IActivityAttributes[] ) => !!activities.find( activity => activity.type === type );
 const getSingleStatPoints = ( rules: { points: number, duration: number } | null, hours: number ) => {
 	if ( !rules ) return 0;
@@ -31,7 +31,7 @@ export const getHealthStats = ( doneActivities: IDoneActivity[] ): IHealthStats 
 			return acc;
 		}
 		return sumObjectProperties( getCurrentStats( curr, activitiesStats ), acc );
-	}, {mental: 0, physical: 0, career: 0, social: 0, realization: 0} );
+	}, { mental: 0, physical: 0, career: 0, social: 0, realization: 0 } );
 };
 
 export const sumObjectProperties = ( obj1: IHealthStats, obj2: IHealthStats ): IHealthStats => {
@@ -42,4 +42,11 @@ export const sumObjectProperties = ( obj1: IHealthStats, obj2: IHealthStats ): I
 		social: obj1.social + obj2.social,
 		realization: obj1.realization + obj2.realization,
 	};
+};
+
+export const getHealthColor = ( percentage: number ) => {
+	const red = 255 - ( percentage > 60 ? ( percentage - 60 ) * 4 : 0 );
+	const green = 50 + ( percentage > 60 ? 170 : percentage * 2.8 );
+	const blue = percentage < 60 ? 0 : ( percentage - 60 ) * 2;
+	return `rgb(${red},${green},${blue})`;
 };

@@ -16,4 +16,15 @@ Jako uživatel chci
   - vztahy
   - realizace
 - mít možnost zobrazit doporučený to-do list
+
+## Interactions by frequency
+1. Reading to-do list
+2. Marking as done in to-do list
+3. Checking health stats
+4. Adding done activities
+5. Adding new planned activities to to-do list
+6. Reading history
+7. Configuring predefined activities
+8. Configuring recommendation 
+9. Configuring metrics
     

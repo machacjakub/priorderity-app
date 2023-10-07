@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
-export default async function ServerAction() {
+export default async function ServerAction () {
 	const addTodo = async ( formData: FormData ) => {
 		'use server';
 		const title = formData.get( 'title' );
