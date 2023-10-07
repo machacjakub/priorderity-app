@@ -1,13 +1,13 @@
 'use client';
-import {Bar} from "./Bar";
-import {IHealthStats} from "@/app/types";
-import {DashboardSectionHeading} from "@/app/modules/components/DashboardSectionHeading";
+import { Bar } from "./Bar";
+import { IHealthStats } from "@/app/types";
+import { DashboardSectionHeading } from "@/app/modules/components/DashboardSectionHeading";
 
 interface IProps {
 	healthStats: IHealthStats;
 }
-
-export const HealthBars = ( {healthStats}: IProps ) => {
+ 
+export const HealthBars = ( { healthStats }: IProps ) => {
 	return (
 		<>
 			<DashboardSectionHeading>Stats</DashboardSectionHeading>

@@ -1,10 +1,10 @@
-import {getDatabase} from "@/database/operations";
-import {WelcomePage} from "@/app/WelcomePage";
-import {HistoryPage} from "@/app/history/HistoryPage";
+import { getDatabase } from "@/database/operations";
+import { WelcomePage } from "@/app/WelcomePage";
+import { HistoryPage } from "@/app/history/HistoryPage";
 
 export const dynamic = 'force-dynamic';
-
-export default async function Index() {
+ 
+export default async function Index () {
 	'use server';
 	const database = getDatabase();
 	const done = await database.getDoneActivities();

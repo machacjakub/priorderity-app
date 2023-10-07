@@ -1,9 +1,9 @@
-import {CategoryAttributes} from "@/app/types";
+import { CategoryAttributes } from "@/app/types";
 
 interface IFollowedMetric {
     name: string
 }
-
+ 
 interface IPredefinedActivity {
     type: string;
     metrics: {

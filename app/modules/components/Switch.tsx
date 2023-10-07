@@ -12,8 +12,8 @@ interface ISizeVariants {
         outer: string;
         inner: string;
     }
-}
-export const Switch = ( {value, size, onToggle}: IProps ) => {
+} 
+export const Switch = ( { value, size, onToggle }: IProps ) => {
 	const isSelected = useBoolean( value );
 	const sizeVariants: ISizeVariants = {
 		tiny: {

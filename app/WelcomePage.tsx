@@ -1,9 +1,9 @@
 'use client';
 
-import {Navbar} from "@/app/modules/components/Navbar";
-import {SignUpButton} from "@/app/modules/components/SignUpButton";
+import { Navbar } from "@/app/modules/navigation/Navbar";
+import { SignUpButton } from "@/app/modules/components/SignUpButton";
 import Link from "next/link";
-
+ 
 export const WelcomePage = ( ) => {
 	return (
 		<div className="w-full h-full flex flex-col items-center">

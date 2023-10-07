@@ -3,7 +3,7 @@ export const isSameDay = ( a: Date, b: Date ) => new Date( a ).getDate() === new
 export type WeekDayNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 export const getDayName = ( dayNumber: WeekDayNumber ) => {
 	const dayNames = {
-		1: 'Monday',
+		1: 'Monday', 
 		2: 'Tuesday',
 		3: 'Wednesday',
 		4: 'Thursday',
@@ -16,9 +16,13 @@ export const getDayName = ( dayNumber: WeekDayNumber ) => {
 
 export const getNewItemsFromPayload = ( items: { id: number }[], payload: { new: any, old: { id: number } } ): any[] => {
 	if ( JSON.stringify( payload.new ) === '{}' ) {
-		return [...items.filter( ( item: any ) => payload.old.id !== item.id )];
+		return [ ...items.filter( ( item: any ) => payload.old.id !== item.id ) ];
 	}
-	return [...items, payload.new];
+	return [ ...items, payload.new ];
+};
+
+export const delay = ( milliseconds: number ) => {
+	return new Promise( resolve => setTimeout( resolve, milliseconds ) );
 };
 
 export const isBrowser = () => typeof window !== 'undefined';

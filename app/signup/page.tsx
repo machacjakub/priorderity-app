@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import {SignUpButton} from "@/app/modules/components/SignUpButton";
+import { SignUpButton } from "@/app/modules/components/SignUpButton";
 import Messages from "@/app/login/messages";
-
-export default function Signup() {
+ 
+export default function Signup () {
 	return (
 		<div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
 			<Link

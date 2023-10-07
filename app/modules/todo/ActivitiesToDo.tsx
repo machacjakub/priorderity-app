@@ -1,15 +1,15 @@
-import {TodoItem} from "@/app/modules/todo/TodoItem";
-import {FadingLine} from "@/app/modules/components/FadingLine";
-import {PlusOutlined} from "@ant-design/icons";
-import { IPlannedActivity} from "@/app/types";
-import {experimental_useOptimistic as useOptimistic} from "react";
+import { TodoItem } from "@/app/modules/todo/TodoItem";
+import { FadingLine } from "@/app/modules/components/FadingLine";
+import { PlusOutlined } from "@ant-design/icons";
+import { IPlannedActivity } from "@/app/types";
+import { experimental_useOptimistic as useOptimistic } from "react";
 
 interface IProps {
 	onFormOpen: () => void;
 	planned: IPlannedActivity[];
 }
-export const ActivitiesToDo = ( {onFormOpen, planned}: IProps ) => {
-	const [optimisticActivities, deleteOptimisticActivity] = useOptimistic<IPlannedActivity[], number>(
+export const ActivitiesToDo = ( { onFormOpen, planned }: IProps ) => {
+	const [ optimisticActivities, deleteOptimisticActivity ] = useOptimistic<IPlannedActivity[], number>(
 		planned,
 		( state: IPlannedActivity[], deletedActivity: number ) => {
 			return state.filter( ( x ) => x.id !== deletedActivity );
@@ -26,7 +26,7 @@ export const ActivitiesToDo = ( {onFormOpen, planned}: IProps ) => {
 				</h1>
 				<FadingLine/>
 			</div>
-			<div className="m-2 mb-20">
+			<div className="m-2 mb-20 text-foreground">
 				{optimisticActivities.map( acitivity => <TodoItem activity={acitivity} key={acitivity.id} onDelete={deleteOptimisticActivity}/> )}
 			</div>
 		</>

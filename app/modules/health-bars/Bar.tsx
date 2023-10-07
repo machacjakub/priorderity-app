@@ -1,12 +1,12 @@
-import {ConfigProvider, Progress, Typography} from "antd";
-import {useEffect, useState} from "react";
-import {isBrowser} from "@/app/modules/utils";
+import { ConfigProvider, Progress, Typography } from "antd";
+import { useEffect, useState } from "react";
+import { isBrowser } from "@/app/modules/utils";
 
 interface IProps {
     title: string;
     percentage: number;
 }
-
+ 
 const getColor = ( percentage: number ) => {
 	const red = 255 - ( percentage > 60 ? ( percentage - 60 ) * 4 : 0 );
 	const green = 50 + ( percentage > 60 ? 170 : percentage * 2.8 );
@@ -14,8 +14,8 @@ const getColor = ( percentage: number ) => {
 	return `rgb(${red},${green},${blue})`;
 };
 
-export const Bar = ( {title, percentage}: IProps ) => {
-	const [progressBarSize, setprogressBarSize] = useState( 20 );
+export const Bar = ( { title, percentage }: IProps ) => {
+	const [ progressBarSize, setprogressBarSize ] = useState( 20 );
 	useEffect( () => {
 		if ( isBrowser() ) {
 			setprogressBarSize( window.innerHeight /15 );
@@ -35,7 +35,7 @@ export const Bar = ( {title, percentage}: IProps ) => {
 				<Progress size={progressBarSize} type="circle" percent={percentage} strokeColor={getColor( realPercentage )} trailColor={'rgba(120,120,120,0.5)'}/>
 			</ConfigProvider>
 			<Typography.Text
-				style={{textAlign: 'center', display: 'block', marginTop: '20px'}} className="text-foreground">{title}</Typography.Text>
+				style={{ textAlign: 'center', display: 'block', marginTop: '20px' }} className="text-foreground">{title}</Typography.Text>
 		</div>
 	);
 };
