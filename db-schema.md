@@ -1,4 +1,5 @@
 # DB schema
+
 ```mermaid
   erDiagram
     User ||--o{ DoneActivity : has
@@ -7,7 +8,9 @@
     PlannedActivity }o--|| User : has
     UserSettings }|--|| User : has
 ```
+
 # Logic schema
+
 ```mermaid
   graph TD
       TodoList --> TodoModule
@@ -23,5 +26,6 @@
     PresetActivities --> User
       Metrics --> User
       DoneActivities --> User
-    
-    
+
+
+```

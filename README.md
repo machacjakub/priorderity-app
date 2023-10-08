@@ -1,4 +1,5 @@
 # Branches and stages
+
 `main` - `testing-deploy` - https://testing-deploy-priorderity.vercel.app/
 
 `preproduction` - `beta` - https://testing-deploy-priorderity.vercel.app/
@@ -13,7 +14,7 @@ Description to be added...
 
 ## Stack
 
-> Check out  [Supabase Auth with Next.js App router](https://supabase.com/docs/guides/auth/auth-helpers/nextjs#automatic-configuration-recommended) configuration.
+> Check out [Supabase Auth with Next.js App router](https://supabase.com/docs/guides/auth/auth-helpers/nextjs#automatic-configuration-recommended) configuration.
 
 ### Create a Supabase client
 

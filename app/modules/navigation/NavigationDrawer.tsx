@@ -5,21 +5,34 @@ import { ModalWindow } from "@/app/modules/components/ModalWindow";
 
 interface IProps {
 	onClose: () => void;
-	isOpen: boolean
+	isOpen: boolean;
 	user: Nullable<User>;
 }
- 
-export const NavigationDrawer = ( { onClose, isOpen, user }:IProps ) => {
-	return (
-		<div className="w-full h-full z-20">
-			<ModalWindow onClose={onClose} isOpen={isOpen}>
-				<div className="fixed h-screen right-0 bg-background border-2 p-6 animate-fade-left animate-duration-500" onClick={( e ) => e.stopPropagation()}>
-					<div className="text-foreground pb-3">{user?.email}</div>
-					<div className="flex justify-between">
-						<button className="text-foreground py-2 px-4 " onClick={onClose}>Close</button>
-						<LogoutButton/>
-					</div>
 
+export const NavigationDrawer = ({ onClose, isOpen, user }: IProps) => {
+	return (
+		<div className="z-20 h-full w-full">
+			<ModalWindow onClose={onClose} isOpen={isOpen}>
+				<div
+					className="fixed right-0 h-screen animate-fade-left border-2 bg-background p-6 animate-duration-500"
+					onClick={(e) =>
+						e.stopPropagation()
+					}
+				>
+					<div className="pb-3 text-foreground">
+						{user?.email}
+					</div>
+					<div className="flex justify-between">
+						<button
+							className="px-4 py-2 text-foreground "
+							onClick={
+								onClose
+							}
+						>
+							Close
+						</button>
+						<LogoutButton />
+					</div>
 				</div>
 			</ModalWindow>
 		</div>
