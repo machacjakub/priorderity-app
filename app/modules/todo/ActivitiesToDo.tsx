@@ -3,6 +3,7 @@ import { FadingLine } from "@/app/modules/components/FadingLine";
 import { PlusOutlined } from "@ant-design/icons";
 import { IPlannedActivity } from "@/app/types";
 import { experimental_useOptimistic as useOptimistic } from "react";
+import { getTodoActivities } from "@/app/modules/todo/todoModule";
 
 interface IProps {
 	onFormOpen: () => void;
@@ -22,12 +23,15 @@ export const ActivitiesToDo = ( { onFormOpen, planned }: IProps ) => {
 				<h1 className="flex justify-between gap-2 my-3 mx-4 text-center text-2xl">
 					<span></span>
 					<span>To-Do</span>
-					<button className="text-foreground bg-blue-400/20 px-1 rounded-2xl hover:bg-blue-400/50" onClick={onFormOpen}><PlusOutlined /></button>
+					<button className="text-foreground bg-blue-400/20 px-1 rounded-2xl hover:bg-blue-400/50" onClick={onFormOpen}>
+						<PlusOutlined />
+					</button>
 				</h1>
 				<FadingLine/>
 			</div>
 			<div className="m-2 mb-20 text-foreground">
-				{optimisticActivities.map( acitivity => <TodoItem activity={acitivity} key={acitivity.id} onDelete={deleteOptimisticActivity}/> )}
+				{getTodoActivities( optimisticActivities ).map(  acitivity  =>
+						<TodoItem activity={acitivity} key={acitivity.id} onDelete={deleteOptimisticActivity}/> )}
 			</div>
 		</>
 	);
