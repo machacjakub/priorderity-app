@@ -12,7 +12,11 @@ export interface IPlannedActivity {
 	deadline: Date;
 }
 
-export type CategoryAttributes = null | { points: number; duration: number };
+export interface ITodoActivity extends IPlannedActivity {
+	calculatedPriority: number;
+}
+
+export type CategoryAttributes = null | { points: number, duration: number };
 
 export interface IActivityAttributes {
 	type: string;

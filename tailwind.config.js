@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: ["./app/**/*.{js,ts,jsx,tsx,mdx}"],
+	content: [ "./app/**/*.{js,ts,jsx,tsx,mdx}" ],
 	theme: {
 		extend: {
 			colors: {
@@ -22,8 +22,20 @@ module.exports = {
 					800: "#2d3748",
 					900: "#1a202c",
 				},
+				priority: {
+					10: "#dc2626",
+					9: "#db6534",
+					8: "#da9f42",
+					7: "#e0d150",
+					6: "#f2e65b",
+					5: "#fbe96a",
+					4: "#f9ee7c",
+					3: "#e7f186",
+					2: "#a6ea90",
+					1: "#6bed86"
+				}
 			},
 		},
 	},
-	plugins: [require("tailwindcss-animated")],
+	plugins: [ require( "tailwindcss-animated" ) ],
 };
