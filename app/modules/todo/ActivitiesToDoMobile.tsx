@@ -4,12 +4,12 @@ import { experimental_useOptimistic as useOptimistic } from "react";
 import { DashboardSectionHeadingMobile } from "@/app/modules/components/mobile/DashboardSectionHeadingMobile";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import { ShowMoreButton } from "@/app/modules/components/mobile/ShowMoreButton";
+import { getTodoActivities } from "@/app/modules/todo/todoModule";
 
 interface IProps {
-	onFormOpen: () => void;
 	planned: IPlannedActivity[];
-} 
-export const ActivitiesToDoMobile = ( { onFormOpen, planned }: IProps ) => {
+}
+export const ActivitiesToDoMobile = ( { planned }: IProps ) => {
 	const isPreview = useBoolean( true );
 	const [ optimisticActivities, deleteOptimisticActivity ] = useOptimistic<IPlannedActivity[], number>(
 		planned,
@@ -21,11 +21,15 @@ export const ActivitiesToDoMobile = ( { onFormOpen, planned }: IProps ) => {
 		<div className='mt-2'>
 			<DashboardSectionHeadingMobile>To-Do</DashboardSectionHeadingMobile>
 			<div className="m-2 mb-6 text-center text-foreground">
-				{optimisticActivities.map( ( acitivity, i ) => {
-					if ( isPreview.value && i > 2 ) {
-						return;
-					}
-					return <TodoItem activity={acitivity} key={acitivity.id} onDelete={deleteOptimisticActivity}/>;} )}
+				{getTodoActivities( optimisticActivities ).map(
+					( acitivity, i ) => {
+						if (
+							isPreview.value &&
+							i > 2
+						) {
+							return;
+						}
+						return <TodoItem activity={acitivity} key={acitivity.id} onDelete={deleteOptimisticActivity}/>;} )}
 				{optimisticActivities.length > 3 && <ShowMoreButton isPreview={isPreview}/>}
 			</div>
 		</div>

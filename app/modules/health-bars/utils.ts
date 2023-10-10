@@ -1,10 +1,17 @@
 import { IActivityAttributes, IDoneActivity, IHealthStats } from "@/app/types";
 import { getPredefinedActivitiesAttributes } from "@/app/modules/attributes-stats/predefinedActivities";
- 
-export const isValidType = ( type: string, activities: IActivityAttributes[] ) => !!activities.find( activity => activity.type === type );
-const getSingleStatPoints = ( rules: { points: number, duration: number } | null, hours: number ) => {
+
+export const isValidType = ( type: string, activities: IActivityAttributes[] ) =>
+	!!activities.find( ( activity ) => activity.type === type );
+const getSingleStatPoints = (
+	rules: { points: number; duration: number } | null,
+	hours: number,
+) => {
 	if ( !rules ) return 0;
-	const points = rules.duration >= hours ? rules.points : rules.points + rules.duration - hours;
+	const points =
+		rules.duration >= hours
+			? rules.points
+			: rules.points + rules.duration - hours;
 	return points >= 0 ? points : 0;
 };
 
@@ -18,23 +25,50 @@ const getStatsPoints = ( rules: IActivityAttributes, hours: number ) => {
 	};
 };
 
-const getCurrentStats = ( activity: IDoneActivity, activitiesRules: IActivityAttributes[] ): IHealthStats => {
-	const lengthInHours = Math.floor( ( new Date().getTime() - new Date( activity.created_at ).getTime() ) / 3600000 );
-	const thisActivityRules: IActivityAttributes = activitiesRules.filter( ( currentActivity ) => currentActivity.type === activity.type )[0];
+const getCurrentStats = (
+	activity: IDoneActivity,
+	activitiesRules: IActivityAttributes[],
+): IHealthStats => {
+	const lengthInHours = Math.floor(
+		( new Date().getTime() -
+			new Date( activity.created_at ).getTime() ) /
+			3600000,
+	);
+	const thisActivityRules: IActivityAttributes = activitiesRules.filter(
+		( currentActivity ) => currentActivity.type === activity.type,
+	)[0];
 	return getStatsPoints( thisActivityRules, lengthInHours );
 };
 
-export const getHealthStats = ( doneActivities: IDoneActivity[] ): IHealthStats => {
-	return doneActivities.reduce( ( acc, curr ) => {
-		const activitiesStats = getPredefinedActivitiesAttributes();
-		if ( !isValidType( curr.type, activitiesStats ) ) {
-			return acc;
-		}
-		return sumObjectProperties( getCurrentStats( curr, activitiesStats ), acc );
-	}, { mental: 0, physical: 0, career: 0, social: 0, realization: 0 } );
+export const getHealthStats = (
+	doneActivities: IDoneActivity[],
+): IHealthStats => {
+	return doneActivities.reduce(
+		( acc, curr ) => {
+			const activitiesStats =
+				getPredefinedActivitiesAttributes();
+			if ( !isValidType( curr.type, activitiesStats ) ) {
+				return acc;
+			}
+			return sumObjectProperties(
+				getCurrentStats( curr, activitiesStats ),
+				acc,
+			);
+		},
+		{
+			mental: 0,
+			physical: 0,
+			career: 0,
+			social: 0,
+			realization: 0,
+		},
+	);
 };
 
-export const sumObjectProperties = ( obj1: IHealthStats, obj2: IHealthStats ): IHealthStats => {
+export const sumObjectProperties = (
+	obj1: IHealthStats,
+	obj2: IHealthStats,
+): IHealthStats => {
 	return {
 		mental: obj1.mental + obj2.mental,
 		physical: obj1.physical + obj2.physical,
