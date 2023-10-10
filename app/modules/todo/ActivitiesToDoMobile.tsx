@@ -7,10 +7,9 @@ import { ShowMoreButton } from "@/app/modules/components/mobile/ShowMoreButton";
 import {getTodoActivities} from "@/app/modules/todo/todoModule";
 
 interface IProps {
-	onFormOpen: () => void;
 	planned: IPlannedActivity[];
 }
-export const ActivitiesToDoMobile = ( { onFormOpen, planned }: IProps ) => {
+export const ActivitiesToDoMobile = ( { planned }: IProps ) => {
 	const isPreview = useBoolean( true );
 	const [ optimisticActivities, deleteOptimisticActivity ] = useOptimistic<IPlannedActivity[], number>(
 		planned,
