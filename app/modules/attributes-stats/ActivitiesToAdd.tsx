@@ -2,11 +2,11 @@ import { getPredefinedActivitiesAttributes } from "@/app/modules/attributes-stat
 import { PredefinedActivityButton } from "@/app/modules/attributes-stats/PredefinedActivityButton";
 import { DashboardSectionHeading } from "@/app/modules/components/DashboardSectionHeading";
 
-export const ActivitiesToAdd = ({
+export const ActivitiesToAdd = ( {
 	onAdd,
 }: {
-	onAdd: (type: string) => void;
-}) => {
+	onAdd: ( type: string ) => void;
+} ) => {
 	const activities = getPredefinedActivitiesAttributes();
 	return (
 		<>
@@ -14,7 +14,7 @@ export const ActivitiesToAdd = ({
 				Activities
 			</DashboardSectionHeading>
 			<div className="space-between m-6 flex flex-wrap justify-center gap-6">
-				{activities.map((activity) => (
+				{activities.map( ( activity ) => (
 					<div key={activity.type}>
 						{" "}
 						<PredefinedActivityButton
@@ -26,7 +26,7 @@ export const ActivitiesToAdd = ({
 							}
 						/>{" "}
 					</div>
-				))}
+				) )}
 			</div>
 		</>
 	);

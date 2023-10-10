@@ -12,7 +12,7 @@ interface IProps {
 	onProfileClick?: () => void;
 }
 
-export const Navbar = ({ user, onProfileClick }: IProps) => {
+export const Navbar = ( { user, onProfileClick }: IProps ) => {
 	return (
 		<div className="fixed z-20 grid h-16 w-full grid-cols-3 items-center border-b border-b-foreground/10 bg-background/60 text-foreground backdrop-blur-md">
 			<div className="w mx-3 max-w-xl text-3xl !leading-tight tracking-wide lg:text-4xl">

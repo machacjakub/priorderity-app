@@ -28,18 +28,18 @@ interface IProps {
 	planned: Nullable<IPlannedActivity[]>;
 }
 
-export const App = ({ user, done, planned }: IProps) => {
-	const profileNavIsDisplayed = useBoolean(false);
-	const todoFormDisplayed = useBoolean(false);
+export const App = ( { user, done, planned }: IProps ) => {
+	const profileNavIsDisplayed = useBoolean( false );
+	const todoFormDisplayed = useBoolean( false );
 	const { doneActivities, addDoneActivity, deleteDoneActivity } =
-		useDoneActivities(done ?? []);
+		useDoneActivities( done ?? [] );
 
-	function scrollToTop() {
-		if (!isBrowser()) return;
-		window.scrollTo({
+	function scrollToTop () {
+		if ( !isBrowser() ) return;
+		window.scrollTo( {
 			top: 0,
 			behavior: "smooth",
-		});
+		} );
 	}
 
 	return (

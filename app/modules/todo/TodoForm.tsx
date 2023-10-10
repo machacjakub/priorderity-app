@@ -11,29 +11,29 @@ interface IProps {
 	isOpen: boolean;
 }
 
-export const TodoForm = ({ onClose, isOpen }: IProps) => {
-	const datePickerRef = useRef<HTMLInputElement | null>(null);
-	const hasDeadline = useBoolean(false);
-	const handleSubmit = async (formData: FormData) => {
-		const name = formData.get("name");
-		const priority = formData.get("priority");
-		const deadline = formData.get("deadline");
+export const TodoForm = ( { onClose, isOpen }: IProps ) => {
+	const datePickerRef = useRef<HTMLInputElement | null>( null );
+	const hasDeadline = useBoolean( false );
+	const handleSubmit = async ( formData: FormData ) => {
+		const name = formData.get( "name" );
+		const priority = formData.get( "priority" );
+		const deadline = formData.get( "deadline" );
 
-		await handleAddPlannedActivity({
-			name: String(name),
-			priority: Number(priority),
+		await handleAddPlannedActivity( {
+			name: String( name ),
+			priority: Number( priority ),
 			deadline: deadline
-				? new Date(String(deadline))
+				? new Date( String( deadline ) )
 				: null,
-		});
+		} );
 		onClose();
 	};
-	console.log("render");
+	console.log( "render" );
 
 	const onDeadlineToggle = async () => {
 		hasDeadline.toggle();
-		await delay(40);
-		if (datePickerRef.current) {
+		await delay( 40 );
+		if ( datePickerRef.current ) {
 			datePickerRef.current.focus();
 		}
 	};
@@ -45,7 +45,7 @@ export const TodoForm = ({ onClose, isOpen }: IProps) => {
 		>
 			<div
 				className="animate-in rounded-2xl border-2 border-foreground/90 bg-background/50 p-4 p-6 text-foreground backdrop-blur-lg"
-				onClick={(e) => e.stopPropagation()}
+				onClick={( e ) => e.stopPropagation()}
 			>
 				<h1 className="mx-6 mb-2 text-center text-2xl">
 					Add new to-do item

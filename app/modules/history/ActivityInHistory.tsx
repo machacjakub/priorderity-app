@@ -4,10 +4,10 @@ import { handleDeleteDoneActivity } from "@/database/actions";
 
 interface IProps {
 	activity: IDoneActivity;
-	handleDelete: (id: number) => void;
+	handleDelete: ( id: number ) => void;
 }
 
-export const ActivityInHistory = ({ activity, handleDelete }: IProps) => {
+export const ActivityInHistory = ( { activity, handleDelete }: IProps ) => {
 	return (
 		<div
 			key={activity.id}
@@ -15,13 +15,13 @@ export const ActivityInHistory = ({ activity, handleDelete }: IProps) => {
 		>
 			<div className="px-1">{activity.type}</div>
 			<form
-				action={async (formData) => {
-					const id = formData.get("id");
+				action={async ( formData ) => {
+					const id = formData.get( "id" );
 					await handleDelete(
-						Number(id),
+						Number( id ),
 					);
 					await handleDeleteDoneActivity(
-						Number(id),
+						Number( id ),
 					);
 				}}
 			>

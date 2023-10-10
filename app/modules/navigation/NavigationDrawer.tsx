@@ -9,13 +9,13 @@ interface IProps {
 	user: Nullable<User>;
 }
 
-export const NavigationDrawer = ({ onClose, isOpen, user }: IProps) => {
+export const NavigationDrawer = ( { onClose, isOpen, user }: IProps ) => {
 	return (
 		<div className="z-20 h-full w-full">
 			<ModalWindow onClose={onClose} isOpen={isOpen}>
 				<div
 					className="fixed right-0 h-screen animate-fade-left border-2 bg-background p-6 animate-duration-500"
-					onClick={(e) =>
+					onClick={( e ) =>
 						e.stopPropagation()
 					}
 				>

@@ -5,12 +5,12 @@ interface IProps {
 	tailwind?: string;
 }
 
-export const ModalWindow = ({
+export const ModalWindow = ( {
 	onClose,
 	isOpen,
 	children,
 	tailwind,
-}: IProps) => {
+}: IProps ) => {
 	return (
 		<>
 			{isOpen && (
@@ -19,7 +19,7 @@ export const ModalWindow = ({
 					className={`fixed z-40 h-screen w-screen ${tailwind}`}
 				>
 					<div
-						onClick={(e) =>
+						onClick={( e ) =>
 							e.stopPropagation()
 						}
 					>

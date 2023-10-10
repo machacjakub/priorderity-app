@@ -9,36 +9,36 @@ import { ShowMoreButton } from "@/app/modules/components/mobile/ShowMoreButton";
 
 interface IProps {
 	doneActivities: IDoneActivity[];
-	handleDelete: (id: number) => void;
+	handleDelete: ( id: number ) => void;
 }
 
-export const DoneActivitiesHistoryMobile = ({
+export const DoneActivitiesHistoryMobile = ( {
 	doneActivities,
 	handleDelete,
-}: IProps) => {
-	const isPreview = useBoolean(true);
+}: IProps ) => {
+	const isPreview = useBoolean( true );
 	const now = new Date().getTime();
-	const dummyArray = Array(7).fill(null);
-	const days = dummyArray.map((day, i) => {
-		const thisDay = new Date(now - 86400000 * i);
+	const dummyArray = Array( 7 ).fill( null );
+	const days = dummyArray.map( ( day, i ) => {
+		const thisDay = new Date( now - 86400000 * i );
 		return {
 			title: `${getDayName(
 				thisDay.getDay() as WeekDayNumber,
 			)} ${thisDay.getDate()}.${
 				thisDay.getMonth() + 1
 			}.`,
-			activities: doneActivities.filter((activity) =>
-				isSameDay(activity.created_at, thisDay),
+			activities: doneActivities.filter( ( activity ) =>
+				isSameDay( activity.created_at, thisDay ),
 			),
 		};
-	});
+	} );
 	return (
 		<div className="mt-3">
 			<DashboardSectionHeadingMobile>
 				Done today
 			</DashboardSectionHeadingMobile>
 			<div className="mx-1 text-center">
-				{days.map((day, i) => {
+				{days.map( ( day, i ) => {
 					if (
 						isPreview.value &&
 						i >= 1
@@ -65,7 +65,7 @@ export const DoneActivitiesHistoryMobile = ({
 							/>
 						</div>
 					);
-				})}
+				} )}
 				<ShowMoreButton isPreview={isPreview} />
 			</div>
 		</div>

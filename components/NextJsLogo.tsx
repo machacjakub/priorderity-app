@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function NextJsLogo() {
+export default function NextJsLogo () {
 	return (
 		<svg
 			aria-label="Next.js logotype"

@@ -1,4 +1,4 @@
-export const LogInButton = ({
+export const LogInButton = ( {
 	children,
 	small,
 	tailwind,
@@ -8,7 +8,7 @@ export const LogInButton = ({
 	small?: boolean;
 	tailwind?: string;
 	formAction?: string;
-}) => {
+} ) => {
 	return (
 		<button
 			formAction={formAction}

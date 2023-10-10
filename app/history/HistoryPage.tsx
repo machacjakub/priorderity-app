@@ -21,8 +21,8 @@ interface IProps {
 	user: Nullable<User>;
 	done: Nullable<IDoneActivity[]>;
 }
-export const HistoryPage = ({ user, done }: IProps) => {
-	const profileNavIsDisplayed = useBoolean(false);
+export const HistoryPage = ( { user, done }: IProps ) => {
+	const profileNavIsDisplayed = useBoolean( false );
 	const { doneActivities, deleteDoneActivity } = useDoneActivities(
 		done ?? [],
 	);

@@ -7,13 +7,13 @@ interface IProps {
 	title: string;
 	percentage: number;
 }
-export const Bar = ({ title, percentage }: IProps) => {
-	const [progressBarSize, setprogressBarSize] = useState(20);
-	useEffect(() => {
-		if (isBrowser()) {
-			setprogressBarSize(window.innerHeight / 15);
+export const Bar = ( { title, percentage }: IProps ) => {
+	const [ progressBarSize, setprogressBarSize ] = useState( 20 );
+	useEffect( () => {
+		if ( isBrowser() ) {
+			setprogressBarSize( window.innerHeight / 15 );
 		}
-	});
+	} );
 	const realPercentage = percentage > 100 ? 100 : percentage;
 
 	return (

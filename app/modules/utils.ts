@@ -20,13 +20,13 @@ export const getNewItemsFromPayload = ( items: { id: number }[], payload: { new:
 		return [
 			...items.filter(
 				( item: any ) =>
-					payload.old.id !== item.id) ];
+					payload.old.id !== item.id ) ];
 	}
 	return [ ...items, payload.new ];
 };
 
 export const delay = ( milliseconds: number ) => {
-	return new Promise(  resolve  => setTimeout( resolve, milliseconds ) );
+	return new Promise( resolve => setTimeout( resolve, milliseconds ) );
 };
 
 export const isBrowser = () => typeof window !== 'undefined';

@@ -2,17 +2,17 @@ import { handleAddDoneActivity } from "@/database/actions";
 
 interface IProps {
 	activity: { type: string };
-	handleAdd: (type: string) => void;
+	handleAdd: ( type: string ) => void;
 }
 
-export const PredefinedActivityButton = ({ activity, handleAdd }: IProps) => {
+export const PredefinedActivityButton = ( { activity, handleAdd }: IProps ) => {
 	return (
 		<form
-			action={async (formData) => {
-				const type = formData.get("type");
-				await handleAdd(String(type));
+			action={async ( formData ) => {
+				const type = formData.get( "type" );
+				await handleAdd( String( type ) );
 				await handleAddDoneActivity(
-					String(type),
+					String( type ),
 				);
 			}}
 		>

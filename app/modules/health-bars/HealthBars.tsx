@@ -7,7 +7,7 @@ interface IProps {
 	healthStats: IHealthStats;
 }
 
-export const HealthBars = ({ healthStats }: IProps) => {
+export const HealthBars = ( { healthStats }: IProps ) => {
 	return (
 		<>
 			<DashboardSectionHeading>

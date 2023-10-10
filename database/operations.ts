@@ -18,7 +18,7 @@ export interface IDbOperations {
 }
 
 export const getDatabase = (): IDbOperations => {
-	const supabase = createServerComponentClient({ cookies });
+	const supabase = createServerComponentClient( { cookies } );
 
 	return {
 		getUser: async () => {
@@ -29,44 +29,44 @@ export const getDatabase = (): IDbOperations => {
 		},
 		getDoneActivities: async () => {
 			const { data: done } = await supabase
-				.from("done-activities")
+				.from( "done-activities" )
 				.select()
-				.order("created_at", {
+				.order( "created_at", {
 					ascending: false,
-				});
+				} );
 			return done;
 		},
 		getPlannedActivities: async () => {
 			const { data: done } = await supabase
-				.from("planned")
+				.from( "planned" )
 				.select()
-				.order("priority", {
+				.order( "priority", {
 					ascending: false,
-				});
+				} );
 			return done;
 		},
-		addDoneActivity: async (activityType: string) => {
+		addDoneActivity: async ( activityType: string ) => {
 			const {
 				data: { user },
 			} = await supabase.auth.getUser();
 
 			const { data, error } = await supabase
-				.from("done-activities")
-				.insert({
+				.from( "done-activities" )
+				.insert( {
 					type: activityType,
 					user_id: user?.id,
-				});
-			if (error) {
+				} );
+			if ( error ) {
 				return error;
 			}
 			return data;
 		},
-		deleteDoneActivity: async (activityId: number) => {
+		deleteDoneActivity: async ( activityId: number ) => {
 			const { data, error } = await supabase
-				.from("done-activities")
+				.from( "done-activities" )
 				.delete()
-				.eq("id", activityId);
-			if (error) {
+				.eq( "id", activityId );
+			if ( error ) {
 				return error;
 			}
 			return data;

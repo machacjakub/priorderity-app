@@ -1,4 +1,4 @@
-export const SignUpButton = ({
+export const SignUpButton = ( {
 	children,
 	small,
 	tailwind,
@@ -8,7 +8,7 @@ export const SignUpButton = ({
 	small?: boolean;
 	tailwind?: string;
 	formAction?: string;
-}) => {
+} ) => {
 	return (
 		<button
 			formAction={formAction}

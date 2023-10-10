@@ -13,8 +13,8 @@ interface ISizeVariants {
 		inner: string;
 	};
 }
-export const Switch = ({ value, size, onToggle }: IProps) => {
-	const isSelected = useBoolean(value);
+export const Switch = ( { value, size, onToggle }: IProps ) => {
+	const isSelected = useBoolean( value );
 	const sizeVariants: ISizeVariants = {
 		tiny: {
 			outer: `${

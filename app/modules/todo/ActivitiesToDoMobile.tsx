@@ -4,7 +4,7 @@ import { experimental_useOptimistic as useOptimistic } from "react";
 import { DashboardSectionHeadingMobile } from "@/app/modules/components/mobile/DashboardSectionHeadingMobile";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import { ShowMoreButton } from "@/app/modules/components/mobile/ShowMoreButton";
-import {getTodoActivities} from "@/app/modules/todo/todoModule";
+import { getTodoActivities } from "@/app/modules/todo/todoModule";
 
 interface IProps {
 	planned: IPlannedActivity[];
@@ -29,7 +29,7 @@ export const ActivitiesToDoMobile = ( { planned }: IProps ) => {
 						) {
 							return;
 						}
-						return  <TodoItem activity={acitivity} key={acitivity.id} onDelete={deleteOptimisticActivity}/>;} )}
+						return <TodoItem activity={acitivity} key={acitivity.id} onDelete={deleteOptimisticActivity}/>;} )}
 				{optimisticActivities.length > 3 && <ShowMoreButton isPreview={isPreview}/>}
 			</div>
 		</div>
