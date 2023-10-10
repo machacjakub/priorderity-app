@@ -7,7 +7,7 @@ export const getTodoActivities = ( plannedActivities: IPlannedActivity[] ): ITod
 		if ( a.deadline ) {
 			const daysRemaining = Math.ceil( ( new Date( a.deadline ).getTime() - now ) / 86400000 );
 			const days = daysRemaining > 0 ? daysRemaining : 1 + returnIfNotLower( daysRemaining / 30, -0.9 );
-			return { ...a, calculatedPriority: a.priority / days, isRecommended: false };
+			return { ...a, calculatedPriority: Math.ceil( a.priority / days ), isRecommended: false };
 		}
 		return { ...a, calculatedPriority: a.priority, isRecommended: false };
 	} );
