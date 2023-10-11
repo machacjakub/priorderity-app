@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { User } from "@supabase/gotrue-js";
 import { Navbar } from "@/app/modules/navigation/Navbar";
@@ -24,59 +24,177 @@ import { BottomBarButton } from "@/app/modules/components/mobile/BottomBarButton
 
 interface IProps {
 	user: Nullable<User>;
-    done: Nullable<IDoneActivity[]>;
-    planned: Nullable<IPlannedActivity[]>;
+	done: Nullable<IDoneActivity[]>;
+	planned: Nullable<IPlannedActivity[]>;
 }
+
 export const App = ( { user, done, planned }: IProps ) => {
 	const profileNavIsDisplayed = useBoolean( false );
 	const todoFormDisplayed = useBoolean( false );
-	const { doneActivities, addDoneActivity, deleteDoneActivity } = useDoneActivities( done ?? [] );
+	const { doneActivities, addDoneActivity, deleteDoneActivity } =
+		useDoneActivities( done ?? [] );
 
 	function scrollToTop () {
 		if ( !isBrowser() ) return;
-		window.scrollTo( { top: 0, behavior: 'smooth' } );
+		window.scrollTo( {
+			top: 0,
+			behavior: "smooth",
+		} );
 	}
+
 	return (
 		<div>
 			<Responsive.Mobile>
-				{profileNavIsDisplayed.value && <NavigationDrawer user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>}
-				<div className="w-screen flex flex-col items-center">
-					<Navbar user={user} onProfileClick={profileNavIsDisplayed.setTrue}/>
-					{todoFormDisplayed.value && <TodoForm onClose={todoFormDisplayed.setFalse} isOpen={todoFormDisplayed.value}/>}
-					<div className='w-screen h-full mt-16'>
-						<HealthBarsMobile healthStats={getHealthStats( done ?? [] )}/>
-						<ActivitiesToDoMobile onFormOpen={todoFormDisplayed.setTrue} planned={planned ?? []}/>
-						<ActivitiesToAddMobile onAdd={addDoneActivity}/>
-						<DoneActivitiesHistoryMobile doneActivities={doneActivities} handleDelete={deleteDoneActivity}/>
-						<div className='fixed bottom-0 w-screen text-right px-2'>
-							<BottomBarButton onClick={todoFormDisplayed.setTrue} icon={<PlusOutlined/>} />
+				{profileNavIsDisplayed.value && (
+					<NavigationDrawer
+						user={user ?? null}
+						onClose={
+							profileNavIsDisplayed.setFalse
+						}
+						isOpen={
+							profileNavIsDisplayed.value
+						}
+					/>
+				)}
+				<div className="flex w-screen flex-col items-center">
+					<Navbar
+						user={user}
+						onProfileClick={
+							profileNavIsDisplayed.setTrue
+						}
+					/>
+					{todoFormDisplayed.value && (
+						<TodoForm
+							onClose={
+								todoFormDisplayed.setFalse
+							}
+							isOpen={
+								todoFormDisplayed.value
+							}
+						/>
+					)}
+					<div className="mt-16 h-full w-screen">
+						<HealthBarsMobile
+							healthStats={getHealthStats(
+								done ??
+									[],
+							)}
+						/>
+						<ActivitiesToDoMobile
+							planned={
+								planned ??
+								[]
+							}
+						/>
+						<ActivitiesToAddMobile
+							onAdd={
+								addDoneActivity
+							}
+						/>
+						<DoneActivitiesHistoryMobile
+							doneActivities={
+								doneActivities
+							}
+							handleDelete={
+								deleteDoneActivity
+							}
+						/>
+						<div className="fixed bottom-0 w-screen px-2 text-right">
+							<BottomBarButton
+								onClick={
+									todoFormDisplayed.setTrue
+								}
+								icon={
+									<PlusOutlined />
+								}
+							/>
 						</div>
-						<div className='text-center text-foreground m-6' onClick={scrollToTop}>
-							<UpOutlined className='text-3xl' />
-							<p>back to the top</p>
-						</div> 
-
+						<div
+							className="m-6 text-center text-foreground"
+							onClick={
+								scrollToTop
+							}
+						>
+							<UpOutlined className="text-3xl" />
+							<p>
+								back
+								to
+								the
+								top
+							</p>
+						</div>
 					</div>
 				</div>
 			</Responsive.Mobile>
 			<Responsive.Desktop>
-				<div className="w-full h-screen flex flex-col items-center">
-					<Navbar user={user} onProfileClick={profileNavIsDisplayed.setTrue} />
-					{profileNavIsDisplayed.value && <NavigationDrawer user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>}
-					{todoFormDisplayed.value && <TodoForm onClose={todoFormDisplayed.setFalse} isOpen={todoFormDisplayed.value}/>}
-					<div className="w-full h-full animate-in text-foreground">
-						<div className="w-full h-full grid grid-cols-4 grid-rows-3 gap-4">
-							<div className="bg-background col-span-1 row-span-3 overflow-auto mt-16 relative">
-								<ActivitiesToDo onFormOpen={todoFormDisplayed.setTrue} planned={planned ?? []}/>
+				<div className="flex h-screen w-full flex-col items-center">
+					<Navbar
+						user={user}
+						onProfileClick={
+							profileNavIsDisplayed.setTrue
+						}
+					/>
+					{profileNavIsDisplayed.value && (
+						<NavigationDrawer
+							user={
+								user ??
+								null
+							}
+							onClose={
+								profileNavIsDisplayed.setFalse
+							}
+							isOpen={
+								profileNavIsDisplayed.value
+							}
+						/>
+					)}
+					{todoFormDisplayed.value && (
+						<TodoForm
+							onClose={
+								todoFormDisplayed.setFalse
+							}
+							isOpen={
+								todoFormDisplayed.value
+							}
+						/>
+					)}
+					<div className="animate-in h-full w-full text-foreground">
+						<div className="grid h-full w-full grid-cols-4 grid-rows-3 gap-4">
+							<div className="relative col-span-1 row-span-3 mt-16 overflow-auto bg-background">
+								<ActivitiesToDo
+									onFormOpen={
+										todoFormDisplayed.setTrue
+									}
+									planned={
+										planned ??
+										[]
+									}
+								/>
 							</div>
-							<div className="bg-background col-span-2 mt-16">
-								<HealthBars healthStats={getHealthStats( done ?? [] )}/>
+							<div className="col-span-2 mt-16 bg-background">
+								<HealthBars
+									healthStats={getHealthStats(
+										done ??
+											[],
+									)}
+								/>
 							</div>
-							<div className="bg-background row-span-3 overflow-auto mt-16 top">
-								<DoneActivitiesHistory doneActivities={doneActivities} handleDelete={deleteDoneActivity}/>
+							<div className="top row-span-3 mt-16 overflow-auto bg-background">
+								<DoneActivitiesHistory
+									doneActivities={
+										doneActivities
+									}
+									handleDelete={
+										deleteDoneActivity
+									}
+								/>
 							</div>
-							<div className="bg-background col-span-2 row-span-2 overflow-auto mt-16">
-								<ActivitiesToAdd onAdd={addDoneActivity}/>
+							<div className="col-span-2 row-span-2 mt-16 overflow-auto bg-background">
+								<ActivitiesToAdd
+									onAdd={
+										addDoneActivity
+									}
+								/>
 							</div>
 						</div>
 					</div>

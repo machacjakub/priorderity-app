@@ -1,11 +1,13 @@
-'use server';
+"use server";
 import { getDatabase } from "@/database/operations";
 import { IDoneActivity } from "@/app/types";
 import { Nullable } from "fputils";
 
 const db = getDatabase();
- 
-export const getDoneActivities = async ( ):Promise<Nullable<IDoneActivity[]>> => {
+
+export const getDoneActivities = async (): Promise<
+	Nullable<IDoneActivity[]>
+> => {
 	"use server";
 	const result = await db.getDoneActivities();
 	return result;

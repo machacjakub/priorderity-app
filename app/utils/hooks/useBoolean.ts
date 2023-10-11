@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-export interface IUseBoolean { 
-    value: boolean;
-    setValue: ( value: boolean ) => void;
-    setFalse: () => void;
-    setTrue: () => void;
-    toggle: () => void;
+export interface IUseBoolean {
+	value: boolean;
+	setValue: ( value: boolean ) => void;
+	setFalse: () => void;
+	setTrue: () => void;
+	toggle: () => void;
 }
 
 const useBoolean = ( initial?: boolean ): IUseBoolean => {
