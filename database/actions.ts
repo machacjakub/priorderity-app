@@ -3,6 +3,7 @@
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { IHealthMetric } from "@/app/types";
 
 const supabase = createServerActionClient( { cookies } );
 
@@ -61,3 +62,13 @@ export const handleMarkAsDone = async ( activityId: number, type: string ) => {
 
 	revalidatePath( "/" );
 };
+
+export const handleUpdateMetrics = async ( metrics: IHealthMetric[] ) => {
+	console.log( 'called update metrics' );
+	const user = await supabase.auth.getUser();
+	await supabase.from( "profiles" ).update( { metrics } ).eq( 'id', user?.data.user?.id );
+
+	revalidatePath( "/" );
+};
+
+

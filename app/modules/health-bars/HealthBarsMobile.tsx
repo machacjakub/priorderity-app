@@ -1,5 +1,5 @@
-import { IHealthStats } from "@/app/types";
 import { getHealthColor } from "@/app/modules/health-bars/utils";
+import { IHealthStat } from "@/app/types";
 
 const StatsBar = ( { title, stat }: { title: string; stat: number } ) => {
 	return (
@@ -18,30 +18,11 @@ const StatsBar = ( { title, stat }: { title: string; stat: number } ) => {
 export const HealthBarsMobile = ( {
 	healthStats,
 }: {
-	healthStats: IHealthStats;
+	healthStats: IHealthStat[];
 } ) => {
 	return (
 		<div className="mt-1 flex w-screen justify-evenly">
-			<StatsBar
-				title={"Mental"}
-				stat={healthStats.mental}
-			/>
-			<StatsBar
-				title={"Physical"}
-				stat={healthStats.physical}
-			/>
-			<StatsBar
-				title={"Career"}
-				stat={healthStats.career}
-			/>
-			<StatsBar
-				title={"Social"}
-				stat={healthStats.social}
-			/>
-			<StatsBar
-				title={"Realization"}
-				stat={healthStats.realization}
-			/>
+			{healthStats.map( ( healthStat, i ) => <div key={`${i}-${healthStat.name}`}><StatsBar title={healthStat.label} stat={healthStat.score}/></div> )}
 		</div>
 	);
 };

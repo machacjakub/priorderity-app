@@ -1,5 +1,12 @@
-import { IActivityAttributes, IDoneActivity, IHealthStats } from "@/app/types";
+import {
+	IActivityAttributes,
+	IDoneActivity,
+	IHealthMetric,
+	IHealthStat,
+	isDefaultMetricName
+} from "@/app/types";
 import { getPredefinedActivitiesAttributes } from "@/app/modules/attributes-stats/predefinedActivities";
+import { Optional } from "fputils";
 
 export const isValidType = ( type: string, activities: IActivityAttributes[] ) =>
 	!!activities.find( ( activity ) => activity.type === type );
@@ -15,67 +22,58 @@ const getSingleStatPoints = (
 	return points >= 0 ? points : 0;
 };
 
-const getStatsPoints = ( rules: IActivityAttributes, hours: number ) => {
-	return {
-		mental: getSingleStatPoints( rules.mental, hours ),
-		physical: getSingleStatPoints( rules.physical, hours ),
-		career: getSingleStatPoints( rules.career, hours ),
-		realization: getSingleStatPoints( rules.realization, hours ),
-		social: getSingleStatPoints( rules.social, hours ),
-	};
+const getStatsPoints = ( rules: IActivityAttributes, hours: number, userStats: IHealthMetric[] ): IHealthStat[] => {
+	const getRules = ( name: string ) => isDefaultMetricName( name ) ? rules[name] : null;
+	return userStats.map( stat => ( { ...stat, score: getSingleStatPoints( getRules( stat.name ), hours ) } ) );
 };
 
 const getCurrentStats = (
 	activity: IDoneActivity,
 	activitiesRules: IActivityAttributes[],
-): IHealthStats => {
+	userMetrics: IHealthMetric[]
+): Optional<IHealthStat[]> => {
 	const lengthInHours = Math.floor(
 		( new Date().getTime() -
 			new Date( activity.created_at ).getTime() ) /
 			3600000,
 	);
-	const thisActivityRules: IActivityAttributes = activitiesRules.filter(
+	const thisActivityRules: IActivityAttributes | undefined = activitiesRules.find(
 		( currentActivity ) => currentActivity.type === activity.type,
-	)[0];
-	return getStatsPoints( thisActivityRules, lengthInHours );
+	);
+	if ( thisActivityRules === undefined ) {
+		return;
+	}
+	return getStatsPoints( thisActivityRules, lengthInHours, userMetrics );
 };
 
 export const getHealthStats = (
 	doneActivities: IDoneActivity[],
-): IHealthStats => {
+	userMetrics: IHealthMetric[]
+): IHealthStat[] => {
 	return doneActivities.reduce(
 		( acc, curr ) => {
-			const activitiesStats =
-				getPredefinedActivitiesAttributes();
-			if ( !isValidType( curr.type, activitiesStats ) ) {
+			const activitiesStats = getPredefinedActivitiesAttributes();
+			// if ( !isValidType( curr.type, activitiesStats ) ) {
+			// 	return acc;
+			// }
+			const currentStats = getCurrentStats( curr, activitiesStats, userMetrics );
+			if ( currentStats === undefined ) {
 				return acc;
 			}
-			return sumObjectProperties(
-				getCurrentStats( curr, activitiesStats ),
+			return sumHealthStatsScores(
+				currentStats,
 				acc,
 			);
 		},
-		{
-			mental: 0,
-			physical: 0,
-			career: 0,
-			social: 0,
-			realization: 0,
-		},
+		userMetrics.map( metric => ( { ...metric, score: 0 } ) ),
 	);
 };
 
-export const sumObjectProperties = (
-	obj1: IHealthStats,
-	obj2: IHealthStats,
-): IHealthStats => {
-	return {
-		mental: obj1.mental + obj2.mental,
-		physical: obj1.physical + obj2.physical,
-		career: obj1.career + obj2.career,
-		social: obj1.social + obj2.social,
-		realization: obj1.realization + obj2.realization,
-	};
+export const sumHealthStatsScores = (
+	arr1: IHealthStat[],
+	arr2: IHealthStat[],
+): IHealthStat[] => {
+	return arr1.map( ( healthStat, i ) => ( { ...healthStat, score: healthStat.score + arr2[i].score } ) ) ;
 };
 
 export const getHealthColor = ( percentage: number ) => {

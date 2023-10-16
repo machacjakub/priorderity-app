@@ -1,26 +1,24 @@
 "use client";
 
-import { User } from "@supabase/gotrue-js";
 import { Navbar } from "@/app/modules/navigation/Navbar";
-import { IDoneActivity } from "@/app/types";
 import { Nullable } from "fputils";
-import { DoneActivitiesHistory } from "@/app/modules/history/DoneActivitiesHistory";
 import { MenuDrawer } from "@/app/modules/navigation/MenuDrawer";
 import useBoolean from "@/app/utils/hooks/useBoolean";
-import useDoneActivities from "@/app/utils/hooks/useDoneActivities";
 import { Responsive } from "@/app/modules/components/Responsive";
+import { DashboardSectionHeading } from "@/app/modules/components/DashboardSectionHeading";
+import { DashboardSectionHeadingMobile } from "@/app/modules/components/mobile/DashboardSectionHeadingMobile";
+import { MetricsForm } from "@/app/settings/MetricsForm";
+import { User } from "@supabase/gotrue-js";
 
 
 
 interface IProps {
 	user: Nullable<User>;
-	done: Nullable<IDoneActivity[]>;
+    userData: Nullable<any>;
 }
-export const HistoryPage = ( { user, done }: IProps ) => {
+export const SettingsPage = ( { userData, user }: IProps ) => {
 	const profileNavIsDisplayed = useBoolean( false );
-	const { doneActivities, deleteDoneActivity } = useDoneActivities(
-		done ?? [],
-	);
+
 	return (
 		<div>
 			<Responsive.Mobile>
@@ -43,16 +41,11 @@ export const HistoryPage = ( { user, done }: IProps ) => {
 						}
 					/>
 					{/*<HealthBarsMobile healthStats={getHealthStats( done ?? [] )}/>*/}
-					<div className="mt-16 h-full w-screen overflow-auto">
-						<DoneActivitiesHistory
-							doneActivities={
-								doneActivities
-							}
-							handleDelete={
-								deleteDoneActivity
-							}
-						/>
-						<div className="h-20" />
+					<div className="mt-16 h-full w-screen overflow-auto text-foreground">
+						<DashboardSectionHeading>Settings</DashboardSectionHeading>
+						<DashboardSectionHeadingMobile>Metrics</DashboardSectionHeadingMobile>
+						<MetricsForm userMetrics={userData[0].metrics}/>
+						<DashboardSectionHeadingMobile>Predefined activities</DashboardSectionHeadingMobile>
 					</div>
 				</div>
 			</Responsive.Mobile>
@@ -65,28 +58,11 @@ export const HistoryPage = ( { user, done }: IProps ) => {
 						}
 					/>
 					{profileNavIsDisplayed.value && (
-						<MenuDrawer
-							user={
-								user ??
-								null
-							}
-							onClose={
-								profileNavIsDisplayed.setFalse
-							}
-							isOpen={
-								profileNavIsDisplayed.value
-							}
-						/>
+						<MenuDrawer user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>
 					)}
-					<div className="animate-in mt-16 h-full w-screen overflow-auto text-foreground">
-						<DoneActivitiesHistory
-							doneActivities={
-								doneActivities
-							}
-							handleDelete={
-								deleteDoneActivity
-							}
-						/>
+					<div className="animate-in mt-16 h-full w-screen overflow-auto text-foreground flex flex-col justify-center">
+						<DashboardSectionHeading>Metrics</DashboardSectionHeading>
+						<MetricsForm userMetrics={userData[0].metrics}/>
 					</div>
 				</div>
 			</Responsive.Desktop>

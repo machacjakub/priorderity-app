@@ -2,25 +2,19 @@
 
 import { User } from "@supabase/gotrue-js";
 import { Navbar } from "@/app/modules/navigation/Navbar";
-import { IDoneActivity } from "@/app/types";
 import { Nullable } from "fputils";
-import { DoneActivitiesHistory } from "@/app/modules/history/DoneActivitiesHistory";
 import { MenuDrawer } from "@/app/modules/navigation/MenuDrawer";
 import useBoolean from "@/app/utils/hooks/useBoolean";
-import useDoneActivities from "@/app/utils/hooks/useDoneActivities";
 import { Responsive } from "@/app/modules/components/Responsive";
+import { FadingLine } from "@/app/modules/components/FadingLine";
 
 
 
 interface IProps {
-	user: Nullable<User>;
-	done: Nullable<IDoneActivity[]>;
+    user: Nullable<User>;
 }
-export const HistoryPage = ( { user, done }: IProps ) => {
+export const ProfilePage = ( { user }: IProps ) => {
 	const profileNavIsDisplayed = useBoolean( false );
-	const { doneActivities, deleteDoneActivity } = useDoneActivities(
-		done ?? [],
-	);
 	return (
 		<div>
 			<Responsive.Mobile>
@@ -43,16 +37,10 @@ export const HistoryPage = ( { user, done }: IProps ) => {
 						}
 					/>
 					{/*<HealthBarsMobile healthStats={getHealthStats( done ?? [] )}/>*/}
-					<div className="mt-16 h-full w-screen overflow-auto">
-						<DoneActivitiesHistory
-							doneActivities={
-								doneActivities
-							}
-							handleDelete={
-								deleteDoneActivity
-							}
-						/>
-						<div className="h-20" />
+					<div className="mt-16 h-full w-screen overflow-auto flex flex-col justify-center animate-pulse">
+						<FadingLine/>
+						    <p className='text-foreground text-center p-3'>to be introduced</p>
+						<FadingLine/>
 					</div>
 				</div>
 			</Responsive.Mobile>
@@ -65,28 +53,12 @@ export const HistoryPage = ( { user, done }: IProps ) => {
 						}
 					/>
 					{profileNavIsDisplayed.value && (
-						<MenuDrawer
-							user={
-								user ??
-								null
-							}
-							onClose={
-								profileNavIsDisplayed.setFalse
-							}
-							isOpen={
-								profileNavIsDisplayed.value
-							}
-						/>
+						<MenuDrawer user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>
 					)}
-					<div className="animate-in mt-16 h-full w-screen overflow-auto text-foreground">
-						<DoneActivitiesHistory
-							doneActivities={
-								doneActivities
-							}
-							handleDelete={
-								deleteDoneActivity
-							}
-						/>
+					<div className="animate-in mt-16 h-full w-screen overflow-auto text-foreground flex flex-col justify-center">
+						<FadingLine/>
+						<p className='text-foreground text-center p-8 animate-pulse text-xl'>to be introduced</p>
+						<FadingLine/>
 					</div>
 				</div>
 			</Responsive.Desktop>
