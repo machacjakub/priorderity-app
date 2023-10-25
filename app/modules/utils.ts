@@ -38,3 +38,5 @@ export const returnIfNotHigher = ( x: number, maximum: number ) => {
 export const returnIfNotLower = ( x: number, minimum: number ) => {
 	return x < minimum ? minimum : x;
 };
+
+export const labelToName = ( label: string ) => label.toLowerCase().trim().split( ' ' ).join( '_' );
