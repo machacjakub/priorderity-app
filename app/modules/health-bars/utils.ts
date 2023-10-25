@@ -1,15 +1,11 @@
 import {
-	IActivityAttributes,
 	IDoneActivity,
 	IHealthMetric,
 	IHealthStat,
 	isDefaultMetricName
 } from "@/app/types";
-import { getPredefinedActivitiesAttributes } from "@/app/modules/attributes-stats/predefinedActivities";
 import { Optional } from "fputils";
-
-export const isValidType = ( type: string, activities: IActivityAttributes[] ) =>
-	!!activities.find( ( activity ) => activity.type === type );
+import { IPredefinedActivity } from "@/app/modules/profile/types";
 const getSingleStatPoints = (
 	rules: { points: number; duration: number } | null,
 	hours: number,
@@ -22,14 +18,14 @@ const getSingleStatPoints = (
 	return points >= 0 ? points : 0;
 };
 
-const getStatsPoints = ( rules: IActivityAttributes, hours: number, userStats: IHealthMetric[] ): IHealthStat[] => {
-	const getRules = ( name: string ) => isDefaultMetricName( name ) ? rules[name] : null;
+const getStatsPoints = ( rules: IPredefinedActivity, hours: number, userStats: IHealthMetric[] ): IHealthStat[] => {
+	const getRules = ( name: string ) => isDefaultMetricName( name ) ? rules.metrics[name] : null;
 	return userStats.map( stat => ( { ...stat, score: getSingleStatPoints( getRules( stat.name ), hours ) } ) );
 };
 
 const getCurrentStats = (
 	activity: IDoneActivity,
-	activitiesRules: IActivityAttributes[],
+	activitiesRules: IPredefinedActivity[],
 	userMetrics: IHealthMetric[]
 ): Optional<IHealthStat[]> => {
 	const lengthInHours = Math.floor(
@@ -37,7 +33,7 @@ const getCurrentStats = (
 			new Date( activity.created_at ).getTime() ) /
 			3600000,
 	);
-	const thisActivityRules: IActivityAttributes | undefined = activitiesRules.find(
+	const thisActivityRules: IPredefinedActivity | undefined = activitiesRules.find(
 		( currentActivity ) => currentActivity.type === activity.type,
 	);
 	if ( thisActivityRules === undefined ) {
@@ -46,13 +42,9 @@ const getCurrentStats = (
 	return getStatsPoints( thisActivityRules, lengthInHours, userMetrics );
 };
 
-export const getHealthStats = (
-	doneActivities: IDoneActivity[],
-	userMetrics: IHealthMetric[]
-): IHealthStat[] => {
+export const getHealthStats = ( doneActivities: IDoneActivity[], userMetrics: IHealthMetric[], activitiesStats: IPredefinedActivity[] ): IHealthStat[] => {
 	return doneActivities.reduce(
 		( acc, curr ) => {
-			const activitiesStats = getPredefinedActivitiesAttributes();
 			// if ( !isValidType( curr.type, activitiesStats ) ) {
 			// 	return acc;
 			// }

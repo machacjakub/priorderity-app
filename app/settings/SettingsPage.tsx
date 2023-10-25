@@ -9,16 +9,22 @@ import { DashboardSectionHeading } from "@/app/modules/components/DashboardSecti
 import { DashboardSectionHeadingMobile } from "@/app/modules/components/mobile/DashboardSectionHeadingMobile";
 import { MetricsForm } from "@/app/settings/MetricsForm";
 import { User } from "@supabase/gotrue-js";
+import { PredefinedActivitiesForm } from "@/app/settings/PredefinedActivitiesForm";
+import { IUserData } from "@/app/modules/profile/types";
+import { getPredefinedActivitiesAttributes } from "@/app/modules/attributes-stats/predefinedActivities";
+import { IHealthMetric } from "@/app/types";
+import { defaultMetrics } from "@/app/App";
 
 
 
 interface IProps {
 	user: Nullable<User>;
-    userData: Nullable<any>;
+    userData: Nullable<IUserData>;
 }
 export const SettingsPage = ( { userData, user }: IProps ) => {
 	const profileNavIsDisplayed = useBoolean( false );
-
+	const userMetrics: IHealthMetric[] = userData?.metrics ?? defaultMetrics;
+	const predefinedActivities = userData?.activities_stats ?? getPredefinedActivitiesAttributes();
 	return (
 		<div>
 			<Responsive.Mobile>
@@ -44,8 +50,9 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 					<div className="mt-16 h-full w-screen overflow-auto text-foreground">
 						<DashboardSectionHeading>Settings</DashboardSectionHeading>
 						<DashboardSectionHeadingMobile>Metrics</DashboardSectionHeadingMobile>
-						<MetricsForm userMetrics={userData[0].metrics}/>
+						<MetricsForm userMetrics={userMetrics}/>
 						<DashboardSectionHeadingMobile>Predefined activities</DashboardSectionHeadingMobile>
+						<PredefinedActivitiesForm predefinedActivities={predefinedActivities} userMetrics={userMetrics}/>
 					</div>
 				</div>
 			</Responsive.Mobile>
@@ -61,8 +68,10 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 						<MenuDrawer user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>
 					)}
 					<div className="animate-in mt-16 h-full w-screen overflow-auto text-foreground flex flex-col justify-center">
+						<DashboardSectionHeading>Settings</DashboardSectionHeading>
 						<DashboardSectionHeading>Metrics</DashboardSectionHeading>
-						<MetricsForm userMetrics={userData[0].metrics}/>
+						<div className='w-screen flex justify-center'><MetricsForm userMetrics={userMetrics}/></div>
+						<PredefinedActivitiesForm predefinedActivities={predefinedActivities} userMetrics={userMetrics}/>
 					</div>
 				</div>
 			</Responsive.Desktop>

@@ -1,20 +1,20 @@
-import { getPredefinedActivitiesAttributes } from "@/app/modules/attributes-stats/predefinedActivities";
 import { PredefinedActivityButton } from "@/app/modules/attributes-stats/PredefinedActivityButton";
 import { DashboardSectionHeadingMobile } from "@/app/modules/components/mobile/DashboardSectionHeadingMobile";
+import { IPredefinedActivity } from "@/app/modules/profile/types";
 
-export const ActivitiesToAddMobile = ( {
-	onAdd,
-}: {
+interface IProps {
 	onAdd: ( type: string ) => void;
-} ) => {
-	const activities = getPredefinedActivitiesAttributes();
+	predefinedActivities: IPredefinedActivity[];
+}
+
+export const ActivitiesToAddMobile = ( { onAdd, predefinedActivities }: IProps ) => {
 	return (
 		<>
 			<DashboardSectionHeadingMobile>
 				To add
 			</DashboardSectionHeadingMobile>
 			<div className="space-between mx-4 mt-1.5 flex flex-wrap justify-center gap-2">
-				{activities.map( ( activity ) => (
+				{predefinedActivities.map( ( activity ) => (
 					<div key={activity.type}>
 						{" "}
 						<PredefinedActivityButton

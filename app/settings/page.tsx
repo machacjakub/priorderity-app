@@ -12,7 +12,7 @@ export default async function Index () {
 	return (
 		<div className="flex w-full flex-col items-center bg-background">
 			{user ? (
-				<SettingsPage userData={userData} user={user}/>
+				<SettingsPage userData={userData[0]} user={user}/>
 			) : (
 				<WelcomePage />
 			)}

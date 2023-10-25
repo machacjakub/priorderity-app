@@ -1,8 +1,9 @@
 import { CategoryAttributes, IHealthMetric } from "@/app/types";
 import { Nullable } from "fputils";
 
-interface IPredefinedActivity {
+export interface IPredefinedActivity {
 	type: string;
+	label: string;
 	metrics: {
 		[key: string]: CategoryAttributes;
 	};
@@ -18,6 +19,6 @@ export interface IUserData {
 	firstname: Nullable<string>;
 	lastname: Nullable<string>;
 	metrics: Nullable<IHealthMetric[]>;
-	predefinedActivities: Nullable<IPredefinedActivity[]>;
+	activities_stats: Nullable<IPredefinedActivity[]>;
 	recommended: Nullable<any>;
 }

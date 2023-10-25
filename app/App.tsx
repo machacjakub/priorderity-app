@@ -22,6 +22,7 @@ import { HealthBars } from "@/app/modules/health-bars/HealthBars";
 import { useEffect, useRef } from "react";
 import { PlusOutlined } from "@/icons";
 import { IUserData } from "@/app/modules/profile/types";
+import { getPredefinedActivitiesAttributes } from "@/app/modules/attributes-stats/predefinedActivities";
 
 interface IProps {
 	user: Nullable<User>;
@@ -64,6 +65,7 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 	// 	} );
 	// };
 	const userMetrics: IHealthMetric[] = userData?.metrics ?? defaultMetrics;
+	const predefinedActivities = userData?.activities_stats ?? getPredefinedActivitiesAttributes();
 	return (
 		<div>
 			<Responsive.Mobile>
@@ -76,9 +78,9 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 						<TodoForm onClose={todoFormDisplayed.setFalse} isOpen={todoFormDisplayed.value}/>
 					)}
 					<div className="mt-16 h-full w-screen">
-						<HealthBarsMobile healthStats={getHealthStats( done ?? [], userMetrics )}/>
+						<HealthBarsMobile healthStats={getHealthStats( done ?? [], userMetrics, predefinedActivities )}/>
 						<ActivitiesToDoMobile planned={planned ?? []}/>
-						<ActivitiesToAddMobile onAdd={addDoneActivity}/>
+						<ActivitiesToAddMobile onAdd={addDoneActivity} predefinedActivities={predefinedActivities}/>
 						<DoneActivitiesHistoryMobile doneActivities={doneActivities} handleDelete={deleteDoneActivity}/>
 						<div ref={pageLengthRef}/>
 						<div className="fixed bottom-0 w-screen px-2 text-right">
@@ -106,7 +108,7 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 								<HealthBars
 									healthStats={getHealthStats(
 										done ??
-											[], userMetrics
+											[], userMetrics, predefinedActivities
 									)}
 								/>
 							</div>
@@ -114,7 +116,7 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 								<DoneActivitiesHistory doneActivities={doneActivities} handleDelete={deleteDoneActivity}/>
 							</div>
 							<div className="col-span-2 row-span-2 mt-16 overflow-auto bg-background">
-								<ActivitiesToAdd onAdd={addDoneActivity}/>
+								<ActivitiesToAdd onAdd={addDoneActivity} predefinedActivities={predefinedActivities}/>
 							</div>
 						</div>
 					</div>
