@@ -56,7 +56,6 @@ const ActivityFormField = ( { activity, userMetrics, onDelete, onSave, isEditing
 	const editing = useBoolean( isEditing );
 	const [ metrics, setMetrics ] = useState<IPredefinedActivity["metrics"]>( activity.metrics );
 	const [ label, setLabel ] = useState<string>( activity.label );
-	isEditing && console.log( metrics );
 	return (
 		<div className='border-2 p-2 pl-4 rounded-xl my-2'>
 			<div className='flex justify-between'>
@@ -105,7 +104,6 @@ export const PredefinedActivitiesForm = ( { predefinedActivities, userMetrics }:
 		setActivities( [ ...activities, { type: labelToName( label ), label, metrics } ] );
 		addingNew.setFalse();
 	};
-	console.log( activities );
 	return (
 		<div className='text-foreground px-4 mb-2 3xl:bg-blue-500 sm:mx-10 md:mx-20 lg:mx-32 xl:mx-56 2xl:mx-72'>
 			{activities.map( ( activity, i ) => <ActivityFormField key={`${i}-${activity.type}`} activity={activity} userMetrics={userMetrics} onDelete={handleActivityDelete} onSave={handleActivityUpdate( activity.type )} /> )}

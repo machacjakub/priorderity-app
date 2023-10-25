@@ -28,7 +28,6 @@ export const TodoForm = ( { onClose, isOpen }: IProps ) => {
 		} );
 		onClose();
 	};
-	console.log( "render" );
 
 	const onDeadlineToggle = async () => {
 		hasDeadline.toggle();
