@@ -61,7 +61,7 @@ export default function Login () {
 					tailwind="bg-blue-400 mb-2"
 					small
 				>
-					Sign In
+					Log In
 				</LogInButton>
 				<SignUpButton
 					formAction="/auth/sign-up"

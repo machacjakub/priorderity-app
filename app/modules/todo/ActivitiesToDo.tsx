@@ -1,9 +1,9 @@
 import { TodoItem } from "@/app/modules/todo/TodoItem";
 import { FadingLine } from "@/app/modules/components/FadingLine";
-import { PlusOutlined } from "@ant-design/icons";
 import { IPlannedActivity } from "@/app/types";
 import { experimental_useOptimistic as useOptimistic } from "react";
 import { getTodoActivities } from "@/app/modules/todo/todoModule";
+import { PlusOutlined } from "@/icons";
 
 interface IProps {
 	onFormOpen: () => void;
