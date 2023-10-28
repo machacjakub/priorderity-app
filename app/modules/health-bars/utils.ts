@@ -42,12 +42,11 @@ const getCurrentStats = (
 	return getStatsPoints( thisActivityRules, lengthInHours, userMetrics );
 };
 
+export const isNotHidden = ( metric: IHealthMetric ): boolean => !metric.hidden;
+
 export const getHealthStats = ( doneActivities: IDoneActivity[], userMetrics: IHealthMetric[], activitiesStats: IPredefinedActivity[] ): IHealthStat[] => {
 	return doneActivities.reduce(
 		( acc, curr ) => {
-			// if ( !isValidType( curr.type, activitiesStats ) ) {
-			// 	return acc;
-			// }
 			const currentStats = getCurrentStats( curr, activitiesStats, userMetrics );
 			if ( currentStats === undefined ) {
 				return acc;
