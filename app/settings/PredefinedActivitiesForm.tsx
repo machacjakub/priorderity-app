@@ -105,7 +105,7 @@ export const PredefinedActivitiesForm = ( { predefinedActivities, userMetrics }:
 		addingNew.setFalse();
 	};
 	return (
-		<div className='text-foreground px-4 mb-2 3xl:bg-blue-500 sm:mx-10 md:mx-20 lg:mx-32 xl:mx-56 2xl:mx-72'>
+		<div className='text-foreground px-4 mb-2'>
 			{activities.map( ( activity, i ) => <ActivityFormField key={`${i}-${activity.type}`} activity={activity} userMetrics={userMetrics} onDelete={handleActivityDelete} onSave={handleActivityUpdate( activity.type )} /> )}
 			{addingNew.value
 				? <ActivityFormField userMetrics={userMetrics} onDelete={addingNew.setFalse} onSave={handleAddNewActivity} activity={{ label: '', type: '', metrics: {} }} isEditing={true} />
@@ -115,7 +115,7 @@ export const PredefinedActivitiesForm = ( { predefinedActivities, userMetrics }:
 					</button>
 				</div>
 			}
-			<div className='text-right'><SaveChangesButton active={activities.toString() !== predefinedActivities.toString()} onClick={async () => {
+			<div className='text-right'><SaveChangesButton active={true} onClick={async () => {
 				await handleUpdatePredefinedActivities( activities );
 			}}/></div>
 		</div>

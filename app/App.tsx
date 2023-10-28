@@ -6,7 +6,7 @@ import { IDoneActivity, IHealthMetric, IPlannedActivity } from "@/app/types";
 import { Nullable } from "fputils";
 import { ActivitiesToAdd } from "@/app/modules/attributes-stats/ActivitiesToAdd";
 import { DoneActivitiesHistory } from "@/app/modules/history/DoneActivitiesHistory";
-import { getHealthStats } from "@/app/modules/health-bars/utils";
+import { getHealthStats, isNotHidden } from "@/app/modules/health-bars/utils";
 import { ActivitiesToDo } from "@/app/modules/todo/ActivitiesToDo";
 import { MenuDrawer } from "@/app/modules/navigation/MenuDrawer";
 import useBoolean from "@/app/utils/hooks/useBoolean";
@@ -108,7 +108,7 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 								<HealthBars
 									healthStats={getHealthStats(
 										done ??
-											[], userMetrics, predefinedActivities
+											[], userMetrics.filter( isNotHidden ), predefinedActivities
 									)}
 								/>
 							</div>

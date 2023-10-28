@@ -67,11 +67,14 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 					{profileNavIsDisplayed.value && (
 						<MenuDrawer user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>
 					)}
-					<div className="animate-in mt-16 h-full w-screen overflow-auto text-foreground flex flex-col justify-center">
+					<div className="animate-in mt-16 h-full w-screen overflow-auto text-foreground justify-center">
 						<DashboardSectionHeading>Settings</DashboardSectionHeading>
-						<DashboardSectionHeading>Metrics</DashboardSectionHeading>
-						<div className='w-screen flex justify-center'><MetricsForm userMetrics={userMetrics}/></div>
-						<PredefinedActivitiesForm predefinedActivities={predefinedActivities} userMetrics={userMetrics}/>
+						<div className='grid grid-cols-2'>
+							<DashboardSectionHeading>Metrics</DashboardSectionHeading>
+							<DashboardSectionHeading>Predefined activities</DashboardSectionHeading>
+							<MetricsForm userMetrics={userMetrics}/>
+							<PredefinedActivitiesForm predefinedActivities={predefinedActivities} userMetrics={userMetrics}/>
+						</div>
 					</div>
 				</div>
 			</Responsive.Desktop>
