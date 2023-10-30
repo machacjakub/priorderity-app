@@ -17,7 +17,7 @@ export const PredefinedActivityButton = ( { activity, handleAdd }: IProps ) => {
 			}}
 		>
 			<button
-				className="h-12 w-28 flex-grow rounded-lg bg-blue-300/80 bg-gradient-to-r from-violet-400/40 via-transparent to-cyan-500/30 px-2.5 text-xs text-background text-foreground dark:bg-blue-400/80 dark:from-violet-600/40 sm:w-44 sm:px-3 sm:text-base"
+				className="h-12 w-28 border border-blue-500 transition transform transition-colors duration-300 bg-blue-500/20 hover:bg-blue-500/40 flex-grow rounded-lg px-2.5 text-xs text-background text-foreground sm:w-44 sm:px-3 sm:text-base"
 				value={activity.type}
 				name="type"
 			>
