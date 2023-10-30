@@ -2,18 +2,18 @@
 
 import {
 	ArrowSmallUpOutlined,
-	CheckOutlined,
-	ClocksOutlined,
-	DeleteOutlined,
-	EditOutlined, PlusOutlined
+	ClocksOutlined, PlusOutlined
 } from "@/icons";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import { IPredefinedActivity } from "@/app/modules/profile/types";
 import { IHealthMetric } from "@/app/types";
 import { useState } from "react";
 import { SaveChangesButton } from "@/app/settings/SaveChangesButton";
-import { labelToName } from "@/app/modules/utils";
+import { delay, labelToName } from "@/app/modules/utils";
 import { handleUpdatePredefinedActivities } from "@/database/actions";
+import { EditButton } from "@/app/settings/EditButton";
+import { DoneButton } from "@/app/settings/DoneButton";
+import { DeleteButton } from "@/app/settings/DeleteButton";
 
 const getMetricLabel = ( userMetrics: IHealthMetric[], metricKey: string ) => userMetrics?.find( ( metric ) => metric.name === metricKey )?.label ?? metricKey;
 const MetricRuleTag = ( { metrics, label, metricKey }: { metrics: IPredefinedActivity["metrics"], label: string, metricKey: string} ) => {
@@ -25,23 +25,6 @@ const MetricRuleTag = ( { metrics, label, metricKey }: { metrics: IPredefinedAct
 				<span className='flex'><ClocksOutlined className='w-4 mx-0.5'/>{metrics[metricKey]?.duration}h</span>
 			</div>
 		</div> );
-};
-
-const NewActivityForm = ( { onClose, onSave, userMetrics }: { onClose: () => void, onSave: ( label: string ) => void, userMetrics: IHealthMetric[] } ) => {
-	const [ label, setLabel ] = useState( '' );
-	return (
-		<div className='border-2 p-3 pl-4 rounded-xl my-2 flex justify-between'>
-			<input className='text-black pl-1' value={label} onChange={( e ) => setLabel( e.target.value )} />
-			<div className='flex gap-2'>
-				<button className='p-1.5 rounded-full bg-green-500/20 border border-green-500' onClick={() => onSave( label )}>
-					<CheckOutlined className='w-4'/>
-				</button>
-				<button className='p-1.5 rounded-full bg-red-500/20 border border-red-500' onClick={onClose}>
-					<DeleteOutlined className='w-4' />
-				</button>
-			</div>
-		</div>
-	);
 };
 
 interface IActivityFormFielProps {
@@ -56,22 +39,19 @@ const ActivityFormField = ( { activity, userMetrics, onDelete, onSave, isEditing
 	const editing = useBoolean( isEditing );
 	const [ metrics, setMetrics ] = useState<IPredefinedActivity["metrics"]>( activity.metrics );
 	const [ label, setLabel ] = useState<string>( activity.label );
+	const handleSave = () => {
+		onSave( label, metrics );
+		editing.setFalse();
+	};
 	return (
 		<div className='border-2 p-2 pl-4 rounded-xl my-2'>
 			<div className='flex justify-between'>
 				{editing.value ? <input className='text-black pl-1' defaultValue={label} onChange={( e ) => setLabel( e.target.value ) }/> : <div className='mt-0.5 flex'>{label}</div>}
 				<div className='flex gap-2'>
 					{editing.value
-						? <button className='p-1.5 rounded-full bg-green-500/20 border border-green-500' onClick={() => {
-							onSave( label, metrics );
-							editing.setFalse();
-						}}><CheckOutlined className='w-4'/></button>
-						: <button className='p-1.5 rounded-full bg-blue-500/20 border border-blue-500' onClick={editing.setTrue}>
-							<EditOutlined className='w-4'/>
-						</button>}
-					<button className='p-1.5 rounded-full bg-red-500/20 border border-red-500' onClick={() => onDelete( activity.type )}>
-						<DeleteOutlined className='w-4' />
-					</button>
+						? <DoneButton onClick={handleSave} />
+						: <EditButton onClick={editing.setTrue} />}
+					<DeleteButton onClick={() => onDelete( activity.type )} />
 				</div>
 			</div>
 			{editing.value
@@ -96,6 +76,8 @@ const ActivityFormField = ( { activity, userMetrics, onDelete, onSave, isEditing
 export const PredefinedActivitiesForm = ( { predefinedActivities, userMetrics }: { predefinedActivities: IPredefinedActivity[], userMetrics: IHealthMetric[]} ) => {
 	const [ activities, setActivities ] = useState( predefinedActivities );
 	const addingNew = useBoolean( false );
+	const loading = useBoolean( false );
+	const done = useBoolean( false );
 	const handleActivityDelete = ( activityType: string ) => setActivities( activities.filter( activity => activity.type !== activityType ) );
 	const handleActivityUpdate = ( type: string ) => ( label: string, metrics: IPredefinedActivity["metrics"] ) => {
 		setActivities( activities.map( ( activity ) => activity.type === type ? ( { ...activity, label, metrics } ) : activity ) );
@@ -103,6 +85,16 @@ export const PredefinedActivitiesForm = ( { predefinedActivities, userMetrics }:
 	const handleAddNewActivity = ( label: string, metrics: IPredefinedActivity["metrics"] ) => {
 		setActivities( [ ...activities, { type: labelToName( label ), label, metrics } ] );
 		addingNew.setFalse();
+	};
+
+	const handleSave = async () => {
+		loading.setTrue();
+		const result = await handleUpdatePredefinedActivities( activities );
+		console.log( result );
+		loading.setFalse();
+		done.setTrue();
+		await delay( 4000 );
+		done.setFalse();
 	};
 	return (
 		<div className='text-foreground px-4 mb-2'>
@@ -115,9 +107,7 @@ export const PredefinedActivitiesForm = ( { predefinedActivities, userMetrics }:
 					</button>
 				</div>
 			}
-			<div className='text-right'><SaveChangesButton active={true} onClick={async () => {
-				await handleUpdatePredefinedActivities( activities );
-			}}/></div>
+			<div className='text-right'><SaveChangesButton loading={loading.value} done={done.value} onClick={handleSave}/></div>
 		</div>
 	);
 };

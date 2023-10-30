@@ -18,13 +18,13 @@ export const ActivitiesToDo = ( { onFormOpen, planned }: IProps ) => {
 	);
 	return (
 		<>
-			<div className="sticky top-0 py-1 backdrop-blur-sm bg-background/70">
+			<div className="sticky top-0 backdrop-blur-sm bg-background/70">
 
-				<h1 className="flex justify-between gap-2 my-3 mx-4 text-center text-2xl">
+				<h1 className="flex justify-between gap-2 my-3 mx-4 text-center text-xl">
 					<span></span>
-					<span>To-Do</span>
-					<button className="text-foreground bg-blue-400/20 px-1 rounded-2xl hover:bg-blue-400/50" onClick={onFormOpen}>
-						<PlusOutlined />
+					<span className='py-0.5'>To-Do</span>
+					<button className="text-foreground p-1 bg-blue-400/20 rounded-2xl hover:bg-blue-400/50" onClick={onFormOpen}>
+						<PlusOutlined className='w-6' />
 					</button>
 				</h1>
 				<FadingLine/>
