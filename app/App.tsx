@@ -78,7 +78,7 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 						<TodoForm onClose={todoFormDisplayed.setFalse} isOpen={todoFormDisplayed.value}/>
 					)}
 					<div className="mt-16 h-full w-screen">
-						<HealthBarsMobile healthStats={getHealthStats( done ?? [], userMetrics, predefinedActivities )}/>
+						<HealthBarsMobile healthStats={getHealthStats( done ?? [], userMetrics.filter( isNotHidden ), predefinedActivities )}/>
 						<ActivitiesToDoMobile planned={planned ?? []}/>
 						<ActivitiesToAddMobile onAdd={addDoneActivity} predefinedActivities={predefinedActivities}/>
 						<DoneActivitiesHistoryMobile doneActivities={doneActivities} handleDelete={deleteDoneActivity}/>
@@ -86,6 +86,7 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 						<div className="fixed bottom-0 w-screen px-2 text-right">
 							<BottomBarButton onClick={todoFormDisplayed.setTrue} icon={<PlusOutlined />}/>
 						</div>
+						<div className='mb-20'/>
 						{/*This button was removed because the dashboard page in not ready yet */}
 						{/*<div className="m-6 text-center text-foreground" onClick={scrollToTop}>*/}
 						{/*	<UpOutlined className="text-3xl"/>*/}

@@ -66,9 +66,9 @@ export const handleMarkAsDone = async ( activityId: number, type: string ) => {
 
 export const handleUpdateMetrics = async ( metrics: IHealthMetric[] ) => {
 	const user = await supabase.auth.getUser();
-	await supabase.from( "profiles" ).update( { metrics } ).eq( 'id', user?.data.user?.id );
-
+	const { error } = await supabase.from( "profiles" ).update( { metrics } ).eq( 'id', user?.data.user?.id );
 	revalidatePath( "/" );
+	return error;
 };
 
 export const handleUpdatePredefinedActivities = async ( activities: IPredefinedActivity[] ) => {
