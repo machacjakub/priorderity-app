@@ -28,7 +28,6 @@ export const TodoForm = ( { onClose, isOpen }: IProps ) => {
 		} );
 		onClose();
 	};
-	console.log( "render" );
 
 	const onDeadlineToggle = async () => {
 		hasDeadline.toggle();
@@ -115,7 +114,7 @@ export const TodoForm = ( { onClose, isOpen }: IProps ) => {
 						</button>
 						<button
 							type="submit"
-							className="mt-6 rounded-lg bg-gradient-to-r from-violet-500/50 to-cyan-400/30 p-2 px-3 py-2 text-foreground hover:from-violet-500/75 hover:to-cyan-400/50"
+							className="mt-6 rounded-lg bg-blue-400/40 p-2 px-3 py-2 text-foreground hover:bg-blue-400/60"
 						>
 							Submit
 						</button>

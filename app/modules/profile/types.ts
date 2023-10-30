@@ -1,17 +1,24 @@
-import { CategoryAttributes } from "@/app/types";
+import { CategoryAttributes, IHealthMetric } from "@/app/types";
+import { Nullable } from "fputils";
 
-interface IFollowedMetric {
-	name: string;
-}
-
-interface IPredefinedActivity {
+export interface IPredefinedActivity {
 	type: string;
+	label: string;
 	metrics: {
 		[key: string]: CategoryAttributes;
 	};
 }
 
-interface IUserSettings {
-	followedMetrics: IFollowedMetric[];
-	predefinedActivities: IPredefinedActivity[];
+
+export interface IUserData {
+	id: string;
+	updated_at: Nullable<number>
+	username: Nullable<string>;
+	website: Nullable<string>;
+	created_at: Date;
+	firstname: Nullable<string>;
+	lastname: Nullable<string>;
+	metrics: Nullable<IHealthMetric[]>;
+	activities_stats: Nullable<IPredefinedActivity[]>;
+	recommended: Nullable<any>;
 }

@@ -1,6 +1,6 @@
 import { ITodoActivity } from "@/app/types";
-import { CloseOutlined } from "@ant-design/icons";
 import { handleDeletePlannedActivity, handleMarkAsDone } from "@/database/actions";
+import { XOutlined } from "@/icons";
 
 export const TodoItem = ( { activity, onDelete, }: { activity: ITodoActivity; onDelete: ( id: number ) => void; } ) => {
 	const handleInteraction = async () => {
@@ -27,7 +27,7 @@ export const TodoItem = ( { activity, onDelete, }: { activity: ITodoActivity; on
 				className="pr-4 hover:text-foreground/60 sm:my-2 sm:mr-4 sm:pr-0"
 				onClick={handleDelete}
 			>
-				<CloseOutlined />
+				<XOutlined className='w-5'/>
 			</button>
 		</div>
 	);

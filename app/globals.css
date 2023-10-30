@@ -41,9 +41,6 @@
 	}
 }
 
-.animate-dropdown {
-	animation: animateDropdown 0.5s ease 0.1s both;
-}
 
 @keyframes animateDropdown {
 	from {

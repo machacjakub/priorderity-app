@@ -7,6 +7,7 @@ import { PostgrestError } from "@supabase/supabase-js";
 
 export interface IDbOperations {
 	getUser: () => Promise<Nullable<User>>;
+	getUserData: ( userId: string ) => Promise<Nullable<any>>;
 	getDoneActivities: () => Promise<Nullable<IDoneActivity[]>>;
 	getPlannedActivities: () => Promise<Nullable<IPlannedActivity[]>>;
 	addDoneActivity: (
@@ -26,6 +27,10 @@ export const getDatabase = (): IDbOperations => {
 				data: { user },
 			} = await supabase.auth.getUser();
 			return user;
+		},
+		getUserData: async ( userId: string ) => {
+			const { data } = await supabase.from( 'profiles' ).select().eq( 'id', userId );
+			return data;
 		},
 		getDoneActivities: async () => {
 			const { data: done } = await supabase

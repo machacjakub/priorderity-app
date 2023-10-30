@@ -10,10 +10,7 @@ interface IProps {
 	handleDelete: ( id: number ) => void;
 }
 
-export const DoneActivitiesHistory = ( {
-	doneActivities,
-	handleDelete,
-}: IProps ) => {
+export const DoneActivitiesHistory = ( { doneActivities, handleDelete }: IProps ) => {
 	const now = new Date().getTime();
 	const dummyArray = Array( 7 ).fill( null );
 	const days = dummyArray.map( ( day, i ) => {

@@ -7,7 +7,7 @@ export const BottomBarButton = ( {
 } ) => {
 	return (
 		<button
-			className="mb-2 rounded-full bg-background px-3 py-2 text-2xl text-foreground shadow-lg dark:bg-gray-900"
+			className="mb-2 rounded-full bg-background p-3 text-2xl text-foreground shadow-lg dark:bg-gray-900"
 			onClick={onClick}
 		>
 			{icon}

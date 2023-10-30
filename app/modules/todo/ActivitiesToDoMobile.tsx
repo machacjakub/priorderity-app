@@ -25,7 +25,7 @@ export const ActivitiesToDoMobile = ( { planned }: IProps ) => {
 					( acitivity, i ) => {
 						if (
 							isPreview.value &&
-							i > 2
+							i > 4
 						) {
 							return;
 						}
