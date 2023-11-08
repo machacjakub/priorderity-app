@@ -8,13 +8,13 @@ import { IPredefinedActivity } from "@/app/modules/profile/types";
 
 const supabase = createServerActionClient( { cookies } );
 
-export const handleAddDoneActivity = async ( type: string ) => {
+export const handleAddDoneActivity = async ( activity: IPredefinedActivity ) => {
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();
 	await supabase
 		.from( "done-activities" )
-		.insert( { type, user_id: user?.id } );
+		.insert( { type: activity.type, label: activity.label, user_id: user?.id } );
 
 	revalidatePath( "/" );
 };
@@ -66,9 +66,9 @@ export const handleMarkAsDone = async ( activityId: number, type: string ) => {
 
 export const handleUpdateMetrics = async ( metrics: IHealthMetric[] ) => {
 	const user = await supabase.auth.getUser();
-	await supabase.from( "profiles" ).update( { metrics } ).eq( 'id', user?.data.user?.id );
-
+	const { error } = await supabase.from( "profiles" ).update( { metrics } ).eq( 'id', user?.data.user?.id );
 	revalidatePath( "/" );
+	return error;
 };
 
 export const handleUpdatePredefinedActivities = async ( activities: IPredefinedActivity[] ) => {

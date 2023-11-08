@@ -48,11 +48,13 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 					/>
 					{/*<HealthBarsMobile healthStats={getHealthStats( done ?? [] )}/>*/}
 					<div className="mt-16 h-full w-screen overflow-auto text-foreground">
-						<DashboardSectionHeading>Settings</DashboardSectionHeading>
-						<DashboardSectionHeadingMobile>Metrics</DashboardSectionHeadingMobile>
-						<MetricsForm userMetrics={userMetrics}/>
-						<DashboardSectionHeadingMobile>Predefined activities</DashboardSectionHeadingMobile>
-						<PredefinedActivitiesForm predefinedActivities={predefinedActivities} userMetrics={userMetrics}/>
+						<h1 className='font-semibold w-full text-lg px-4 pt-2 pb-4 fixed bg-gradient-to-b from-background via-background/70 to-transparent z-20'>Settings</h1>
+						<div className='mt-12'>
+							<DashboardSectionHeadingMobile>Metrics</DashboardSectionHeadingMobile>
+							<MetricsForm userMetrics={userMetrics}/>
+							<DashboardSectionHeadingMobile>Predefined activities</DashboardSectionHeadingMobile>
+							<PredefinedActivitiesForm predefinedActivities={predefinedActivities} userMetrics={userMetrics}/>
+						</div>
 					</div>
 				</div>
 			</Responsive.Mobile>
@@ -64,11 +66,11 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 							profileNavIsDisplayed.setTrue
 						}
 					/>
+					<h1 className='text-foreground font-semibold w-full text-lg px-4 py-2 fixed bg-gradient-to-b from-background via-background/70 to-transparent z-20 mt-16'>Settings</h1>
 					{profileNavIsDisplayed.value && (
 						<MenuDrawer user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>
 					)}
-					<div className="animate-in mt-16 h-full w-screen overflow-auto text-foreground justify-center">
-						<DashboardSectionHeading>Settings</DashboardSectionHeading>
+					<div className="animate-in mt-20 h-full w-screen overflow-auto text-foreground justify-center">
 						<div className='grid grid-cols-2'>
 							<DashboardSectionHeading>Metrics</DashboardSectionHeading>
 							<DashboardSectionHeading>Predefined activities</DashboardSectionHeading>

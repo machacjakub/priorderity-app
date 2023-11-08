@@ -4,6 +4,7 @@ import keyDown = Simulate.keyDown;
 export interface IDoneActivity {
 	id: number;
 	type: string;
+	label: string;
 	created_at: Date;
 }
 

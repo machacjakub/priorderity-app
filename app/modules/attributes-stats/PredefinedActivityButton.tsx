@@ -1,23 +1,21 @@
 import { handleAddDoneActivity } from "@/database/actions";
+import { IPredefinedActivity } from "@/app/modules/profile/types";
 
 interface IProps {
-	activity: { label: string, type: string };
-	handleAdd: ( type: string ) => void;
+	activity: IPredefinedActivity;
+	handleAdd: ( { label, type }: { label: string; type: string} ) => void;
 }
 
 export const PredefinedActivityButton = ( { activity, handleAdd }: IProps ) => {
 	return (
 		<form
-			action={async ( formData ) => {
-				const type = formData.get( "type" );
-				await handleAdd( String( type ) );
-				await handleAddDoneActivity(
-					String( type ),
-				);
+			action={async () => {
+				await handleAdd( activity );
+				await handleAddDoneActivity( activity );
 			}}
 		>
 			<button
-				className="h-12 w-28 flex-grow rounded-lg bg-blue-300/80 bg-gradient-to-r from-violet-400/40 via-transparent to-cyan-500/30 px-2.5 text-xs text-background text-foreground dark:bg-blue-400/80 dark:from-violet-600/40 sm:w-44 sm:px-3 sm:text-base"
+				className="h-12 w-28 border border-blue-500 transition transform transition-colors duration-300 bg-blue-500/20 hover:bg-blue-500/40 flex-grow rounded-lg px-2.5 text-xs text-background text-foreground sm:w-44 sm:px-3 sm:text-base"
 				value={activity.type}
 				name="type"
 			>

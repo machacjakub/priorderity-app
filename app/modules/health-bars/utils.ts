@@ -1,8 +1,7 @@
 import {
 	IDoneActivity,
 	IHealthMetric,
-	IHealthStat,
-	isDefaultMetricName
+	IHealthStat
 } from "@/app/types";
 import { Optional } from "fputils";
 import { IPredefinedActivity } from "@/app/modules/profile/types";
@@ -19,7 +18,7 @@ const getSingleStatPoints = (
 };
 
 const getStatsPoints = ( rules: IPredefinedActivity, hours: number, userStats: IHealthMetric[] ): IHealthStat[] => {
-	const getRules = ( name: string ) => isDefaultMetricName( name ) ? rules.metrics[name] : null;
+	const getRules = ( name: string ) => rules.metrics[name];
 	return userStats.map( stat => ( { ...stat, score: getSingleStatPoints( getRules( stat.name ), hours ) } ) );
 };
 

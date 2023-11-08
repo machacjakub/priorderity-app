@@ -33,7 +33,17 @@ module.exports = {
 					3: "#e4ef83",
 					2: "#a6ea90",
 					1: "#6bed86"
-				}
+				},
+				error: "#f43f5e",
+				warning: "#f59e0b",
+				success: {
+					light: "#6ee7b7",
+					dark: "#10b981"
+				},
+				action: {
+					dark: "#3b82f6",
+					light: "#7dd3fc"
+				},
 			},
 		},
 	},

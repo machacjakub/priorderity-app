@@ -12,9 +12,9 @@ export const LogInButton = ( {
 	return (
 		<button
 			formAction={formAction}
-			className={`px-4 font-semibold text-black ${
+			className={`px-4 font-semibold text-foreground ${
 				small ? "py-1" : "py-3"
-			} rounded-md hover:from-violet-200 hover:to-cyan-200 ${tailwind}`}
+			} rounded-xl hover:from-violet-200 hover:to-cyan-200 ${tailwind}`}
 		>
 			{children}
 		</button>

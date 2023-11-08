@@ -3,7 +3,7 @@ import { DashboardSectionHeadingMobile } from "@/app/modules/components/mobile/D
 import { IPredefinedActivity } from "@/app/modules/profile/types";
 
 interface IProps {
-	onAdd: ( type: string ) => void;
+	onAdd: ( { label, type }:{label: string , type: string} ) => void;
 	predefinedActivities: IPredefinedActivity[];
 }
 
