@@ -8,13 +8,13 @@ import { IPredefinedActivity } from "@/app/modules/profile/types";
 
 const supabase = createServerActionClient( { cookies } );
 
-export const handleAddDoneActivity = async ( type: string ) => {
+export const handleAddDoneActivity = async ( activity: IPredefinedActivity ) => {
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();
 	await supabase
 		.from( "done-activities" )
-		.insert( { type, user_id: user?.id } );
+		.insert( { type: activity.type, label: activity.label, user_id: user?.id } );
 
 	revalidatePath( "/" );
 };

@@ -10,16 +10,7 @@ export const SignUpButton = ( {
 	formAction?: string;
 } ) => {
 	return (
-		<button
-			formAction={formAction}
-			className={`text-black ${
-				small ? "text-md" : "text-xl"
-			} bg-gradient-to-r from-violet-300 to-cyan-300 font-semibold ${
-				small ? "px-4" : "px-6"
-			} ${
-				small ? "py-1" : "py-3"
-			} rounded-md hover:from-violet-200 hover:to-cyan-200 ${tailwind}`}
-		>
+		<button formAction={formAction} className={`text-foreground font-semibold bg-blue-300 dark:bg-blue-500 ${small ? "sm:text-md" : "sm:text-xl"} ${small ? "px-4" : "px-6"} ${small ? "py-1" : "py-3"} rounded-xl hover:bg-blue-400 ${tailwind}`}>
 			{children}
 		</button>
 	);
