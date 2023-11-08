@@ -16,7 +16,7 @@ export const TodoItem = ( { activity, onDelete, }: { activity: ITodoActivity; on
 	const colors = [ 'border-l-priority-10','border-l-priority-9','border-l-priority-8','border-l-priority-7','border-l-priority-6','border-l-priority-5','border-l-priority-4','border-l-priority-3','border-l-priority-2','border-l-priority-1', ];
 	return (
 		<div
-			className={`m-2 flex justify-between rounded-lg border border-l-8 border-l-priority-${activity.calculatedPriority} bg-gray-500/5`}
+			className={`m-2 flex justify-between rounded-lg border border-l-8 border-l-priority-${activity.calculatedPriority} bg-gray-500/5 cursor-pointer hover:bg-gray-500/10`}
 			onClick={handleInteraction}
 		>
 			<span className="my-2 ml-4">

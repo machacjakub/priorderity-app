@@ -37,7 +37,7 @@ export const MenuDrawer = ( { onClose, isOpen, user }: IProps ) => {
 					<div className='p-6 pl-8'>
 						<div className="flex justify-between">
 							<button
-								className="px-4 py-2 text-foreground "
+								className="px-4 py-2 text-foreground hover:text-blue-400"
 								onClick={
 									onClose
 								}

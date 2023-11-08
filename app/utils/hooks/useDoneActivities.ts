@@ -4,11 +4,12 @@ import { IDoneActivity } from "@/app/types";
 const useDoneActivities = ( initial: IDoneActivity[] ) => {
 	const [ activities1, addDoneActivity ] = useOptimistic<
 		IDoneActivity[],
-		string
-	>( initial, ( state: IDoneActivity[], newActivityType: string ) => [
+		{label: string , type: string}
+	>( initial, ( state: IDoneActivity[], { label, type }: {label: string , type: string} ) => [
 		{
 			id: state[0].id + 1,
-			type: newActivityType,
+			type,
+			label,
 			created_at: new Date(),
 		},
 		...state,

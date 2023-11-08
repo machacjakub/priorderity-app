@@ -11,6 +11,7 @@ interface IProps {
 }
 export const ActivitiesToDoMobile = ( { planned }: IProps ) => {
 	const isPreview = useBoolean( true );
+	const previewLength = 3;
 	const [ optimisticActivities, deleteOptimisticActivity ] = useOptimistic<IPlannedActivity[], number>(
 		planned,
 		( state: IPlannedActivity[], deletedActivity: number ) => {
@@ -23,14 +24,11 @@ export const ActivitiesToDoMobile = ( { planned }: IProps ) => {
 			<div className="m-2 mb-6 text-center text-foreground">
 				{getTodoActivities( optimisticActivities ).map(
 					( acitivity, i ) => {
-						if (
-							isPreview.value &&
-							i > 4
-						) {
+						if ( isPreview.value && i >= previewLength ) {
 							return;
 						}
 						return <TodoItem activity={acitivity} key={acitivity.id} onDelete={deleteOptimisticActivity}/>;} )}
-				{optimisticActivities.length > 3 && <ShowMoreButton isPreview={isPreview}/>}
+				{optimisticActivities.length > previewLength && <ShowMoreButton isPreview={isPreview}/>}
 			</div>
 		</div>
 	);

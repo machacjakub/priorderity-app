@@ -8,12 +8,13 @@ interface IProps {
 }
 
 export const ActivityInHistory = ( { activity, handleDelete }: IProps ) => {
+	//TODO dodelat zobrazeni activity.label
 	return (
 		<div
 			key={activity.id}
-			className="p-0 align-middle m-1.5 flex justify-between rounded-lg bg-blue-300/80 bg-gradient-to-r from-violet-400/40 via-transparent to-cyan-500/30 p-1 text-center dark:bg-blue-400/80 dark:from-violet-600/40"
+			className="align-middle m-1.5 flex justify-between rounded-lg bg-blue-300/50 bg-gradient-to-r from-violet-400/30 via-transparent to-cyan-500/10 p-1 text-center dark:bg-blue-400/20 dark:from-violet-600/20 border border-background"
 		>
-			<div className="px-1">{activity.type}</div>
+			<div className="px-1">{activity.label ?? activity.type}</div>
 			<form
 				action={async ( formData ) => {
 					const id = formData.get( "id" );
@@ -22,7 +23,7 @@ export const ActivityInHistory = ( { activity, handleDelete }: IProps ) => {
 				}}
 				className='p-0 m-0 w-6 h-6'
 			>
-				<button value={activity.id} name="id">
+				<button value={activity.id} name="id" className='hover:text-foreground/50'>
 					<XOutlined className='w-5 mt-0.5'/>
 				</button>
 			</form>
