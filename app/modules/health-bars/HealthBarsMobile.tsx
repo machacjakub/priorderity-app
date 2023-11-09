@@ -1,5 +1,6 @@
 import { getHealthColor } from "@/app/modules/health-bars/utils";
 import { IHealthStat } from "@/app/types";
+import { CheckOutlined } from "@/icons";
 
 const StatsBar = ( { title, stat }: { title: string; stat: number } ) => {
 	return (
@@ -9,7 +10,7 @@ const StatsBar = ( { title, stat }: { title: string; stat: number } ) => {
 				className="text-center text-lg font-semibold"
 				style={{ color: getHealthColor( stat ) }}
 			>
-				{stat}%
+				<div className='h-7'>{stat >= 100 ? <CheckOutlined className='text-success-light dark:text-success-dark w-6 m-auto' strokeWidth={3}/> : `${stat}%`}</div>
 			</div>
 		</div>
 	);
