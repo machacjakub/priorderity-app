@@ -6,8 +6,8 @@ import Image from "next/legacy/image";
 import appDashboardScreenshotDark from './appDashboardScreenshotDark.png';
 import appDashboardScreenshotLight from './appDashboardScreenshotLight.png';
 import { Responsive } from "@/app/modules/components/Responsive";
-import { WelcomeBg } from "@/app/modules/components/WelcomeBg";
 import { Button } from "@/app/modules/components/Button";
+import { WelcomeBg } from "@/app/modules/components/WelcomeBg";
 
 export const WelcomePage = () => {
 	return (
@@ -29,7 +29,7 @@ export const WelcomePage = () => {
 					</div>
 					<div className="text-center text-md sm:text-xl tracking-wide text-gray-500 sm:py-8 px-10 sm:px-28">
 						<p className='max-w-3xl mx-auto' >
-							Manage tasks with a dynamic to-do list that prioritizes by deadline and your personal settings. Enhance well-being with our unique health metrics, earning scores through activities like exercise, reading, and meditation.
+							Organize tasks efficiently with a customizable to-do list. Enhance well-being through gamification for a more rewarding daily routine.
 						</p>
 					</div>
 					{/*<div className="text-foreground text-3xl font-bold text-center">additional text</div>*/}
@@ -47,25 +47,25 @@ export const WelcomePage = () => {
 							<Responsive.Dark><Image src={appDashboardScreenshotDark} alt={'App dashboard'} className='rounded-xl' /></Responsive.Dark>
 						</div>
 					</Responsive.Desktop>
-					<div className='text-foreground grid grid-cols-2 mx-20 my-10'>
-						<div className='p-14'>
+					<div className='w-screen text-foreground sm:grid grid-cols-2 px-5 sm:px-20 my-10'>
+						<div className='p-4 sm:p-14'>
 							<h3 className='text-cyan-500'>Embrace positive feedback.</h3>
-							<h1 className='text-3xl tracking-wide font-semibold py-2'>Track your productivity journey with History section</h1>
+							<h1 className='text-2xl sm:text-3xl tracking-wide font-semibold py-2'>Track your productivity journey with History section</h1>
 							<p>{`By visualizing your completed tasks and achievements, it serves as a source of positive feedback, reinforcing your productive behaviors and keeping you motivated. Witness your progress in real-time and celebrate each milestone; it's more than a record, it's your success story unfolding.`}</p>
 						</div>
-						<div className='p-14'>
+						<div className='p-4 sm:p-14'>
 							<h3 className='text-cyan-500'>Break through decision paralysis</h3>
-							<h1 className='text-3xl tracking-wide font-semibold py-2'>Cut through the noise with our ToDo list</h1>
+							<h1 className='text-2xl sm:text-3xl tracking-wide font-semibold py-2'>Cut through the noise with our ToDo list</h1>
 							<p>{`It helps you overcome decision paralysis by prioritizing tasks based on deadlines and personal settings. With a clear view of what needs to be done, you can focus on taking action. This feature helps you break the cycle of procrastination and boosts your productivity`}</p>
 						</div>
-						<div className='p-14'>
+						<div className='p-4 sm:p-14'>
 							<h3 className='text-cyan-500'>Aim for 100%</h3>
-							<h1 className='text-3xl tracking-wide font-semibold py-2'>Transform your path to well-being</h1>
+							<h1 className='text-2xl sm:text-3xl tracking-wide font-semibold py-2'>Transform your path to well-being</h1>
 							<p>{`Health stats feature gamifies your health, providing a score for activities like exercise, reading, and meditation. This not only motivates you to maintain a 100% score but also enables setting and tracking personal health goals. Turn your well-being journey into an engaging game and strive for your personal best.`}</p>
 						</div>
-						<div className='p-14'>
+						<div className='p-4 sm:p-14'>
 							<h3 className='text-cyan-500'>Cultivate Habits</h3>
-							<h1 className='text-3xl tracking-wide font-semibold py-2'>Cultivate positive habits with our Repeating Activities feature</h1>
+							<h1 className='text-2xl sm:text-3xl tracking-wide font-semibold py-2'>Cultivate positive habits with our Repeating Activities feature</h1>
 							<p>{`By scheduling and tracking recurrent tasks, this feature assists in habit formation. Whether it's daily meditation or weekly exercise, our app helps you build and maintain these habits. Make the most of your time by transforming beneficial activities into second nature.`}</p>
 						</div>
 					</div>
