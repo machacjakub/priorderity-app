@@ -6,6 +6,7 @@ import { Nullable } from "fputils";
 import { SignUpButton } from "@/app/modules/components/SignUpButton";
 import { LogInButton } from "@/app/modules/components/LoginButton";
 import { MenuOutlined } from "@/icons";
+import { Responsive } from "@/app/modules/components/Responsive";
 
 interface IProps {
 	user?: Nullable<User>;
@@ -26,14 +27,16 @@ export const Navbar = ( { user, onProfileClick }: IProps ) => {
 					</div>
 				) : (
 					<div className='flex my-auto'>
-						<Link href="/signup">
-							<SignUpButton
-								small
-							>
+						<Responsive.Desktop>
+							<Link href="/signup">
+								<SignUpButton
+									small
+								>
 								Sign
 								up
-							</SignUpButton>
-						</Link>
+								</SignUpButton>
+							</Link>
+						</Responsive.Desktop>
 						<Link href="/login">
 							<LogInButton
 								small
