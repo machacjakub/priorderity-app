@@ -9,6 +9,7 @@ interface IButtonProps {
 	color?: IColors;
 	tailwind?: string;
 	onClick?: () => void;
+	buttonType?: 'submit';
 }
 
 const getSize = ( size?: ISize ) => {
@@ -62,19 +63,19 @@ const getTertiaryButtonColor = ( color?: IColors ) => {
 	}
 };
 
-export const Button = ( { children, type, tailwind, onClick, size, color }: IButtonProps ) => {
+export const Button = ( { children, type, tailwind, onClick, size, color, buttonType }: IButtonProps ) => {
 	if ( type === 'tertiary' ) {
-		return ( <button formAction={onClick} className={`text-foreground ${getTertiaryButtonColor( color )} sm:text-md rounded-xl ${getSize( size )} ${tailwind}`}>
+		return ( <button type={buttonType} formAction={onClick} className={`text-foreground ${getTertiaryButtonColor( color )} sm:text-md rounded-xl ${getSize( size )} ${tailwind}`}>
 			{children}
 		</button> );
 	}
 	if ( type === 'secondary' ) {
-		return ( <button formAction={onClick} className={`text-foreground ${getSecondaryButtonColor( color )} border sm:text-md rounded-xl hover:bg-blue-400 ${getSize( size )}  ${tailwind}`}>
+		return ( <button type={buttonType} formAction={onClick} className={`text-foreground ${getSecondaryButtonColor( color )} border sm:text-md rounded-xl hover:bg-blue-400 ${getSize( size )}  ${tailwind}`}>
 			{children}
 		</button> );
 	}
 	return (
-		<button formAction={onClick} className={`text-foreground ${getPrimaryButtonColor( color )} sm:text-md rounded-xl  ${getSize( size )}  ${tailwind}`}>
+		<button type={buttonType} formAction={onClick} className={`text-foreground ${getPrimaryButtonColor( color )} sm:text-md rounded-xl  ${getSize( size )}  ${tailwind}`}>
 			{children}
 		</button>
 	);

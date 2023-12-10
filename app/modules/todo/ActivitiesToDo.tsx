@@ -1,25 +1,18 @@
 import { TodoItem } from "@/app/modules/todo/TodoItem";
 import { FadingLine } from "@/app/modules/components/FadingLine";
-import { IPlannedActivity } from "@/app/types";
-import { experimental_useOptimistic as useOptimistic } from "react";
-import { getTodoActivities } from "@/app/modules/todo/todoModule";
 import { PlusOutlined } from "@/icons";
+import { ITodoActivity } from "@/app/types";
 
 interface IProps {
 	onFormOpen: () => void;
-	planned: IPlannedActivity[];
+	activities: ITodoActivity[];
+	optimisticDelete: ( action: number ) => void;
+	onMarkAsDone: ( id: number, label: string ) => void;
 }
-export const ActivitiesToDo = ( { onFormOpen, planned }: IProps ) => {
-	const [ optimisticActivities, deleteOptimisticActivity ] = useOptimistic<IPlannedActivity[], number>(
-		planned,
-		( state: IPlannedActivity[], deletedActivity: number ) => {
-			return state.filter( ( x ) => x.id !== deletedActivity );
-		}
-	);
+export const ActivitiesToDo = ( { onFormOpen, activities, optimisticDelete, onMarkAsDone }: IProps ) => {
 	return (
 		<>
-			<div className="sticky top-0 backdrop-blur-sm bg-background/70">
-
+			<div className="sticky top-0 bg-background/70 py-[0.1px] text-foreground backdrop-blur-sm">
 				<h1 className="flex justify-between gap-2 my-3 mx-4 text-center text-xl">
 					<span></span>
 					<span className='py-0.5'>To-Do</span>
@@ -30,8 +23,8 @@ export const ActivitiesToDo = ( { onFormOpen, planned }: IProps ) => {
 				<FadingLine/>
 			</div>
 			<div className="m-2 mb-20 text-foreground">
-				{getTodoActivities( optimisticActivities ).map( acitivity =>
-					<TodoItem activity={acitivity} key={acitivity.id} onDelete={deleteOptimisticActivity}/> )}
+				{activities.map( acitivity =>
+					<TodoItem activity={acitivity} key={acitivity.id} onDelete={optimisticDelete} onMarkAsDone={onMarkAsDone} /> )}
 			</div>
 		</>
 	);

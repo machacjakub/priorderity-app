@@ -9,6 +9,8 @@ import { MenuDrawer } from "@/app/modules/navigation/MenuDrawer";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import useDoneActivities from "@/app/utils/hooks/useDoneActivities";
 import { Responsive } from "@/app/modules/components/Responsive";
+import { DashboardSectionHeading } from "@/app/modules/components/DashboardSectionHeading";
+import { PageHeadingMobile } from "@/app/modules/components/mobile/PageHeadingMobile";
 
 
 
@@ -43,15 +45,20 @@ export const HistoryPage = ( { user, done }: IProps ) => {
 						}
 					/>
 					{/*<HealthBarsMobile healthStats={getHealthStats( done ?? [] )}/>*/}
+
 					<div className="mt-16 h-full w-screen overflow-auto">
-						<DoneActivitiesHistory
-							doneActivities={
-								doneActivities
-							}
-							handleDelete={
-								deleteDoneActivity
-							}
-						/>
+						<PageHeadingMobile>History</PageHeadingMobile>
+						<div className='mt-10'>
+							<DoneActivitiesHistory
+								doneActivities={
+									doneActivities
+								}
+								handleDelete={
+									deleteDoneActivity
+								}
+								daysVisible={20}
+							/>
+						</div>
 						<div className="h-20" />
 					</div>
 				</div>
@@ -79,6 +86,9 @@ export const HistoryPage = ( { user, done }: IProps ) => {
 						/>
 					)}
 					<div className="animate-in mt-16 h-full w-screen overflow-auto text-foreground">
+						<DashboardSectionHeading>
+							History
+						</DashboardSectionHeading>
 						<DoneActivitiesHistory
 							doneActivities={
 								doneActivities
@@ -86,6 +96,7 @@ export const HistoryPage = ( { user, done }: IProps ) => {
 							handleDelete={
 								deleteDoneActivity
 							}
+							daysVisible={20}
 						/>
 					</div>
 				</div>

@@ -1,0 +1,1 @@
+export const isObjectPropertyEqual = ( valueToCompare: any, objectPropertyName: string ) => ( inputObject: Record<string, any> ): boolean => inputObject[objectPropertyName] === valueToCompare;

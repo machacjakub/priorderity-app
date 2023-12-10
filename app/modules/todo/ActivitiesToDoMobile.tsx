@@ -1,34 +1,28 @@
 import { TodoItem } from "@/app/modules/todo/TodoItem";
-import { IPlannedActivity } from "@/app/types";
-import { experimental_useOptimistic as useOptimistic } from "react";
+import { ITodoActivity } from "@/app/types";
 import { DashboardSectionHeadingMobile } from "@/app/modules/components/mobile/DashboardSectionHeadingMobile";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import { ShowMoreButton } from "@/app/modules/components/mobile/ShowMoreButton";
-import { getTodoActivities } from "@/app/modules/todo/todoModule";
 
 interface IProps {
-	planned: IPlannedActivity[];
+	activities: ITodoActivity[];
+	onDelete: ( action: number ) => void;
+	onMarkAsDone: ( id: number, label: string ) => void;
 }
-export const ActivitiesToDoMobile = ( { planned }: IProps ) => {
+export const ActivitiesToDoMobile = ( { activities, onDelete, onMarkAsDone }: IProps ) => {
 	const isPreview = useBoolean( true );
 	const previewLength = 3;
-	const [ optimisticActivities, deleteOptimisticActivity ] = useOptimistic<IPlannedActivity[], number>(
-		planned,
-		( state: IPlannedActivity[], deletedActivity: number ) => {
-			return state.filter( ( x ) => x.id !== deletedActivity );
-		}
-	);
 	return (
 		<div className='mt-2'>
 			<DashboardSectionHeadingMobile>To-Do</DashboardSectionHeadingMobile>
 			<div className="m-2 mb-6 text-center text-foreground">
-				{getTodoActivities( optimisticActivities ).map(
+				{activities.map(
 					( acitivity, i ) => {
 						if ( isPreview.value && i >= previewLength ) {
 							return;
 						}
-						return <TodoItem activity={acitivity} key={acitivity.id} onDelete={deleteOptimisticActivity}/>;} )}
-				{optimisticActivities.length > previewLength && <ShowMoreButton isPreview={isPreview}/>}
+						return <TodoItem activity={acitivity} key={acitivity.id} onDelete={onDelete} onMarkAsDone={onMarkAsDone}/>;} )}
+				{activities.length > previewLength && <ShowMoreButton isPreview={isPreview}/>}
 			</div>
 		</div>
 	);
