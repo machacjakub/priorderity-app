@@ -1,0 +1,1 @@
+export const PageHeadingMobile = ( { children }: {children: string} ) => <h1 className='font-semibold text-foreground w-full text-lg px-4 pt-2 pb-4 fixed bg-gradient-to-b from-background via-background/70 to-transparent z-20'>{children}</h1>;

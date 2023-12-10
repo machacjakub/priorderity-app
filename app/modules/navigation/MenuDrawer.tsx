@@ -29,9 +29,10 @@ export const MenuDrawer = ( { onClose, isOpen, user }: IProps ) => {
 						<FadingLine/>
 						<div className='pt-3 ml-4'>
 							{pathname !== '/' && <MenuLink label='Home' route='/' icon='home'/>}
-							<MenuLink label='Profile' route='/profile'/>
+							{/*<MenuLink label='Profile' route='/profile'/>*/}
 							<MenuLink label='History' route='/history'/>
 							<MenuLink label='Settings' route='/settings'/>
+							{/*<MenuLink label='Guide' route='/guide'/>*/}
 						</div>
 					</div>
 					<div className='p-6 pl-8'>

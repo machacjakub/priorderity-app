@@ -2,19 +2,24 @@
 
 import { IDoneActivity } from "@/app/types";
 import { ActivitiesInHistoryList } from "@/app/modules/history/ActivitiesInHistoryList";
-import { getDayName, isSameDay, WeekDayNumber } from "@/app/modules/utils";
-import { DashboardSectionHeading } from "@/app/modules/components/DashboardSectionHeading";
+import { getDayName, isSameDay, returnIfNotLower, WeekDayNumber } from "@/app/modules/utils";
 
 interface IProps {
 	doneActivities: IDoneActivity[];
 	handleDelete: ( id: number ) => void;
+	daysVisible?: number;
 }
 
-export const DoneActivitiesHistory = ( { doneActivities, handleDelete }: IProps ) => {
+const getDaysToDisplayCount = ( daysSinceFirst: number, maxDays?: number ): number => returnIfNotLower( Math.min( Math.ceil( daysSinceFirst ), maxDays ?? 7 ),1 );
+
+
+const dayInSeconds = 86400000;
+export const DoneActivitiesHistory = ( { doneActivities, handleDelete, daysVisible }: IProps ) => {
 	const now = new Date().getTime();
-	const dummyArray = Array( 7 ).fill( null );
+	const sinceFirstActivity = ( now - new Date( doneActivities[doneActivities.length - 1].created_at ).getTime() ) / dayInSeconds;
+	const dummyArray = Array( getDaysToDisplayCount( sinceFirstActivity, daysVisible ) ).fill( null );
 	const days = dummyArray.map( ( day, i ) => {
-		const thisDay = new Date( now - 86400000 * i );
+		const thisDay = new Date( now - dayInSeconds * i );
 		return {
 			title: `${getDayName(
 				thisDay.getDay() as WeekDayNumber,
@@ -28,10 +33,7 @@ export const DoneActivitiesHistory = ( { doneActivities, handleDelete }: IProps 
 	} );
 	return (
 		<>
-			<DashboardSectionHeading>
-				History
-			</DashboardSectionHeading>
-			<div className="mx-3">
+			<div className="mx-3 max-w-lg mx-auto">
 				{days.map( ( day, i ) => {
 					return (
 						<div

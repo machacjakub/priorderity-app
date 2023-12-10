@@ -1,9 +1,4 @@
-
-
-import {
-	ArrowSmallUpOutlined,
-	ClocksOutlined, PlusOutlined
-} from "@/icons";
+import { ArrowSmallUpOutlined, ClocksOutlined, PlusOutlined } from "@/icons";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import { IPredefinedActivity } from "@/app/modules/profile/types";
 import { IHealthMetric } from "@/app/types";
@@ -89,8 +84,7 @@ export const PredefinedActivitiesForm = ( { predefinedActivities, userMetrics }:
 
 	const handleSave = async () => {
 		loading.setTrue();
-		const result = await handleUpdatePredefinedActivities( activities );
-		console.log( result );
+		await handleUpdatePredefinedActivities( activities );
 		loading.setFalse();
 		done.setTrue();
 		await delay( 4000 );
