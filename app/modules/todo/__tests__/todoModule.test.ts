@@ -140,14 +140,14 @@ describe( 'Todo module tests', () => {
 				},
 				{
 					"deadline": null,
-					"id": 0,
+					"id": 1,
 					"isRecommended": true,
 					"name": "15min meditation",
 					"priority": 9
 				},
 				{
 					"deadline": null,
-					"id": 0,
+					"id": 2,
 					"isRecommended": true,
 					"name": "Walk",
 					"priority": 9

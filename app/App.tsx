@@ -64,7 +64,7 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 				<div className="flex w-screen flex-col items-center">
 					<Navbar user={user} onProfileClick={profileNavIsDisplayed.setTrue}/>
 					{todoFormDisplayed.value && (
-						<TodoForm onClose={todoFormDisplayed.setFalse} isOpen={todoFormDisplayed.value} onSubmit={addPlannedActivity}/>
+						<TodoForm onClose={todoFormDisplayed.setFalse} isOpen={todoFormDisplayed.value} onAdd={addPlannedActivity}/>
 					)}
 					<div className="mt-16 h-full w-screen">
 						<HealthBarsMobile healthStats={healthStats}/>
@@ -88,7 +88,7 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 				<div className="flex h-screen w-full flex-col items-center">
 					<Navbar user={user} onProfileClick={profileNavIsDisplayed.setTrue}/>
 					{profileNavIsDisplayed.value && ( <MenuDrawer user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/> )}
-					{todoFormDisplayed.value && ( <TodoForm onClose={todoFormDisplayed.setFalse} isOpen={todoFormDisplayed.value} onSubmit={addPlannedActivity}/> )}
+					{todoFormDisplayed.value && ( <TodoForm onClose={todoFormDisplayed.setFalse} isOpen={todoFormDisplayed.value} onAdd={addPlannedActivity}/> )}
 					<div className="animate-in h-full w-full text-foreground">
 						<div className="grid h-full w-full grid-cols-4 grid-rows-3 gap-4">
 							<div className="relative col-span-1 row-span-3 mt-16 overflow-auto bg-background">

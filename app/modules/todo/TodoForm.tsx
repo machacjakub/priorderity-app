@@ -7,17 +7,19 @@ import { delay } from "@/app/modules/utils";
 import { Button } from "@/app/modules/components/Button";
 import { ITodoActivity } from "@/app/types";
 import { padNumber } from "@/app/modules/todo/utils";
-import { IHandleAddPlannedActivityArguments, IHandleUpdatePlannedActivityArguments
+import {
+	IHandleAddPlannedActivity, IHandleUpdatePlannedActivity
 } from "@/database/actions";
 
 interface IProps {
 	onClose: () => void;
 	isOpen: boolean;
-	onSubmit: ( action: IHandleAddPlannedActivityArguments | IHandleUpdatePlannedActivityArguments ) => void;
+	onAdd?: IHandleAddPlannedActivity;
+	onUpdate?: IHandleUpdatePlannedActivity;
 	initialValue?: ITodoActivity;
 }
 
-export const TodoForm = ( { onClose, isOpen, onSubmit, initialValue }: IProps ) => {
+export const TodoForm = ( { onClose, isOpen, onAdd, onUpdate, initialValue }: IProps ) => {
 	const datePickerRef = useRef<HTMLInputElement | null>( null );
 	const hasDeadline = useBoolean( !!initialValue?.deadline );
 	const handleSubmit = async ( formData: FormData ) => {
@@ -25,7 +27,12 @@ export const TodoForm = ( { onClose, isOpen, onSubmit, initialValue }: IProps ) 
 		const priority = formData.get( "priority" );
 		const deadline = formData.get( "deadline" );
 		const payload = { name: String( name ), priority: Number( priority ), deadline: deadline ? new Date( String( deadline ) ) : null, };
-		await onSubmit( initialValue?.id ? { ...payload, id: initialValue.id } : payload );
+		if ( initialValue?.id && onUpdate ) {
+			await onUpdate( { ...payload, id: initialValue.id } );
+		}
+		if ( !initialValue?.id && onAdd ) {
+			await onAdd( payload );
+		} 
 
 		onClose();
 	};

@@ -1,7 +1,6 @@
 import { ITodoActivity } from "@/app/types";
 import {
-	handleUpdatePlannedActivity,
-	IHandleUpdatePlannedActivity
+	handleUpdatePlannedActivity, IHandleUpdatePlannedActivity
 } from "@/database/actions";
 import { XOutlined } from "@/icons";
 import { returnIfNotHigher } from "@/app/modules/utils";
@@ -20,7 +19,7 @@ const Options = ( { onClose, onEdit, activity }: IOptionsProps ) => {
 	};
 	return (
 		<>
-			{formDisplayed.value && <div className='w-screen h-screen top-0 z-30 fixed'><TodoForm onClose={formDisplayed.setFalse} isOpen={formDisplayed.value} onSubmit={onEdit} initialValue={activity}/></div>}
+			{formDisplayed.value && <div className='w-screen h-screen top-0 z-30 fixed'><TodoForm onClose={formDisplayed.setFalse} isOpen={formDisplayed.value} onUpdate={onEdit} initialValue={activity}/></div>}
 			<div className='fixed z-20 w-screen h-screen top-0 cursor-auto' onClick={onClose}/>
 			<div className='z-30 bg-background/70 p-1 border-t rounded-b-lg flex justify-around cursor-auto' onClick={handleClick}>
 				{!activity?.isRecommended && <div className='cursor-pointer' onClick={formDisplayed.setTrue}>Edit</div>}
