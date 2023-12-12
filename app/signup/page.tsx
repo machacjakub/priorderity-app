@@ -27,10 +27,12 @@ export default function Signup () {
 			</Link>
 
 			<form
-				className="flex w-full flex-1 flex-col justify-center gap-2 text-foreground"
+				className="flex w-full flex-1 flex-col justify-center gap-2 text-foreground mb-20"
 				action="/auth/sign-in"
 				method="post"
 			>
+				<h1 className='text-xl text-center mt-10 text-foreground/40'>Create an account on</h1>
+				<h1 className='text-4xl text-center mb-10'>Priorderity</h1>
 				<label
 					className="text-md"
 					htmlFor="email"
@@ -62,6 +64,7 @@ export default function Signup () {
 				>
 					Sign Up
 				</SignUpButton>
+				<Link href='/login' className='text-center text-foreground/60 mt-4'>Already have an account? <b className='text-action-dark hover:text-action-light'>Log in</b></Link>
 				<Messages />
 			</form>
 		</div>

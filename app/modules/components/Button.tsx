@@ -1,9 +1,10 @@
+import { ReactNode } from "react";
 
 type IColors = 'error' | 'warning' | 'success';
 type ISize = 'lg' | 'sm' | 'xl';
 
 interface IButtonProps {
-	children: string;
+	children: string | ReactNode;
 	type?: 'secondary' | 'tertiary';
 	size?: ISize;
 	color?: IColors;
