@@ -30,12 +30,12 @@ const Options = ( { onClose, onEdit, activity }: IOptionsProps ) => {
 interface ITodoItemProps {
 	activity: ITodoActivity;
 	onDelete: ( id: number ) => void;
-	onMarkAsDone: ( id: number, label: string ) => void;
+	onMarkAsDone: ( activity: ITodoActivity ) => void;
 }
 export const TodoItem = ( { activity, onDelete, onMarkAsDone }: ITodoItemProps ) => {
 	const optionsDisplayed = useBoolean( false );
 	const handleItemClick = async () => {
-		await onMarkAsDone( activity.id, activity.name );
+		await onMarkAsDone( activity );
 	};
 	const handleItemRightClick = async ( event: any ) => {
 		event.preventDefault();

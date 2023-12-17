@@ -1,13 +1,12 @@
 "use client";
 import { Bar } from "./Bar";
-import { IHealthStat } from "@/app/types";
 import { DashboardSectionHeading } from "@/app/modules/components/DashboardSectionHeading";
+import { useContext } from "react";
+import doneModuleContext from "@/app/modules/context/doneModuleContext";
 
-interface IProps {
-	healthStats: IHealthStat[];
-}
 
-export const HealthBars = ( { healthStats }: IProps ) => {
+export const HealthBars = ( ) => {
+	const { healthStats } = useContext( doneModuleContext );
 	return (
 		<>
 			<DashboardSectionHeading>

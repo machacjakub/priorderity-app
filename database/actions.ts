@@ -5,14 +5,11 @@ import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { IHealthMetric } from "@/app/types";
 import { IPredefinedActivity, IRecommendation } from "@/app/modules/profile/types";
-import { labelToName } from "@/app/modules/utils";
 
 const supabase = createServerActionClient( { cookies } );
 
-export const handleAddDoneActivity = async ( activity: IPredefinedActivity ) => {
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
+export const handleAddDoneActivity = async ( activity: { label: string; type: string; } ) => {
+	const { data: { user }, } = await supabase.auth.getUser();
 	await supabase
 		.from( "done-activities" )
 		.insert( { type: activity.type, label: activity.label, user_id: user?.id } );
@@ -58,18 +55,6 @@ export const handleUpdatePlannedActivity = async ( { id, name, priority, deadlin
 	revalidatePath( "/" );
 };
 
-export const handleMarkAsDone = async ( activityId: number, label: string ) => {
-	await supabase.from( "planned" ).delete().eq( "id", activityId );
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
-	await supabase
-		.from( "done-activities" )
-		.insert( { type: labelToName( label ), label: label, user_id: user?.id } );
-
-	revalidatePath( "/" );
-};
-
 export const handleUpdateMetrics = async ( metrics: IHealthMetric[] ) => {
 	const user = await supabase.auth.getUser();
 	const { error } = await supabase.from( "profiles" ).update( { metrics } ).eq( 'id', user?.data.user?.id );
@@ -87,6 +72,13 @@ export const handleUpdatePredefinedActivities = async ( activities: IPredefinedA
 export const handleUpdateRecommendations = async ( recommendations: IRecommendation[] ) => {
 	const user = await supabase.auth.getUser();
 	await supabase.from( "profiles" ).update( { recommendations } ).eq( 'id', user?.data.user?.id );
+
+	revalidatePath( "/" );
+};
+
+export const handleSaveFirstname = async ( firstname: string ) => {
+	const user = await supabase.auth.getUser();
+	await supabase.from( "profiles" ).update( { firstname } ).eq( 'id', user?.data.user?.id );
 
 	revalidatePath( "/" );
 };

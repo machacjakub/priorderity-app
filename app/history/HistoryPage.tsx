@@ -7,34 +7,31 @@ import { Nullable } from "fputils";
 import { DoneActivitiesHistory } from "@/app/modules/history/DoneActivitiesHistory";
 import { MenuDrawer } from "@/app/modules/navigation/MenuDrawer";
 import useBoolean from "@/app/utils/hooks/useBoolean";
-import useDoneActivities from "@/app/utils/hooks/useDoneActivities";
+import useDoneModule from "@/app/utils/hooks/useDoneModule";
 import { Responsive } from "@/app/modules/components/Responsive";
 import { DashboardSectionHeading } from "@/app/modules/components/DashboardSectionHeading";
 import { PageHeadingMobile } from "@/app/modules/components/mobile/PageHeadingMobile";
+import { IUserData } from "@/app/modules/profile/types";
+import DoneModuleContext from "@/app/modules/context/doneModuleContext";
 
 
 
 interface IProps {
 	user: Nullable<User>;
 	done: Nullable<IDoneActivity[]>;
+	userData: IUserData;
 }
-export const HistoryPage = ( { user, done }: IProps ) => {
+export const HistoryPage = ( { user, done, userData }: IProps ) => {
 	const profileNavIsDisplayed = useBoolean( false );
-	const { doneActivities, deleteDoneActivity } = useDoneActivities(
-		done ?? [],
-	);
 	return (
-		<div>
+		<DoneModuleContext.Provider value={useDoneModule( done ?? [], userData )}>
 			<Responsive.Mobile>
 				{profileNavIsDisplayed.value && (
 					<MenuDrawer
+						firstname={userData?.firstname ?? null}
 						user={user ?? null}
-						onClose={
-							profileNavIsDisplayed.setFalse
-						}
-						isOpen={
-							profileNavIsDisplayed.value
-						}
+						onClose={profileNavIsDisplayed.setFalse}
+						isOpen={profileNavIsDisplayed.value}
 					/>
 				)}
 				<div className="flex h-screen w-full flex-col items-center">
@@ -49,15 +46,7 @@ export const HistoryPage = ( { user, done }: IProps ) => {
 					<div className="mt-16 h-full w-screen overflow-auto">
 						<PageHeadingMobile>History</PageHeadingMobile>
 						<div className='mt-10'>
-							<DoneActivitiesHistory
-								doneActivities={
-									doneActivities
-								}
-								handleDelete={
-									deleteDoneActivity
-								}
-								daysVisible={20}
-							/>
+							<DoneActivitiesHistory daysVisible={20}/>
 						</div>
 						<div className="h-20" />
 					</div>
@@ -73,34 +62,20 @@ export const HistoryPage = ( { user, done }: IProps ) => {
 					/>
 					{profileNavIsDisplayed.value && (
 						<MenuDrawer
-							user={
-								user ??
-								null
-							}
-							onClose={
-								profileNavIsDisplayed.setFalse
-							}
-							isOpen={
-								profileNavIsDisplayed.value
-							}
+							firstname={userData?.firstname ?? null}
+							user={user ?? null}
+							onClose={profileNavIsDisplayed.setFalse}
+							isOpen={profileNavIsDisplayed.value}
 						/>
 					)}
 					<div className="animate-in mt-16 h-full w-screen overflow-auto text-foreground">
 						<DashboardSectionHeading>
 							History
 						</DashboardSectionHeading>
-						<DoneActivitiesHistory
-							doneActivities={
-								doneActivities
-							}
-							handleDelete={
-								deleteDoneActivity
-							}
-							daysVisible={20}
-						/>
+						<DoneActivitiesHistory daysVisible={20}/>
 					</div>
 				</div>
 			</Responsive.Desktop>
-		</div>
+		</DoneModuleContext.Provider>
 	);
 };

@@ -7,7 +7,7 @@ interface IProps {
 	onFormOpen: () => void;
 	activities: ITodoActivity[];
 	optimisticDelete: ( action: number ) => void;
-	onMarkAsDone: ( id: number, label: string ) => void;
+	onMarkAsDone: ( activity: ITodoActivity ) => void;
 }
 export const ActivitiesToDo = ( { onFormOpen, activities, optimisticDelete, onMarkAsDone }: IProps ) => {
 	return (

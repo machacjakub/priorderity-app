@@ -1,15 +1,18 @@
+import { IDoneActivity, IHealthStat, IPlannedActivity } from "@/app/types";
+
+
+import { IRecommendation } from "@/app/modules/profile/types";
+import { getTodoActivities } from "@/app/modules/todo/todoModule";
 import { experimental_useOptimistic as useOptimistic } from "react";
-import { IPlannedActivity } from "@/app/types";
 import {
 	handleAddPlannedActivity,
-	handleDeletePlannedActivity,
-	handleMarkAsDone, handleUpdatePlannedActivity,
+	handleDeletePlannedActivity, handleUpdatePlannedActivity,
 	IHandleUpdatePlannedActivityArguments
 } from "@/database/actions";
 
 type IAddPlannedActivityArguments = { name: string , priority: number, deadline: Date | null };
-const useTodoActivities = ( initial: IPlannedActivity[] ) => {
-	const [ activities, addOptimistic ] = useOptimistic<IPlannedActivity[], IAddPlannedActivityArguments>( initial, ( state: IPlannedActivity[], { name, priority, deadline }: IAddPlannedActivityArguments ) =>
+const useTodoActivities = ( { planned, healthStats, doneActivities, recommendations }: { planned: IPlannedActivity[], healthStats: IHealthStat[], doneActivities: IDoneActivity[], recommendations: IRecommendation[]} ) => {
+	const [ activities1, addOptimistic ] = useOptimistic<IPlannedActivity[], IAddPlannedActivityArguments>( planned, ( state: IPlannedActivity[], { name, priority, deadline }: IAddPlannedActivityArguments ) =>
 		[
 			{
 				id: 0,
@@ -20,11 +23,11 @@ const useTodoActivities = ( initial: IPlannedActivity[] ) => {
 			},
 			...state,
 		] );
-	const [ activities1, deleteOptimistic ] = useOptimistic<IPlannedActivity[], number>( activities, ( state: IPlannedActivity[], deleted: number ) => {
-    	return state.filter( ( x ) => x.id !== deleted );
+	const [ activities2, deleteOptimistic ] = useOptimistic<IPlannedActivity[], number>( activities1, ( state: IPlannedActivity[], deleted: number ) => {
+		return state.filter( ( x ) => x.id !== deleted );
 	} );
 
-	const [ plannedActivities, updateOptimistic ] = useOptimistic<IPlannedActivity[], IHandleUpdatePlannedActivityArguments>( activities1, ( state: IPlannedActivity[], { id, name, priority, deadline }: IHandleUpdatePlannedActivityArguments ) => {
+	const [ plannedActivities, updateOptimistic ] = useOptimistic<IPlannedActivity[], IHandleUpdatePlannedActivityArguments>( activities2, ( state: IPlannedActivity[], { id, name, priority, deadline }: IHandleUpdatePlannedActivityArguments ) => {
 		return state.map( ( x ) => x.id === id ? { ...x, id, name, priority, deadline } : x );
 	} );
 	const addPlannedActivity = async ( activity: IAddPlannedActivityArguments ) => {
@@ -37,20 +40,17 @@ const useTodoActivities = ( initial: IPlannedActivity[] ) => {
 		await handleDeletePlannedActivity( activityId );
 	};
 
-	const markPlannedActivityAsDone = async ( activityId: number, label: string ) => {
-		deleteOptimistic( activityId );
-		await handleMarkAsDone( activityId, label );
-	};
-
 	const updatePlannedActivity = async ( activity: IHandleUpdatePlannedActivityArguments ) => {
 		updateOptimistic( activity );
 		await handleUpdatePlannedActivity( activity );
 	};
+
+	const todoActivities = getTodoActivities( { plannedActivities, healthStats, doneActivities, recommendations } );
+	
 	return {
-		plannedActivities,
+		todoActivities,
 		addPlannedActivity,
 		updatePlannedActivity,
-		markPlannedActivityAsDone,
 		deletePlannedActivity,
 	};
 };

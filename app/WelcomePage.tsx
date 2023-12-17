@@ -3,10 +3,10 @@
 import { Navbar } from "@/app/modules/navigation/Navbar";
 import Link from "next/link";
 import Image from "next/legacy/image";
-import appDashboardScreenshotDark from './appDashboardScreenshotDark.png';
-import appDashboardScreenshotLight from './appDashboardScreenshotLight.png';
-import appDashboardScreenshotDarkMobile from './appDashboardScreenshotDarkMobile.png';
-import appDashboardScreenshotLightMobile from './appDashboardScreenshotLightMobile.png';
+import appDashboardScreenshotDark from './images/appDashboardScreenshotDark.png';
+import appDashboardScreenshotLight from './images/appDashboardScreenshotLight.png';
+import appDashboardScreenshotDarkMobile from './images/appDashboardScreenshotDarkMobile.png';
+import appDashboardScreenshotLightMobile from './images/appDashboardScreenshotLightMobile.png';
 import { Responsive } from "@/app/modules/components/Responsive";
 import { Button } from "@/app/modules/components/Button";
 import { WelcomeBg } from "@/app/modules/components/WelcomeBg";

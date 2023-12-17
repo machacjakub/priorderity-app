@@ -10,26 +10,17 @@ import { useState } from "react";
 type ISection = 'todo' | 'settings' | 'predefined';
 interface IProps {
 	user: Nullable<User>;
+	firstname: Nullable<string>;
 }
-export const GuidePage = ( { user }: IProps ) => {
+export const GuidePage = ( { user, firstname }: IProps ) => {
 	const profileNavIsDisplayed = useBoolean( false );
 	const [ displayedSection, setDisplayedSection ] = useState<ISection>( 'todo' );
 	return (
 		<div className='w-screen'>
 			{profileNavIsDisplayed.value && (
-				<MenuDrawer
-					user={user ?? null}
-					onClose={
-						profileNavIsDisplayed.setFalse
-					}
-					isOpen={
-						profileNavIsDisplayed.value
-					}
-				/>
+				<MenuDrawer firstname={firstname} user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>
 			)}
-			<Navbar user={user} onProfileClick={
-				profileNavIsDisplayed.setTrue
-			}/>
+			<Navbar user={user} onProfileClick={profileNavIsDisplayed.setTrue}/>
 			<div className='h-16 w-screen bg-background fixed top-0'/>
 			<div className='flex'>
 				<div className='text-foreground mt-16 min-w-fit p-4 pr-10'>

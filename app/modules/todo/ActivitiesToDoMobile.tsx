@@ -7,7 +7,7 @@ import { ShowMoreButton } from "@/app/modules/components/mobile/ShowMoreButton";
 interface IProps {
 	activities: ITodoActivity[];
 	onDelete: ( action: number ) => void;
-	onMarkAsDone: ( id: number, label: string ) => void;
+	onMarkAsDone: ( activity: ITodoActivity ) => void;
 }
 export const ActivitiesToDoMobile = ( { activities, onDelete, onMarkAsDone }: IProps ) => {
 	const isPreview = useBoolean( true );

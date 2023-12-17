@@ -2,8 +2,7 @@ import { experimental_useOptimistic as useOptimistic } from "react";
 import { IPlannedActivity } from "@/app/types";
 import {
 	handleAddPlannedActivity,
-	handleDeletePlannedActivity,
-	handleMarkAsDone, handleUpdatePlannedActivity,
+	handleDeletePlannedActivity, handleUpdatePlannedActivity,
 	IHandleUpdatePlannedActivityArguments
 } from "@/database/actions";
 
@@ -37,11 +36,6 @@ const usePlannedActivities = ( initial: IPlannedActivity[] ) => {
 		await handleDeletePlannedActivity( activityId );
 	};
 
-	const markPlannedActivityAsDone = async ( activityId: number, label: string ) => {
-		deleteOptimistic( activityId );
-		await handleMarkAsDone( activityId, label );
-	};
-
 	const updatePlannedActivity = async ( activity: IHandleUpdatePlannedActivityArguments ) => {
 		updateOptimistic( activity );
 		await handleUpdatePlannedActivity( activity );
@@ -50,7 +44,6 @@ const usePlannedActivities = ( initial: IPlannedActivity[] ) => {
 		plannedActivities,
 		addPlannedActivity,
 		updatePlannedActivity,
-		markPlannedActivityAsDone,
 		deletePlannedActivity,
 	};
 };

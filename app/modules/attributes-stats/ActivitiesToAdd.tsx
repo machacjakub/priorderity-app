@@ -1,13 +1,10 @@
 import { PredefinedActivityButton } from "@/app/modules/attributes-stats/PredefinedActivityButton";
 import { DashboardSectionHeading } from "@/app/modules/components/DashboardSectionHeading";
-import { IPredefinedActivity } from "@/app/modules/profile/types";
+import { useContext } from "react";
+import doneModuleContext from "@/app/modules/context/doneModuleContext";
 
-interface IProps {
-	onAdd: ( { label, type }:{label: string , type: string} ) => void;
-	predefinedActivities: IPredefinedActivity[];
-}
-
-export const ActivitiesToAdd = ( { onAdd, predefinedActivities }: IProps ) => {
+export const ActivitiesToAdd = () => {
+	const { predefinedActivities, addDoneActivity } = useContext( doneModuleContext );
 	return (
 		<>
 			<DashboardSectionHeading>
@@ -16,15 +13,7 @@ export const ActivitiesToAdd = ( { onAdd, predefinedActivities }: IProps ) => {
 			<div className="space-between m-6 flex flex-wrap justify-center gap-6">
 				{predefinedActivities.map( ( activity ) => (
 					<div key={activity.type}>
-						{" "}
-						<PredefinedActivityButton
-							activity={
-								activity
-							}
-							handleAdd={
-								onAdd
-							}
-						/>{" "}
+						{" "}<PredefinedActivityButton activity={activity} handleAdd={addDoneActivity}/>{" "}
 					</div>
 				) )}
 			</div>

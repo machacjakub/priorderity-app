@@ -16,7 +16,6 @@ import { IHealthMetric } from "@/app/types";
 import { defaultMetrics } from "@/app/App";
 import { PageHeadingMobile } from "@/app/modules/components/mobile/PageHeadingMobile";
 import { RecommendationsForm } from "@/app/settings/RecommendationsForm";
-import { mockRules } from "@/database/mockData";
 
 interface IProps {
 	user: Nullable<User>;
@@ -26,12 +25,13 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 	const profileNavIsDisplayed = useBoolean( false );
 	const userMetrics: IHealthMetric[] = userData?.metrics ?? defaultMetrics;
 	const predefinedActivities = userData?.activities_stats ?? getPredefinedActivitiesAttributes();
-	const recommendationRules = userData?.recommendations ?? mockRules;
+	const recommendationRules = userData?.recommendations ?? [];
 	return (
 		<div>
 			<Responsive.Mobile>
 				{profileNavIsDisplayed.value && (
 					<MenuDrawer
+						firstname={userData?.firstname ?? null}
 						user={user ?? null}
 						onClose={
 							profileNavIsDisplayed.setFalse
@@ -72,7 +72,7 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 					/>
 					<h1 className='text-foreground font-semibold w-full text-lg px-4 py-2 fixed bg-gradient-to-b from-background via-background/70 to-transparent z-20 mt-16'>Settings</h1>
 					{profileNavIsDisplayed.value && (
-						<MenuDrawer user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>
+						<MenuDrawer firstname={userData?.firstname ?? null} user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>
 					)}
 					<div className="animate-in mt-20 h-full w-screen overflow-auto text-foreground justify-center">
 						<div className='grid grid-cols-2'>
