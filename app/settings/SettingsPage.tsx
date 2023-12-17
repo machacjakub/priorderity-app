@@ -14,8 +14,8 @@ import { IUserData } from "@/app/modules/profile/types";
 import { getPredefinedActivitiesAttributes } from "@/app/modules/attributes-stats/predefinedActivities";
 import { IHealthMetric } from "@/app/types";
 import { defaultMetrics } from "@/app/App";
-
-
+import { PageHeadingMobile } from "@/app/modules/components/mobile/PageHeadingMobile";
+import { RecommendationsForm } from "@/app/settings/RecommendationsForm";
 
 interface IProps {
 	user: Nullable<User>;
@@ -25,11 +25,13 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 	const profileNavIsDisplayed = useBoolean( false );
 	const userMetrics: IHealthMetric[] = userData?.metrics ?? defaultMetrics;
 	const predefinedActivities = userData?.activities_stats ?? getPredefinedActivitiesAttributes();
+	const recommendationRules = userData?.recommendations ?? [];
 	return (
 		<div>
 			<Responsive.Mobile>
 				{profileNavIsDisplayed.value && (
 					<MenuDrawer
+						firstname={userData?.firstname ?? null}
 						user={user ?? null}
 						onClose={
 							profileNavIsDisplayed.setFalse
@@ -48,12 +50,14 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 					/>
 					{/*<HealthBarsMobile healthStats={getHealthStats( done ?? [] )}/>*/}
 					<div className="mt-16 h-full w-screen overflow-auto text-foreground">
-						<h1 className='font-semibold w-full text-lg px-4 pt-2 pb-4 fixed bg-gradient-to-b from-background via-background/70 to-transparent z-20'>Settings</h1>
-						<div className='mt-12'>
+						<PageHeadingMobile>Settings</PageHeadingMobile>
+						<div className='my-12'>
 							<DashboardSectionHeadingMobile>Metrics</DashboardSectionHeadingMobile>
 							<MetricsForm userMetrics={userMetrics}/>
 							<DashboardSectionHeadingMobile>Predefined activities</DashboardSectionHeadingMobile>
 							<PredefinedActivitiesForm predefinedActivities={predefinedActivities} userMetrics={userMetrics}/>
+							<DashboardSectionHeadingMobile>Recommendation</DashboardSectionHeadingMobile>
+							<RecommendationsForm recommendationRules={recommendationRules} userMetrics={userMetrics}/>
 						</div>
 					</div>
 				</div>
@@ -68,14 +72,20 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 					/>
 					<h1 className='text-foreground font-semibold w-full text-lg px-4 py-2 fixed bg-gradient-to-b from-background via-background/70 to-transparent z-20 mt-16'>Settings</h1>
 					{profileNavIsDisplayed.value && (
-						<MenuDrawer user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>
+						<MenuDrawer firstname={userData?.firstname ?? null} user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>
 					)}
 					<div className="animate-in mt-20 h-full w-screen overflow-auto text-foreground justify-center">
 						<div className='grid grid-cols-2'>
-							<DashboardSectionHeading>Metrics</DashboardSectionHeading>
-							<DashboardSectionHeading>Predefined activities</DashboardSectionHeading>
-							<MetricsForm userMetrics={userMetrics}/>
-							<PredefinedActivitiesForm predefinedActivities={predefinedActivities} userMetrics={userMetrics}/>
+							<div>
+								<DashboardSectionHeading>Metrics</DashboardSectionHeading>
+								<MetricsForm userMetrics={userMetrics}/>
+								<DashboardSectionHeading>Recommendation rules</DashboardSectionHeading>
+								<RecommendationsForm recommendationRules={recommendationRules} userMetrics={userMetrics}/>
+							</div>
+							<div>
+								<DashboardSectionHeading>Predefined activities</DashboardSectionHeading>
+								<PredefinedActivitiesForm predefinedActivities={predefinedActivities} userMetrics={userMetrics}/>
+							</div>
 						</div>
 					</div>
 				</div>

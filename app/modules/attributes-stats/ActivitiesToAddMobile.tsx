@@ -1,13 +1,10 @@
 import { PredefinedActivityButton } from "@/app/modules/attributes-stats/PredefinedActivityButton";
 import { DashboardSectionHeadingMobile } from "@/app/modules/components/mobile/DashboardSectionHeadingMobile";
-import { IPredefinedActivity } from "@/app/modules/profile/types";
+import { useContext } from "react";
+import doneModuleContext from "@/app/modules/context/doneModuleContext";
 
-interface IProps {
-	onAdd: ( { label, type }:{label: string , type: string} ) => void;
-	predefinedActivities: IPredefinedActivity[];
-}
-
-export const ActivitiesToAddMobile = ( { onAdd, predefinedActivities }: IProps ) => {
+export const ActivitiesToAddMobile = ( ) => {
+	const { predefinedActivities, addDoneActivity } = useContext( doneModuleContext );
 	return (
 		<>
 			<DashboardSectionHeadingMobile>
@@ -16,15 +13,7 @@ export const ActivitiesToAddMobile = ( { onAdd, predefinedActivities }: IProps )
 			<div className="space-between mx-4 mt-1.5 flex flex-wrap justify-center gap-2">
 				{predefinedActivities.map( ( activity ) => (
 					<div key={activity.type}>
-						{" "}
-						<PredefinedActivityButton
-							activity={
-								activity
-							}
-							handleAdd={
-								onAdd
-							}
-						/>{" "}
+						{" "}<PredefinedActivityButton activity={activity} handleAdd={addDoneActivity}/>{" "}
 					</div>
 				) )}
 			</div>

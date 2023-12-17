@@ -4,7 +4,7 @@ import { useState } from "react";
 import { handleUpdateMetrics } from "@/database/actions";
 import { EyeOutlined, EyeSlashOutlined, PlusOutlined } from "@/icons";
 import { SaveChangesButton } from "@/app/settings/SaveChangesButton";
-import { delay } from "@/app/modules/utils";
+import { delay, labelToName } from "@/app/modules/utils";
 import { DoneButton } from "@/app/settings/DoneButton";
 import { EditButton } from "@/app/settings/EditButton";
 import { DeleteButton } from "@/app/settings/DeleteButton";
@@ -38,7 +38,7 @@ export const MetricsForm = ( { userMetrics }: { userMetrics: IHealthMetric[] } )
 	const loading = useBoolean( false );
 	const done = useBoolean( false );
 	const updateMetricField = ( updatedLabel: string, index: number, hidden?: boolean ) => {
-		setMetrics( metrics.map( ( metric, i ) => index === i ? { ...metric, name: metric.name === 'none' ? updatedLabel.toLowerCase().trim().split( ' ' ).join( '_' ) : metric.name, label: updatedLabel, hidden: !!hidden } : metric ) );
+		setMetrics( metrics.map( ( metric, i ) => index === i ? { ...metric, name: labelToName( updatedLabel ), label: updatedLabel, hidden: !!hidden } : metric ) );
 	};
 	const deleteMetricField = ( index: number ) => setMetrics( metrics.filter( ( metric, i ) => index !== i ) );
 	const handleSave = async () => {
