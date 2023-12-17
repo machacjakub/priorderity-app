@@ -2,30 +2,38 @@ import { ModalWindow } from "@/app/modules/components/ModalWindow";
 import { FadingLine } from "@/app/modules/components/FadingLine";
 import { Switch } from "@/app/modules/components/Switch";
 import useBoolean from "@/app/utils/hooks/useBoolean";
-import { handleAddPlannedActivity } from "@/database/actions";
 import { useRef } from "react";
 import { delay } from "@/app/modules/utils";
+import { Button } from "@/app/modules/components/Button";
+import { ITodoActivity } from "@/app/types";
+import { padNumber } from "@/app/modules/todo/utils";
+import {
+	IHandleAddPlannedActivity, IHandleUpdatePlannedActivity
+} from "@/database/actions";
 
 interface IProps {
 	onClose: () => void;
 	isOpen: boolean;
+	onAdd?: IHandleAddPlannedActivity;
+	onUpdate?: IHandleUpdatePlannedActivity;
+	initialValue?: ITodoActivity;
 }
 
-export const TodoForm = ( { onClose, isOpen }: IProps ) => {
+export const TodoForm = ( { onClose, isOpen, onAdd, onUpdate, initialValue }: IProps ) => {
 	const datePickerRef = useRef<HTMLInputElement | null>( null );
-	const hasDeadline = useBoolean( false );
+	const hasDeadline = useBoolean( !!initialValue?.deadline );
 	const handleSubmit = async ( formData: FormData ) => {
 		const name = formData.get( "name" );
 		const priority = formData.get( "priority" );
 		const deadline = formData.get( "deadline" );
+		const payload = { name: String( name ), priority: Number( priority ), deadline: deadline ? new Date( String( deadline ) ) : null, };
+		if ( initialValue?.id && onUpdate ) {
+			await onUpdate( { ...payload, id: initialValue.id } );
+		}
+		if ( !initialValue?.id && onAdd ) {
+			await onAdd( payload );
+		} 
 
-		await handleAddPlannedActivity( {
-			name: String( name ),
-			priority: Number( priority ),
-			deadline: deadline
-				? new Date( String( deadline ) )
-				: null,
-		} );
 		onClose();
 	};
 
@@ -56,9 +64,8 @@ export const TodoForm = ( { onClose, isOpen }: IProps ) => {
 							Title:{" "}
 						</label>{" "}
 						<input
-							name={
-								"name"
-							}
+							name={"name"}
+							defaultValue={initialValue?.name}
 							placeholder="title of the todo"
 							className="col-span-2 m-1 px-2 text-black/80"
 							autoFocus
@@ -67,9 +74,8 @@ export const TodoForm = ( { onClose, isOpen }: IProps ) => {
 							Priority:{" "}
 						</label>{" "}
 						<input
-							name={
-								"priority"
-							}
+							name={"priority"}
+							defaultValue={initialValue?.priority}
 							placeholder="0"
 							type="number"
 							min={0}
@@ -81,43 +87,26 @@ export const TodoForm = ( { onClose, isOpen }: IProps ) => {
 						</label>{" "}
 						<div className="col-span-2 flex p-1">
 							<div className="mt-1.5">
-								<Switch
-									value={
-										hasDeadline.value
-									}
-									size="tiny"
-									onToggle={
-										onDeadlineToggle
-									}
-								/>
+								<Switch value={hasDeadline.value} size="tiny" onToggle={onDeadlineToggle}/>
 							</div>{" "}
-							{hasDeadline.value && (
+							{ hasDeadline.value && (
 								<input
 									className="ml-5 w-32 px-1 text-black/80"
+									defaultValue={`${new Date( initialValue?.deadline ?? '' ).getFullYear()}-${new Date( initialValue?.deadline ?? '' ).getMonth() + 1}-${padNumber( new Date( initialValue?.deadline ?? '' ).getDate() )}`}
 									type="date"
 									name="deadline"
-									ref={
-										datePickerRef
-									}
+									ref={datePickerRef}
 								/>
 							)}
 						</div>
 					</div>
-					<div className="flex justify-between">
-						<button
-							onClick={
-								onClose
-							}
-							className="mt-6 rounded-lg bg-red-600/30 px-3 py-2 text-foreground hover:bg-red-600/50"
-						>
+					<div className="flex justify-end mt-4 gap-3">
+						<Button onClick={onClose} type="tertiary" color="warning">
 							Close
-						</button>
-						<button
-							type="submit"
-							className="mt-6 rounded-lg bg-blue-400/40 p-2 px-3 py-2 text-foreground hover:bg-blue-400/60"
-						>
+						</Button>
+						<Button buttonType="submit">
 							Submit
-						</button>
+						</Button>
 					</div>
 				</form>
 			</div>

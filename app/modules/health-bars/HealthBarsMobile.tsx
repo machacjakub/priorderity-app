@@ -1,6 +1,7 @@
 import { getHealthColor } from "@/app/modules/health-bars/utils";
-import { IHealthStat } from "@/app/types";
 import { CheckOutlined } from "@/icons";
+import doneModuleContext from "@/app/modules/context/doneModuleContext";
+import { useContext } from "react";
 
 const StatsBar = ( { title, stat }: { title: string; stat: number } ) => {
 	return (
@@ -16,11 +17,8 @@ const StatsBar = ( { title, stat }: { title: string; stat: number } ) => {
 	);
 };
 
-export const HealthBarsMobile = ( {
-	healthStats,
-}: {
-	healthStats: IHealthStat[];
-} ) => {
+export const HealthBarsMobile = ( ) => {
+	const { healthStats } = useContext( doneModuleContext );
 	return (
 		<div className="mt-1 flex w-screen justify-evenly">
 			{healthStats.map( ( healthStat, i ) => <div key={`${i}-${healthStat.name}`}><StatsBar title={healthStat.label} stat={healthStat.score}/></div> )}

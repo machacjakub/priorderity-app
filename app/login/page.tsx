@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Messages from "./messages";
-import { SignUpButton } from "@/app/modules/components/SignUpButton";
 import { LogInButton } from "@/app/modules/components/LoginButton";
 
 export default function Login () {
@@ -28,10 +27,12 @@ export default function Login () {
 			</Link>
 
 			<form
-				className="flex w-full flex-1 flex-col justify-center gap-2 text-foreground"
+				className="flex w-full flex-1 flex-col justify-center gap-2 text-foreground mb-20"
 				action="/auth/sign-in"
 				method="post"
 			>
+				<h1 className='text-xl text-center mt-10 text-foreground/40'>Log in to</h1>
+				<h1 className='text-4xl text-center mb-10'>Priorderity</h1>
 				<label
 					className="text-md"
 					htmlFor="email"
@@ -58,17 +59,12 @@ export default function Login () {
 					required
 				/>
 				<LogInButton
-					tailwind="border hover:bg-blue-100 dark:hover:bg-blue-400/20 mb-2"
+					tailwind="bg-action-light dark:bg-action-dark hover:bg-action-light/70 dark:hover:hover:bg-action-dark/80 mb-2"
 					small
 				>
 					Log In
 				</LogInButton>
-				<SignUpButton
-					formAction="/auth/sign-up"
-					small
-				>
-					Sign Up
-				</SignUpButton>
+				<Link href='/signup' className='text-center text-foreground/60 mt-4'>{`Don't have an account yet?`} <b className='text-action-dark hover:text-action-light'>Sign up</b></Link>
 				<Messages />
 			</form>
 		</div>

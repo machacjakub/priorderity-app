@@ -7,26 +7,25 @@ import { MenuDrawer } from "@/app/modules/navigation/MenuDrawer";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import { Responsive } from "@/app/modules/components/Responsive";
 import { FadingLine } from "@/app/modules/components/FadingLine";
+import { IUserData } from "@/app/modules/profile/types";
 
 
 
 interface IProps {
     user: Nullable<User>;
+	userData: IUserData;
 }
-export const ProfilePage = ( { user }: IProps ) => {
+export const ProfilePage = ( { user, userData }: IProps ) => {
 	const profileNavIsDisplayed = useBoolean( false );
 	return (
 		<div>
 			<Responsive.Mobile>
 				{profileNavIsDisplayed.value && (
 					<MenuDrawer
+						firstname={userData?.firstname ?? null}
 						user={user ?? null}
-						onClose={
-							profileNavIsDisplayed.setFalse
-						}
-						isOpen={
-							profileNavIsDisplayed.value
-						}
+						onClose={profileNavIsDisplayed.setFalse}
+						isOpen={profileNavIsDisplayed.value}
 					/>
 				)}
 				<div className="flex h-screen w-full flex-col items-center">
@@ -53,7 +52,11 @@ export const ProfilePage = ( { user }: IProps ) => {
 						}
 					/>
 					{profileNavIsDisplayed.value && (
-						<MenuDrawer user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>
+						<MenuDrawer
+							user={user ?? null}
+							firstname={userData?.firstname ?? null}
+							onClose={profileNavIsDisplayed.setFalse}
+							isOpen={profileNavIsDisplayed.value}/>
 					)}
 					<div className="animate-in mt-16 h-full w-screen overflow-auto text-foreground flex flex-col justify-center">
 						<FadingLine/>
