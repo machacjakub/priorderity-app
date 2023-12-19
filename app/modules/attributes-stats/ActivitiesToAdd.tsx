@@ -13,7 +13,7 @@ export const ActivitiesToAdd = () => {
 			<div className="space-between m-6 flex flex-wrap justify-center gap-6">
 				{predefinedActivities.map( ( activity ) => (
 					<div key={activity.type}>
-						{" "}<PredefinedActivityButton activity={activity} handleAdd={addDoneActivity}/>{" "}
+						<PredefinedActivityButton activity={activity} handleAdd={addDoneActivity}/>
 					</div>
 				) )}
 			</div>
