@@ -2,14 +2,16 @@ import { TodoItem } from "@/app/modules/todo/TodoItem";
 import { FadingLine } from "@/app/modules/components/FadingLine";
 import { PlusOutlined } from "@/icons";
 import { ITodoActivity } from "@/app/types";
+import { IHandleUpdatePlannedActivity } from "@/database/actions";
 
 interface IProps {
 	onFormOpen: () => void;
 	activities: ITodoActivity[];
-	optimisticDelete: ( action: number ) => void;
+	onDelete: ( action: number ) => void;
+	onUpdate: IHandleUpdatePlannedActivity
 	onMarkAsDone: ( activity: ITodoActivity ) => void;
 }
-export const ActivitiesToDo = ( { onFormOpen, activities, optimisticDelete, onMarkAsDone }: IProps ) => {
+export const ActivitiesToDo = ( { onFormOpen, activities, onDelete, onUpdate, onMarkAsDone }: IProps ) => {
 	return (
 		<>
 			<div className="sticky top-0 bg-background/70 py-[0.1px] text-foreground backdrop-blur-sm">
@@ -24,7 +26,7 @@ export const ActivitiesToDo = ( { onFormOpen, activities, optimisticDelete, onMa
 			</div>
 			<div className="m-2 mb-20 text-foreground">
 				{activities.map( acitivity =>
-					<TodoItem activity={acitivity} key={acitivity.id} onDelete={optimisticDelete} onMarkAsDone={onMarkAsDone} /> )}
+					<TodoItem onUpdate={onUpdate} activity={acitivity} key={acitivity.id} onDelete={onDelete} onMarkAsDone={onMarkAsDone} /> )}
 			</div>
 		</>
 	);

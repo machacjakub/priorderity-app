@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { User } from "@supabase/gotrue-js";
 import { Nullable } from "fputils";
-import { SignUpButton } from "@/app/modules/components/SignUpButton";
-import { LogInButton } from "@/app/modules/components/LoginButton";
 import { MenuOutlined } from "@/icons";
 import { Responsive } from "@/app/modules/components/Responsive";
+import { Button } from "@/app/modules/components/Button";
+import { LogInButton } from "@/app/modules/components/LoginButton";
 
 interface IProps {
 	user?: Nullable<User>;
@@ -29,22 +29,11 @@ export const Navbar = ( { user, onProfileClick }: IProps ) => {
 					<div className='flex my-auto'>
 						<Responsive.Desktop>
 							<Link href="/signup">
-								<SignUpButton
-									small
-								>
-								Sign
-								up
-								</SignUpButton>
+								<Button size='sm' tailwind='font-semibold'>Sign up</Button>
 							</Link>
 						</Responsive.Desktop>
 						<Link href="/login">
-							<LogInButton
-								small
-								tailwind="text-foreground ml-4"
-							>
-								Log
-								in
-							</LogInButton>
+							<LogInButton small tailwind="text-foreground ml-4">Log in</LogInButton>
 						</Link>
 					</div>
 				)}
