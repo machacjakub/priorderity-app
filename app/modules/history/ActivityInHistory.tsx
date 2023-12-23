@@ -12,7 +12,7 @@ export const ActivityInHistory = ( { activity, handleDelete }: IProps ) => {
 	return (
 		<div
 			key={activity.id}
-			className="align-middle m-1.5 flex justify-between rounded-lg bg-blue-300/50 bg-gradient-to-r from-violet-400/30 via-transparent to-cyan-500/10 p-1 text-center dark:bg-blue-400/20 dark:from-violet-600/20 border border-background"
+			className="align-middle m-1.5 flex justify-between rounded-lg bg-background p-1 text-center"
 		>
 			<div className="px-1">{activity.label ?? activity.type}</div>
 			<form

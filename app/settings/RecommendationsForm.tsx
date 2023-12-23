@@ -69,14 +69,14 @@ const ConditionEditForm = ( { condition, userMetrics, onChange, onConditionDelet
 		<div className='border-b-2 border-l-2 border-blue-400 p-1 px-2.5 mb-1 rounded-xl my-2 flex justify-between'>
 			{isMetricConditionDefinition( condition )
 				? <div><SelectMetric metrics={userMetrics} onChange={handleChange( 'metric' )} value={userMetrics.find( metric => metric.name === condition.metric )?.name ?? ''}/> {`<`} <input type='number' className='w-12 text-black px-1' onChange={handleChange( 'value' )} value={condition.value}/></div>
-				: <div><input type='text' onChange={handleChange( 'activityType' )} value={condition.activityType} className='text-black w-32 pl-1' /> {`>`} <input type='number' className='w-12 text-black px-1' onChange={handleChange( 'userDuration' )} value={condition.userDuration}/> <input type='text' className='w-8 text-black px-1' onChange={handleChange( 'unit' )} value={condition.unit}/></div> }
+				: <div><input type='text' onChange={handleChange( 'activityType' )} value={condition.activityType} className='text-black w-32 pl-1' /> {`>`} <input type='number' className='w-12 text-black px-1' onChange={handleChange( 'userDuration' )} value={condition.userDuration}/> {condition.unit}</div> }
 			<button onClick={() => onConditionDelete( condition.id )}><XOutlined className='w-5'/></button>
 		</div> );
 };
 const Condition = ( { condition, userMetrics }: {condition: IConditionDefinition, userMetrics: IHealthMetric[]} ) => {
 	return (
 		<div className='border-b-2 border-l-2 border-blue-400 p-1 px-2.5 mb-1 rounded-xl my-2'>
-			{isMetricConditionDefinition( condition ) ? `${userMetrics.find( x => x.name === condition.metric )?.label} ${condition.comparisonOperator} ${condition.value}` : `${condition.activityType} ${condition.comparisonOperator} ${condition.userDuration}` }
+			{isMetricConditionDefinition( condition ) ? `${userMetrics.find( x => x.name === condition.metric )?.label} ${condition.comparisonOperator} ${condition.value} p` : `${condition.activityType} ${condition.comparisonOperator} ${condition.userDuration} ${condition.unit}` }
 		</div> );
 };
 
