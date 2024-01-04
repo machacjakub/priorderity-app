@@ -74,7 +74,7 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 					{profileNavIsDisplayed.value && (
 						<MenuDrawer firstname={userData?.firstname ?? null} user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/>
 					)}
-					<div className="animate-in mt-20 h-full w-screen overflow-auto text-foreground justify-center">
+					<div className="animate-in mt-20 h-full w-screen overflow-auto text-foreground justify-center max-w-screen-2xl">
 						<div className='grid grid-cols-2'>
 							<div>
 								<DashboardSectionHeading>Metrics</DashboardSectionHeading>

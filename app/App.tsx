@@ -65,7 +65,7 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 				</div>
 			</Responsive.Mobile>
 			<Responsive.Desktop>
-				<div className="flex h-screen w-full flex-col items-center">
+				<div className="flex h-screen w-full flex-col items-center max-w-screen-2xl">
 					<Navbar user={user} onProfileClick={profileNavIsDisplayed.setTrue}/>
 					{profileNavIsDisplayed.value && ( <MenuDrawer firstname={userData?.firstname ?? null} user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/> )}
 					{todoFormDisplayed.value && ( <TodoForm onClose={todoFormDisplayed.setFalse} isOpen={todoFormDisplayed.value} onAdd={addPlannedActivity}/> )}
