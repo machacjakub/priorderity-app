@@ -39,7 +39,7 @@ export const DoneActivitiesHistory = ( { daysVisible }: IProps ) => {
 			<div className="mx-3 max-w-lg mx-auto">
 				{days.map( ( day, i ) => {
 					return (
-						<div key={i} className="mx-3 my-2 rounded-xl border-b-2 border-b-violet-400/90 bg-foreground/10 bg-gradient-to-bl from-foreground/10 via-transparent to-transparent p-2 text-foreground">
+						<div key={i} className="mx-3 my-2 rounded-xl bg-gradient-to-l bg-foreground/5 from-foreground/5 via-blue-400/20 to-blue-400/30 dark:from-foreground/10 dark:via-blue-600/20 dark:to-blue-600/40 p-2 text-foreground">
 							<div className="px-2 text-foreground/80">
 								{day.title}
 							</div>

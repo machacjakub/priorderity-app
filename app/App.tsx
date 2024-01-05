@@ -38,7 +38,7 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 	const profileNavIsDisplayed = useBoolean( false );
 	const todoFormDisplayed = useBoolean( false );
 	const { doneActivities, addDoneActivity, deleteDoneActivity, predefinedActivities, healthStats } = useDoneModule( done ?? [], userData );
-	const { todoActivities, addPlannedActivity, deletePlannedActivity } = useTodoActivities( { planned: planned ?? [], doneActivities, healthStats, recommendations: userData?.recommendations ?? [] } );
+	const { todoActivities, addPlannedActivity, updatePlannedActivity, deletePlannedActivity } = useTodoActivities( { planned: planned ?? [], doneActivities, healthStats, recommendations: userData?.recommendations ?? [] } );
 	
 
 	const handleMarkTodoActivityAsDone = async ( activity: ITodoActivity ) => {
@@ -56,7 +56,7 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 					{todoFormDisplayed.value && <TodoForm onClose={todoFormDisplayed.setFalse} isOpen={todoFormDisplayed.value} onAdd={addPlannedActivity}/> }
 					<div className="mt-16 h-full w-screen">
 						<HealthBarsMobile />
-						<ActivitiesToDoMobile activities={todoActivities} onDelete={deletePlannedActivity} onMarkAsDone={handleMarkTodoActivityAsDone}/>
+						<ActivitiesToDoMobile onUpdate={updatePlannedActivity} activities={todoActivities} onDelete={deletePlannedActivity} onMarkAsDone={handleMarkTodoActivityAsDone}/>
 						<ActivitiesToAddMobile/>
 						<DoneActivitiesHistoryMobile />
 						<BottomBarButton onClick={todoFormDisplayed.setTrue} icon={<PlusOutlined />}/>
@@ -65,14 +65,14 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 				</div>
 			</Responsive.Mobile>
 			<Responsive.Desktop>
-				<div className="flex h-screen w-full flex-col items-center">
+				<div className="flex h-screen w-full flex-col items-center max-w-screen-2xl">
 					<Navbar user={user} onProfileClick={profileNavIsDisplayed.setTrue}/>
 					{profileNavIsDisplayed.value && ( <MenuDrawer firstname={userData?.firstname ?? null} user={user ?? null} onClose={profileNavIsDisplayed.setFalse} isOpen={profileNavIsDisplayed.value}/> )}
 					{todoFormDisplayed.value && ( <TodoForm onClose={todoFormDisplayed.setFalse} isOpen={todoFormDisplayed.value} onAdd={addPlannedActivity}/> )}
 					<div className="animate-in h-full w-full text-foreground">
 						<div className="grid h-full w-full grid-cols-4 grid-rows-3 gap-4">
 							<div className="relative col-span-1 row-span-3 mt-16 overflow-auto bg-background">
-								<ActivitiesToDo onFormOpen={todoFormDisplayed.setTrue} activities={todoActivities} optimisticDelete={deletePlannedActivity} onMarkAsDone={handleMarkTodoActivityAsDone}/>
+								<ActivitiesToDo onUpdate={updatePlannedActivity} onFormOpen={todoFormDisplayed.setTrue} activities={todoActivities} onDelete={deletePlannedActivity} onMarkAsDone={handleMarkTodoActivityAsDone}/>
 							</div>
 							<div className="col-span-2 mt-16 bg-background">
 								<HealthBars/>

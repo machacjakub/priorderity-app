@@ -31,7 +31,7 @@ export const MenuDrawer = ( { onClose, isOpen, user, firstname }: IProps ) => {
 							{/*<MenuLink label='Profile' route='/profile'/>*/}
 							<MenuLink label='History' route='/history'/>
 							<MenuLink label='Settings' route='/settings'/>
-							{/*<MenuLink label='Guide' route='/guide'/>*/}
+							<MenuLink label='Guide' route='/guide'/>
 						</div>
 					</div>
 					<div className='p-6 pl-8'>
