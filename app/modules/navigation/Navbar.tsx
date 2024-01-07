@@ -15,7 +15,7 @@ interface IProps {
 
 export const Navbar = ( { user, onProfileClick }: IProps ) => {
 	return (
-		<div className="fixed z-20 flex justify-between h-16 w-screen border-b border-b-foreground/10 bg-background/60 text-foreground backdrop-blur-md">
+		<div className="fixed z-20 flex justify-between h-16 w-screen border-b border-b-foreground/10 bg-background/60 text-foreground backdrop-blur-md drop-shadow-lg">
 			<Link className="my-auto mx-3 text-3xl tracking-wide lg:text-4xl" href='/'>
 				Priorderity
 			</Link>

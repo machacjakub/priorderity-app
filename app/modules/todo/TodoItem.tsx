@@ -57,9 +57,9 @@ export const TodoItem = ( { activity, onDelete, onMarkAsDone, onUpdate }: ITodoI
 	const priorityToDisplay = returnIfNotHigher( Math.ceil( activity.calculatedPriority ), 11 );
 	const colors = [ 'border-l-priority-11', 'border-l-priority-10','border-l-priority-9','border-l-priority-8','border-l-priority-7','border-l-priority-6','border-l-priority-5','border-l-priority-4','border-l-priority-3','border-l-priority-2','border-l-priority-1', ];
 	return (
-		<div className={`group m-2 flex flex-col rounded-lg border border-l-8 border-l-priority-${priorityToDisplay} bg-gray-500/5 cursor-pointer hover:bg-gray-500/10`}>
+		<div className={`group m-2 flex flex-col rounded-lg border-l-8 border-l-priority-${priorityToDisplay} bg-gradient-to-r from-gray-500/10 to-blue-400/30 cursor-pointer hover:bg-gray-500/10`}>
 			<div
-				className='flex'
+				className='flex '
 				onClick={handleItemClick}
 				onContextMenu={activity.isRecommended ? () => null : handleItemRightClick}
 			>

@@ -1,5 +1,4 @@
 import { getDatabase } from "@/database/operations";
-import { WelcomePage } from "@/app/WelcomePage";
 import { GuidePage } from "@/app/guide/GuidePage";
 import { IUserData } from "@/app/modules/profile/types";
 
@@ -12,11 +11,7 @@ export default async function Index () {
 	const userData: IUserData = ( user ? await database.getUserData( user.id ) : [] )[0];
 	return (
 		<div className="flex w-full flex-col items-center bg-background">
-			{user ? (
-				<GuidePage firstname={userData?.firstname ?? null} user={user} />
-			) : (
-				<WelcomePage />
-			)}
+			<GuidePage firstname={userData?.firstname ?? null} user={user} />
 		</div>
 	);
 }
