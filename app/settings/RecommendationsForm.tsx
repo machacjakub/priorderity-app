@@ -147,11 +147,12 @@ export const RecommendationsForm = ( { recommendationRules, userMetrics }: { rec
 			{addingNew.value
 				? <RecommendationField userMetrics={userMetrics} onDelete={addingNew.setFalse} onSave={handleAddNewRule} recommendation={{ activityLabel: '', activityType: '', rules: { logicalOperator: 'and', conditions: [] } }} isEditing={true} />
 				: <div className='flex justify-center gap-4'>
-					<button className='bg-blue-500/20 border border-blue-500 dark:border-blue-500/80 p-1 mt-1 rounded-full text-2xl' onClick={addingNew.setTrue}>
+					<button className='h-min bg-blue-500/20 border border-blue-500 dark:border-blue-500/80 p-1 my-3 rounded-full text-2xl' onClick={addingNew.setTrue}>
 						<PlusOutlined/>
 					</button>
 					{recommendations.length === 0 && (
-						<button className='flex gap-2 bg-warning/20 border border-warning dark:border-warning/80 p-1 mt-1 rounded-full text-sm' onClick={handleAddInspiration}>
+						<button className='flex gap-2 bg-warning/20 border border-warning dark:border-warning/80 p-1 my-3
+						 rounded-full text-sm' onClick={handleAddInspiration}>
 							<PlusOutlined/> <span className='my-auto pr-2'>Add some for inspiration</span>
 						</button>
 					)}

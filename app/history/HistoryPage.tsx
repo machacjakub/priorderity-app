@@ -41,8 +41,6 @@ export const HistoryPage = ( { user, done, userData }: IProps ) => {
 							profileNavIsDisplayed.setTrue
 						}
 					/>
-					{/*<HealthBarsMobile healthStats={getHealthStats( done ?? [] )}/>*/}
-
 					<div className="mt-16 h-full w-screen overflow-auto">
 						<PageHeadingMobile>History</PageHeadingMobile>
 						<div className='mt-10'>
