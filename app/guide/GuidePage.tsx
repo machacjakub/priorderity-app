@@ -26,7 +26,7 @@ export const GuidePage = ( { user, firstname }: IProps ) => {
 				<FadingLine/>
 				<div className='border-l-8 border-l-blue-300 dark:border-l-blue-500 my-8 py-2 px-10 max-w-screen-lg mx-auto text-lg text-foreground/80 tracking-wide'>
 					<p>Hey there, welcome to <span className='font-bold'>Priorderity App</span> – your go-to priority and task manager!</p>
-					<p>This user guide is designed to assist you in navigating and maximizing the potential of our app. Whether you're a new user or looking to explore advanced features, we've got you covered.</p>
+					<p>{`This user guide is designed to assist you in navigating and maximizing the potential of our app. Whether you're a new user or looking to explore advanced features, we've got you covered.`}</p>
 				</div>
 				<div className='text-center px-8 my-10 mx-auto sm:w-[500px] md:w-[720px] lg:w-[848px] sm:flex flex-wrap gap-4 lg:gap-8'>
 					<Card label='First steps' link='https://scribehow.com/shared/First_steps_in_the_app__-Kuqo26NRXG3Ys9zpZiagA' />
