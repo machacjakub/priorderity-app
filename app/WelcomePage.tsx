@@ -66,7 +66,7 @@ export const WelcomePage = () => {
 						<div className='p-4 md:p-6 lg:p-14'>
 							<h3 className='text-cyan-500'>Break through decision paralysis</h3>
 							<h1 className='text-2xl sm:text-3xl tracking-wide font-semibold py-2'>Cut through the noise with our ToDo list</h1>
-							<p>{`It helps you overcome decision paralysis by prioritizing tasks based on deadlines and personal settings. With a clear view of what needs to be done, you can focus on taking action. This feature helps you break the cycle of procrastination and boosts your productivity`}</p>
+							<p>{`It helps you overcome decision paralysis by prioritizing tasks based on deadlines and personal settings. With a clear view of what needs to be done, you can focus on taking action. This feature helps you break the cycle of procrastination and boosts your productivity.`}</p>
 						</div>
 						<div className='p-4 md:p-6 lg:p-14'>
 							<h3 className='text-cyan-500'>Aim for 100%</h3>
@@ -80,6 +80,11 @@ export const WelcomePage = () => {
 						</div>
 					</div>
 				</div>
+				{/*<footer className='w-screen bg-background/40 text-foreground z-40'>*/}
+				{/*	<FadingLine/>*/}
+				{/*	<div className='p-20'>*/}
+				{/*	</div>*/}
+				{/*</footer>*/}
 			</div>
 		</div>
 	);
