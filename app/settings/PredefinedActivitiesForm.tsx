@@ -41,7 +41,7 @@ const ActivityFormField = ( { activity, userMetrics, onDelete, onSave, isEditing
 	return (
 		<div className='border-2 p-2 pl-4 rounded-xl my-2'>
 			<div className='flex justify-between'>
-				{editing.value ? <input className='text-black pl-1' defaultValue={label} onChange={( e ) => setLabel( e.target.value ) }/> : <div className='mt-0.5 flex'>{label}</div>}
+				{editing.value ? <input className='text-black pl-1' defaultValue={label} onChange={( e ) => setLabel( e.target.value.trim() ) }/> : <div className='mt-0.5 flex'>{label}</div>}
 				<div className='flex gap-2'>
 					{editing.value
 						? <DoneButton onClick={handleSave} />

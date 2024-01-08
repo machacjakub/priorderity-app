@@ -4,6 +4,7 @@ import { ActivitiesInHistoryList } from "@/app/modules/history/ActivitiesInHisto
 import { getDayName, isSameDay, returnIfNotLower, WeekDayNumber } from "@/app/modules/utils";
 import { useContext } from "react";
 import doneModuleContext from "@/app/modules/context/doneModuleContext";
+import Link from "next/link";
 
 interface IProps {
 	daysVisible?: number;
@@ -16,7 +17,13 @@ const dayInSeconds = 86400000;
 export const DoneActivitiesHistory = ( { daysVisible }: IProps ) => {
 	const { doneActivities, deleteDoneActivity } = useContext( doneModuleContext );
 	if ( doneActivities.length === 0 ) {
-		return null;
+		return (
+			<div className='text-center text-foreground'>
+				<p className='my-4 text-foreground/70'>{`Your history of activities is now empty.`}</p>
+				<p className='my-4 mx-10 text-sm text-foreground/40'>{`Let's start by adding some by clicking on any item in the activities section, or on an item in the todo list.`}</p>
+				<p>OR</p>
+				<Link href='/guide'><button className='my-4 py-2 px-4 rounded-lg dark:bg-blue-900 dark:outline outline-offset-2 outline-blue-300/20 bg-blue-200 drop-shadow-lg hover:drop-shadow-none hover:bg-blue-500/20 hover:outline-blue-500'>See the guide</button></Link>
+			</div> );
 	}
 	const now = new Date().getTime();
 	const sinceFirstActivity = ( now - new Date( doneActivities[doneActivities.length - 1]?.created_at ).getTime() ) / dayInSeconds;
