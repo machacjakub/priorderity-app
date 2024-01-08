@@ -16,6 +16,7 @@ import { DoneButton } from "@/app/settings/DoneButton";
 import { DeleteButton } from "@/app/settings/DeleteButton";
 import { SelectMetric } from "@/app/settings/SelectMetric";
 import { mockRules } from "@/database/mockData";
+import { AddButton } from "@/app/settings/AddButton";
 
 const RulesEditForm = ( { rules, userMetrics, onChange }: {rules: IRecommendation["rules"], userMetrics: IHealthMetric[], onChange: ( rules: IRecommendation["rules"] ) => void} ) => {
 	const [ conditions, setConditions ] = useState<IConditionDefinition[]>( rules.conditions.filter( isConditionDefinitionType ) );
@@ -147,9 +148,7 @@ export const RecommendationsForm = ( { recommendationRules, userMetrics }: { rec
 			{addingNew.value
 				? <RecommendationField userMetrics={userMetrics} onDelete={addingNew.setFalse} onSave={handleAddNewRule} recommendation={{ activityLabel: '', activityType: '', rules: { logicalOperator: 'and', conditions: [] } }} isEditing={true} />
 				: <div className='flex justify-center gap-4'>
-					<button className='h-min bg-blue-500/20 border border-blue-500 dark:border-blue-500/80 p-1 my-3 rounded-full text-2xl' onClick={addingNew.setTrue}>
-						<PlusOutlined/>
-					</button>
+					<AddButton onClick={addingNew.setTrue}/>
 					{recommendations.length === 0 && (
 						<button className='flex gap-2 bg-warning/20 border border-warning dark:border-warning/80 p-1 my-3
 						 rounded-full text-sm' onClick={handleAddInspiration}>
