@@ -30,14 +30,13 @@ export const GuidePage = ( { user, firstname }: IProps ) => {
 				</div>
 				<div className='text-center px-8 my-10 mx-auto sm:w-[500px] md:w-[720px] lg:w-[848px] sm:flex flex-wrap gap-4 lg:gap-8'>
 					<Card label='First steps' link='https://scribehow.com/shared/First_steps_in_the_app__-Kuqo26NRXG3Ys9zpZiagA' />
-					<Card label='General' link='/guide' />
 					<Card label='Todo list' link='https://scribehow.com/shared/How_to_use_the_To-Do_list__D7I00tXaTAO3Aa6hdWlb_g' />
 					<Card label='Stats' link='https://scribehow.com/shared/Guide_to_Stats__Hi-XumUNRBm-TdjWMdO2CQ' />
 					<Card label='Predefined activities' link='https://scribehow.com/shared/How_to_set_up_your_custom_predefined_activities__tqQFa9LeTpi5HjkqrGpcfA' />
 					<Card label='Recommendations' link='https://scribehow.com/shared/How_to_customize_activities_recommendation_rules__ZeCcvnAaQOuwnnBGFH8zbQ?editmode=true' />
 				</div>
 				<div className='w-screen fixed bottom-0 bg-blue-500/30 py-6 px-10 lg:px-32 mx-auto text-sm sm:text-base text-foreground/80 tracking-wide'>
-					<p>If you are unclear about something, have an idea for improvement or have come across a bug or an error, we would be very happy if you let us know <span className='whitespace-nowrap'>at our email <span className='text-blue-500 dark:text-blue-400'>priorderity@email.cz</span></span> </p>
+					<p>If you are unclear about something, have an idea for improvement or have come across a bug or an error, we would be very happy if you let us know <span className='whitespace-nowrap'>at our email <a href='mailto:priorderity@email.cz' className='text-blue-500 dark:text-blue-400'>priorderity@email.cz</a></span> </p>
 				</div>
 			</div>
 		</div>
