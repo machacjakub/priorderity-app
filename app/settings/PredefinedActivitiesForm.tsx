@@ -1,4 +1,4 @@
-import { ArrowSmallUpOutlined, ClocksOutlined, PlusOutlined } from "@/icons";
+import { ArrowSmallUpOutlined, ClocksOutlined } from "@/icons";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import { IPredefinedActivity } from "@/app/modules/profile/types";
 import { IHealthMetric } from "@/app/types";
@@ -9,6 +9,7 @@ import { handleUpdatePredefinedActivities } from "@/database/actions";
 import { EditButton } from "@/app/settings/EditButton";
 import { DoneButton } from "@/app/settings/DoneButton";
 import { DeleteButton } from "@/app/settings/DeleteButton";
+import { AddButton } from "@/app/settings/AddButton";
 
 const getMetricLabel = ( userMetrics: IHealthMetric[], metricKey: string ) => userMetrics?.find( ( metric ) => metric.name === metricKey )?.label ?? metricKey;
 const MetricRuleTag = ( { metrics, label, metricKey }: { metrics: IPredefinedActivity["metrics"], label: string, metricKey: string} ) => {
@@ -96,9 +97,7 @@ export const PredefinedActivitiesForm = ( { predefinedActivities, userMetrics }:
 			{addingNew.value
 				? <ActivityFormField userMetrics={userMetrics} onDelete={addingNew.setFalse} onSave={handleAddNewActivity} activity={{ label: '', type: '', metrics: {} }} isEditing={true} />
 				: <div className='text-center'>
-					<button className='bg-blue-500/20 border border-blue-500 dark:border-blue-500/80 p-1 mt-1 rounded-full text-2xl' onClick={addingNew.setTrue}>
-						<PlusOutlined/>
-					</button>
+					<AddButton onClick={addingNew.setTrue}/>
 				</div>
 			}
 			<div className='text-right'><SaveChangesButton loading={loading.value} done={done.value} onClick={handleSave}/></div>

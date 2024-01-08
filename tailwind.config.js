@@ -43,7 +43,7 @@ module.exports = {
 				},
 				action: {
 					dark: "#3b82f6",
-					light: "#7dd3fc"
+					light: "#93c5fd"
 				},
 			},
 		},

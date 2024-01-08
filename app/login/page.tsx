@@ -59,7 +59,7 @@ export default function Login () {
 					required
 				/>
 				<LogInButton
-					tailwind="bg-action-light dark:bg-action-dark hover:bg-action-light/70 dark:hover:hover:bg-action-dark/80 mb-2"
+					tailwind="bg-action-light dark:bg-action-dark hover:bg-action-light/70 dark:hover:hover:bg-action-dark/80"
 					small
 				>
 					Log In
