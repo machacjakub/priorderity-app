@@ -23,8 +23,10 @@ export const TodoList = ( { activities, onDelete, onUpdate, onMarkAsDone }: IPro
 				<p className='my-4 mx-10 text-sm text-foreground/40'>{`Let's start by clicking on the pulsing '+' button and add some items to the todo list.`}</p>
 				<p>OR</p>
 				<Link href='/guide'><button className='my-4 py-2 px-4 rounded-lg dark:bg-blue-900 dark:outline outline-offset-2 outline-blue-300/20 bg-blue-200 drop-shadow-lg hover:drop-shadow-none hover:bg-blue-500/20 hover:outline-blue-500'>See the guide</button></Link>
-			</div> );
+			</div>
+		);
 	}
+
 	if ( activities.length === 0 ) {
 		return (
 			<div className='flex h-10 p-10 justify-center'>
@@ -32,8 +34,10 @@ export const TodoList = ( { activities, onDelete, onUpdate, onMarkAsDone }: IPro
 				<p className='text-foreground/90 my-auto relative'>
 					Good job
 				</p>
-			</div> );
+			</div>
+		);
 	}
+
 	return <div className="m-2 mb-20 text-foreground">
 		{activities.filter( isTodoActivity ).map( activity =>
 			<TodoItem onUpdate={onUpdate} activity={activity} key={activity.id} onDelete={onDelete} onMarkAsDone={onMarkAsDone} /> )}

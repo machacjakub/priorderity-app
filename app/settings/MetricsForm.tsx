@@ -2,12 +2,13 @@ import { IHealthMetric } from "@/app/types";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import { useState } from "react";
 import { handleUpdateMetrics } from "@/database/actions";
-import { EyeOutlined, EyeSlashOutlined, PlusOutlined } from "@/icons";
+import { EyeOutlined, EyeSlashOutlined } from "@/icons";
 import { SaveChangesButton } from "@/app/settings/SaveChangesButton";
 import { delay, labelToName } from "@/app/modules/utils";
 import { DoneButton } from "@/app/settings/DoneButton";
 import { EditButton } from "@/app/settings/EditButton";
 import { DeleteButton } from "@/app/settings/DeleteButton";
+import { AddButton } from "@/app/settings/AddButton";
 
 const MetricField = ( { metric, onUpdate, onDelete, index }: { metric: IHealthMetric; index: number; onUpdate: ( updatedLabel: string, index: number, hidden?: boolean ) => void, onDelete: ( index: number ) => void } ) => {
 	const [ label, setLabel ] = useState( metric.label );
@@ -53,7 +54,7 @@ export const MetricsForm = ( { userMetrics }: { userMetrics: IHealthMetric[] } )
 	return (
 		<div className='text-foreground px-4 mb-2 mx-auto sm:mx-0 lg:mx-30'>
 			{metrics.map( ( metric, i ) => <div key={`${i}-${metric.name}`}><MetricField metric={metric} onUpdate={updateMetricField} onDelete={deleteMetricField} index={i}/></div> )}
-			<div className='text-center'><button className='bg-blue-500/20 border border-blue-500 dark:border-blue-500/80 p-1 mt-1 rounded-full text-2xl' onClick={() => setMetrics( [ ...metrics, { name: 'none', label: '', hidden: false } ] ) } ><PlusOutlined /></button></div>
+			<div className='text-center'><AddButton onClick={() => setMetrics( [ ...metrics, { name: 'none', label: '', hidden: false } ] ) } /></div>
 			<div className='text-right'><SaveChangesButton loading={loading.value} done={done.value} onClick={handleSave}/></div>
 		</div>
 	);
