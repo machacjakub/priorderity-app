@@ -56,8 +56,8 @@ const ActivityFormField = ( { activity, userMetrics, onDelete, onSave, isEditing
 					{userMetrics.map( ( metric,i ) =>
 						<div key={i} className='text-sm grid grid-cols-4 my-1'>
 							<div className='col-span-2'>{metric.label}</div>
-							<div className='flex'><ArrowSmallUpOutlined className='w-4 mx-1'/><input type='number' className='w-8 text-black pl-1' onChange={( e ) => setMetrics( { ...metrics, [metric.name]: { points: Number( e.target.value ), duration: metrics[metric.name]?.duration ?? 0 } } )} defaultValue={metrics[metric.name]?.points}/></div>
-							<div className='flex'><ClocksOutlined className='w-4 mx-1'/><input type='number' className='w-8 text-black pl-1' onChange={( e ) => setMetrics( { ...metrics, [metric.name]: { duration: Number( e.target.value ), points: metrics[metric.name]?.points ?? 0 } } )} defaultValue={metrics[metric.name]?.duration}/></div>
+							<div className='flex'><ArrowSmallUpOutlined className='w-4 mx-1'/><input type='number' className='w-12 text-black pl-1' onChange={( e ) => setMetrics( { ...metrics, [metric.name]: { points: Number( e.target.value ), duration: metrics[metric.name]?.duration ?? 0 } } )} defaultValue={metrics[metric.name]?.points}/></div>
+							<div className='flex'><ClocksOutlined className='w-4 mx-1'/><input type='number' className='w-12 text-black pl-1' onChange={( e ) => setMetrics( { ...metrics, [metric.name]: { duration: Number( e.target.value ), points: metrics[metric.name]?.points ?? 0 } } )} defaultValue={metrics[metric.name]?.duration}/></div>
 						</div> )}
 				</div>
 				:
