@@ -15,7 +15,7 @@ import { getPredefinedActivitiesAttributes } from "@/app/modules/attributes-stat
 import { IHealthMetric } from "@/app/types";
 import { defaultMetrics } from "@/app/App";
 import { PageHeadingMobile } from "@/app/modules/components/mobile/PageHeadingMobile";
-import { RecommendationsForm } from "@/app/settings/RecommendationsForm";
+import { RecommendationsForm } from "@/app/settings/recommendation/RecommendationsForm";
 
 interface IProps {
 	user: Nullable<User>;
