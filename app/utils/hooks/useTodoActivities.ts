@@ -28,8 +28,8 @@ const useTodoActivities = ( { planned, healthStats, doneActivities, recommendati
 		return state.filter( ( x ) => x.id !== deleted );
 	} );
 
-	const [ plannedActivities, updateOptimistic ] = useOptimistic<IPlannedActivity[], IHandleUpdatePlannedActivityArguments>( activities2, ( state: IPlannedActivity[], { id, name, priority, deadline }: IHandleUpdatePlannedActivityArguments ) => {
-		return state.map( ( x ) => x.id === id ? { ...x, id, name, priority, deadline } : x );
+	const [ plannedActivities, updateOptimistic ] = useOptimistic<IPlannedActivity[], IHandleUpdatePlannedActivityArguments>( activities2, ( state: IPlannedActivity[], { id, name, priority, deadline, delayed_to }: IHandleUpdatePlannedActivityArguments ) => {
+		return state.map( ( x ) => x.id === id ? { ...x, id, name, priority, deadline, delayed_to } : x );
 	} );
 	const addPlannedActivity = async ( activity: IAddPlannedActivityArguments ) => {
 		addOptimistic( activity );
