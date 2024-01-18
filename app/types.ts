@@ -11,6 +11,7 @@ export interface IPlannedActivity {
 	created_at: Date;
 	priority: number;
 	deadline: Date | null;
+	delayed_to: Date | null;
 }
 
 export interface ITodoActivity extends IPlannedActivity {

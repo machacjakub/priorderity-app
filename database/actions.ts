@@ -23,13 +23,13 @@ export const handleDeleteDoneActivity = async ( activityId: number ) => {
 	revalidatePath( "/" );
 };
 
-export interface IHandleAddPlannedActivityArguments { name: string; priority: number; deadline: Date | null; }
-export type IHandleAddPlannedActivity = ( { name, priority, deadline }: IHandleAddPlannedActivityArguments ) => void;
-export const handleAddPlannedActivity = async ( { name, priority, deadline, }: { name: string; priority: number; deadline: Date | null; } ) => {
+export interface IHandleAddPlannedActivityArguments { name: string; priority: number; deadline: Date | null; delayed_to: Date | null; }
+export type IHandleAddPlannedActivity = ( { name, priority, deadline, delayed_to }: IHandleAddPlannedActivityArguments ) => void;
+export const handleAddPlannedActivity = async ( { name, priority, deadline, delayed_to }: { name: string; priority: number; deadline: Date | null; delayed_to: Date | null; } ) => {
 	const { data: { user }, } = await supabase.auth.getUser();
 	const { data, error } = await supabase
 		.from( "planned" )
-		.insert( { name, priority, deadline, user_id: user?.id } );
+		.insert( { name, priority, deadline, delayed_to, user_id: user?.id } );
 
 	console.log( "data: ", data );
 	console.log( "error: ", error );
@@ -42,12 +42,12 @@ export const handleDeletePlannedActivity = async ( activityId: number ) => {
 	revalidatePath( "/" );
 };
 
-export interface IHandleUpdatePlannedActivityArguments { id: number, name: string; priority: number; deadline: Date | null; }
-export type IHandleUpdatePlannedActivity = ( { id, name, priority, deadline }: IHandleUpdatePlannedActivityArguments ) => void;
-export const handleUpdatePlannedActivity = async ( { id, name, priority, deadline, }: IHandleUpdatePlannedActivityArguments ) => {
+export interface IHandleUpdatePlannedActivityArguments { id: number, name: string; priority: number; deadline: Date | null; delayed_to: Date | null; }
+export type IHandleUpdatePlannedActivity = ( { id, name, priority, deadline, delayed_to }: IHandleUpdatePlannedActivityArguments ) => void;
+export const handleUpdatePlannedActivity = async ( { id, name, priority, deadline, delayed_to }: IHandleUpdatePlannedActivityArguments ) => {
 	const { data, error } = await supabase
 		.from( "planned" )
-		.update( { name, priority, deadline } )
+		.update( { name, priority, deadline, delayed_to } )
 		.eq( 'id', id );
 
 	console.log( "data: ", data );
