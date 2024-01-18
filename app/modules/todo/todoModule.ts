@@ -63,7 +63,7 @@ export const getRecommendedActivities = ( { healthStats, doneActivities, recomme
 	if ( recommendations.length === 0 ) {
 		return [];
 	}
-	return recommendations.filter( isActivityToRecommendByRules( healthStats, doneActivities ) ).map( ( activity, i ) => ( { name: activity.activityLabel, isRecommended: true, calculatedPriority: getPriority( healthStats, doneActivities )( activity ), priority: 9, deadline: null, id: i, created_at: new Date() } ) );
+	return recommendations.filter( isActivityToRecommendByRules( healthStats, doneActivities ) ).map( ( activity, i ) => ( { name: activity.activityLabel, isRecommended: true, calculatedPriority: getPriority( healthStats, doneActivities )( activity ), priority: 9, deadline: null, delayed_to: null, id: i, created_at: new Date() } ) );
 };
 
 interface IGetTodoArguments extends IGetRecommendedArguments{
