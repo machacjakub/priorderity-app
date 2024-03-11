@@ -12,7 +12,7 @@ export interface IPlannedActivity {
 	priority: number;
 	deadline: Date | null;
 	delayed_to: Date | null;
-	tags: string [];
+	tags?: string [];
 }
 
 export interface ITodoActivity extends IPlannedActivity {

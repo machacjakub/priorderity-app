@@ -54,7 +54,7 @@ export type IRules = {
 export interface IRecommendation {
 	activityType: string;
 	activityLabel: string;
-	tags: string[];
+	tags?: string[];
 	rules: IRules;
 }
 

@@ -7,7 +7,8 @@ export const mockRules: IRecommendation[] = [
 		rules: {
 			logicalOperator: "or",
 			conditions: [ { id: 0, comparisonOperator: "<", metric: 'physical_health', value: 60 }, { id: 0, comparisonOperator: "<", metric: 'mental_health', value: 40 } ],
-		}
+		},
+		tags: [],
 	},
 	{
 		activityType: "15-meditation",
@@ -15,6 +16,7 @@ export const mockRules: IRecommendation[] = [
 		rules: {
 			logicalOperator: "and",
 			conditions: [ { id: 0, comparisonOperator: "<", metric: 'mental_health', value: 70 } ],
-		}
+		},
+		tags: [],
 	}
 ];
