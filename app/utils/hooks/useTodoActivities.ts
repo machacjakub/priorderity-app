@@ -1,6 +1,4 @@
 import { IDoneActivity, IHealthStat, IPlannedActivity } from "@/app/types";
-
-
 import { IRecommendation } from "@/app/modules/profile/types";
 import { getTodoActivities } from "@/app/modules/todo/todoModule";
 import { experimental_useOptimistic as useOptimistic } from "react";
@@ -10,9 +8,9 @@ import {
 	IHandleUpdatePlannedActivityArguments
 } from "@/database/actions";
 
-type IAddPlannedActivityArguments = { name: string , priority: number, deadline: Date | null, delayed_to: Date | null };
+type IAddPlannedActivityArguments = { name: string , priority: number, deadline: Date | null, delayed_to: Date | null, tags: string[] };
 const useTodoActivities = ( { planned, healthStats, doneActivities, recommendations }: { planned: IPlannedActivity[], healthStats: IHealthStat[], doneActivities: IDoneActivity[], recommendations: IRecommendation[]} ) => {
-	const [ activities1, addOptimistic ] = useOptimistic<IPlannedActivity[], IAddPlannedActivityArguments>( planned, ( state: IPlannedActivity[], { name, priority, deadline, delayed_to }: IAddPlannedActivityArguments ) =>
+	const [ activities1, addOptimistic ] = useOptimistic<IPlannedActivity[], IAddPlannedActivityArguments>( planned, ( state: IPlannedActivity[], { name, priority, deadline, delayed_to, tags }: IAddPlannedActivityArguments ) =>
 		[
 			{
 				id: 0,
@@ -21,6 +19,7 @@ const useTodoActivities = ( { planned, healthStats, doneActivities, recommendati
 				deadline,
 				delayed_to,
 				created_at: new Date(),
+				tags,
 			},
 			...state,
 		] );

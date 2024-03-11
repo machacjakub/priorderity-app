@@ -6,13 +6,17 @@ import { XOutlined } from "@/icons";
 import { returnIfNotHigher } from "@/app/modules/utils";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import { TodoForm } from "@/app/modules/todo/TodoForm";
+import { ITag } from "@/app/modules/profile/types";
+import { useContext } from "react";
+import userDataContext from "@/app/modules/context/userDataContext";
 
 interface IOptionsProps {
 	onClose: () => void
 	onUpdate: IHandleUpdatePlannedActivity;
 	activity: ITodoActivity;
+	userTags: ITag[];
 }
-const Options = ( { onClose, onUpdate, activity }: IOptionsProps ) => {
+const Options = ( { onClose, onUpdate, activity, userTags }: IOptionsProps ) => {
 	const formDisplayed = useBoolean( false );
 	const handleClick = ( e: any ) => {
 		e.stopPropagation();
@@ -25,7 +29,7 @@ const Options = ( { onClose, onUpdate, activity }: IOptionsProps ) => {
 	};
 	return (
 		<>
-			{formDisplayed.value && <div className='w-screen h-screen top-0 z-30 fixed'><TodoForm onClose={formDisplayed.setFalse} isOpen={formDisplayed.value} onUpdate={onEdit} initialValue={activity}/></div>}
+			{formDisplayed.value && <div className='w-screen h-screen top-0 z-30 fixed'><TodoForm onClose={formDisplayed.setFalse} isOpen={formDisplayed.value} onUpdate={onEdit} initialValue={activity} userTags={userTags}/></div>}
 			<div className='fixed z-20 w-screen h-screen top-0 cursor-auto' onClick={onClose}/>
 			<div className='z-30 bg-background/70 p-1 border-t rounded-b-lg flex justify-around cursor-auto' onClick={handleClick}>
 				{!activity?.isRecommended && <div className='cursor-pointer' onClick={formDisplayed.setTrue}>Edit</div>}
@@ -40,6 +44,7 @@ interface ITodoItemProps {
 	onMarkAsDone: ( activity: ITodoActivity ) => void;
 }
 export const TodoItem = ( { activity, onDelete, onMarkAsDone, onUpdate }: ITodoItemProps ) => {
+	const userData = useContext( userDataContext );
 	const optionsDisplayed = useBoolean( false );
 	const handleItemClick = async () => {
 		await onMarkAsDone( activity );
@@ -73,7 +78,7 @@ export const TodoItem = ( { activity, onDelete, onMarkAsDone, onUpdate }: ITodoI
 					</button>
 				</div>
 			</div>
-			{optionsDisplayed.value && <Options onClose={optionsDisplayed.setFalse} onUpdate={onUpdate} activity={activity} />}
+			{optionsDisplayed.value && <Options onClose={optionsDisplayed.setFalse} onUpdate={onUpdate} activity={activity} userTags={userData?.tags?.map( tag => activity?.tags?.includes( tag.label ) ? { ...tag, selected: true } : { ...tag, selected: false } ) ?? []} />}
 		</div>
 	);
 };
