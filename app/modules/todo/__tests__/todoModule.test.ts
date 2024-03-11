@@ -3,7 +3,7 @@ import { IConditionToCompute, IDurationConditionDefinition, isDurationConditionT
 import { getConditionToCompute, getRecommendedActivities, isActivityToRecommendByRules, isConditionTrue } from "@/app/modules/todo/todoModule";
 
 const mockHealthStats: IHealthStat[] = [ { name: 'mental_health', label: 'Mental health', score: 60 }, { name: 'physical_health', label: 'Physical health', score: 40 }, ];
-const mockDoneActivities: IDoneActivity[] = [ { id: 0, type: 'walk', label: 'Walk', created_at: new Date( '2023/10/10' ) }, { id: 1, type: 'meditation', label: 'Meditation', created_at: new Date() } ];
+const mockDoneActivities: IDoneActivity[] = [ { id: 0, type: 'walk', label: 'Walk', created_at: new Date( '2024/02/10' ) }, { id: 1, type: 'meditation', label: 'Meditation', created_at: new Date() } ];
 const durationConditionMockWalk: IDurationConditionDefinition = { id: 0, comparisonOperator: '>', unit: 'h', activityType: 'walk', userDuration: 60 };
 describe( 'Todo module tests', () => {
 
@@ -85,6 +85,8 @@ describe( 'Todo module tests', () => {
 						logicalOperator: "or",
 						conditions: [ { id: 0, comparisonOperator: "<", metric: 'physical_health', value: 60 }, { id: 1, comparisonOperator: "<", metric: 'mental_health', value: 40 } ],
 					}
+					,
+					tags: [],
 				},
 				{
 					activityType: "15min_meditation",
@@ -93,6 +95,8 @@ describe( 'Todo module tests', () => {
 						logicalOperator: "and",
 						conditions: [ { id: 0, comparisonOperator: "<", metric: 'mental_health', value: 50 } ],
 					}
+					,
+					tags: [],
 				},
 				{
 					activityType: "meditation",
@@ -101,6 +105,8 @@ describe( 'Todo module tests', () => {
 						logicalOperator: "and",
 						conditions: [ { id: 0, comparisonOperator: ">", userDuration: 100, activityType: 'Meditation', unit: 'h' } ],
 					}
+					,
+					tags: [],
 				}
 			] } ) ).toEqual( [] );
 		} );

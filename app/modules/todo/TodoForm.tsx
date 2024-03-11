@@ -2,7 +2,7 @@ import { ModalWindow } from "@/app/modules/components/ModalWindow";
 import { FadingLine } from "@/app/modules/components/FadingLine";
 import { Switch } from "@/app/modules/components/Switch";
 import useBoolean from "@/app/utils/hooks/useBoolean";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { delay, returnIfNotLower } from "@/app/modules/utils";
 import { Button } from "@/app/modules/components/Button";
 import { ITodoActivity } from "@/app/types";
@@ -10,6 +10,8 @@ import { padNumber } from "@/app/modules/todo/utils";
 import {
 	IHandleAddPlannedActivity, IHandleUpdatePlannedActivity
 } from "@/database/actions";
+import { Tags } from "@/app/modules/todo/Tags";
+import { ITag } from "@/app/modules/profile/types";
 
 interface IProps {
 	onClose: () => void;
@@ -17,19 +19,22 @@ interface IProps {
 	onAdd?: IHandleAddPlannedActivity;
 	onUpdate?: IHandleUpdatePlannedActivity;
 	initialValue?: ITodoActivity;
+	userTags: ITag[];
+
 }
 
-export const TodoForm = ( { onClose, isOpen, onAdd, onUpdate, initialValue }: IProps ) => {
+export const TodoForm = ( { onClose, isOpen, onAdd, onUpdate, initialValue, userTags }: IProps ) => {
 	const deadlineDatePickerRef = useRef<HTMLInputElement | null>( null );
 	const delayDatePickerRef = useRef<HTMLInputElement | null>( null );
 	const hasDeadline = useBoolean( !!initialValue?.deadline );
 	const isDelayed = useBoolean( !!initialValue?.delayed_to );
+	const [ tags, setTags ] = useState( userTags );
 	const handleSubmit = async ( formData: FormData ) => {
 		const name = formData.get( "name" );
 		const priority = formData.get( "priority" );
 		const deadline = formData.get( "deadline" );
 		const delay = formData.get( "delayed_to" );
-		const payload = { name: String( name ), priority: returnIfNotLower( Number( priority ), 1 ), deadline: deadline ? new Date( String( deadline ) ) : null, delayed_to: delay ? new Date( String( delay ) ) : null };
+		const payload = { name: String( name ), priority: returnIfNotLower( Number( priority ), 1 ), deadline: deadline ? new Date( String( deadline ) ) : null, delayed_to: delay ? new Date( String( delay ) ) : null, tags: tags.filter( tag => tag.selected ).map( tag => tag.label ) };
 		if ( initialValue?.id && onUpdate ) {
 			await onUpdate( { ...payload, id: initialValue.id } );
 		}
@@ -126,6 +131,12 @@ export const TodoForm = ( { onClose, isOpen, onAdd, onUpdate, initialValue }: IP
 									ref={delayDatePickerRef}
 								/>
 							)}
+						</div>
+						<label className="p-2 text-right">
+							Tags:
+						</label>{" "}
+						<div className="col-span-2 flex px-1 py-2" >
+							<Tags tags={tags} onUpdate={( clicked: string ) => setTags( tags.map( tag => tag.label === clicked ? { ...tag, selected: !tag.selected } : tag ) )}/>
 						</div>
 					</div>
 					<div className="flex justify-end mt-4 gap-3">

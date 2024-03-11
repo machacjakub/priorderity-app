@@ -12,22 +12,24 @@ import { User } from "@supabase/gotrue-js";
 import { PredefinedActivitiesForm } from "@/app/settings/PredefinedActivitiesForm";
 import { IUserData } from "@/app/modules/profile/types";
 import { getPredefinedActivitiesAttributes } from "@/app/modules/attributes-stats/predefinedActivities";
-import { IHealthMetric } from "@/app/types";
-import { defaultMetrics } from "@/app/App";
 import { PageHeadingMobile } from "@/app/modules/components/mobile/PageHeadingMobile";
 import { RecommendationsForm } from "@/app/settings/recommendation/RecommendationsForm";
+import { TagsForm } from "@/app/settings/tags/TagsForm";
+import UserDataContext from "@/app/modules/context/userDataContext";
+import { IHealthMetric } from "@/app/types";
+import { defaultMetrics } from "@/app/App";
 
 interface IProps {
 	user: Nullable<User>;
     userData: Nullable<IUserData>;
 }
+
 export const SettingsPage = ( { userData, user }: IProps ) => {
 	const profileNavIsDisplayed = useBoolean( false );
 	const userMetrics: IHealthMetric[] = userData?.metrics ?? defaultMetrics;
 	const predefinedActivities = userData?.activities_stats ?? getPredefinedActivitiesAttributes();
-	const recommendationRules = userData?.recommendations ?? [];
 	return (
-		<div>
+		<UserDataContext.Provider value={userData && { ...userData, activities_stats: predefinedActivities, metrics: userMetrics }}>
 			<Responsive.Mobile>
 				{profileNavIsDisplayed.value && (
 					<MenuDrawer
@@ -53,11 +55,11 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 						<PageHeadingMobile>Settings</PageHeadingMobile>
 						<div className='my-12'>
 							<DashboardSectionHeadingMobile>Metrics</DashboardSectionHeadingMobile>
-							<MetricsForm userMetrics={userMetrics}/>
+							<MetricsForm/>
 							<DashboardSectionHeadingMobile>Predefined activities</DashboardSectionHeadingMobile>
-							<PredefinedActivitiesForm predefinedActivities={predefinedActivities} userMetrics={userMetrics}/>
+							<PredefinedActivitiesForm />
 							<DashboardSectionHeadingMobile>Recommendation</DashboardSectionHeadingMobile>
-							<RecommendationsForm recommendationRules={recommendationRules} userMetrics={userMetrics}/>
+							<RecommendationsForm />
 						</div>
 					</div>
 				</div>
@@ -78,18 +80,20 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 						<div className='grid grid-cols-2'>
 							<div>
 								<DashboardSectionHeading>Metrics</DashboardSectionHeading>
-								<MetricsForm userMetrics={userMetrics}/>
+								<MetricsForm />
 								<DashboardSectionHeading>Recommendation rules</DashboardSectionHeading>
-								<RecommendationsForm recommendationRules={recommendationRules} userMetrics={userMetrics}/>
+								<RecommendationsForm/>
 							</div>
 							<div>
+								<DashboardSectionHeading>Tags</DashboardSectionHeading>
+								<TagsForm />
 								<DashboardSectionHeading>Predefined activities</DashboardSectionHeading>
-								<PredefinedActivitiesForm predefinedActivities={predefinedActivities} userMetrics={userMetrics}/>
+								<PredefinedActivitiesForm />
 							</div>
 						</div>
 					</div>
 				</div>
 			</Responsive.Desktop>
-		</div>
+		</UserDataContext.Provider>
 	);
 };
