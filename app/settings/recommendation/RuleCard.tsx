@@ -3,7 +3,7 @@ import {
 	isConditionDefinitionType
 } from "@/app/modules/profile/types";
 import { IHealthMetric } from "@/app/types";
-import { Condition } from "@/app/settings/recommendation/Conditiion";
+import { Condition } from "@/app/settings/recommendation/Condition";
 
 export const RuleCard = ( { rules, userMetrics }: {rules: IRecommendation["rules"], userMetrics: IHealthMetric[],} ) => {
 	return (
