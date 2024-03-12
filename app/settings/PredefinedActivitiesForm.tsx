@@ -2,7 +2,7 @@ import { ArrowSmallUpOutlined, ClocksOutlined } from "@/icons";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import { IPredefinedActivity } from "@/app/modules/profile/types";
 import { IHealthMetric } from "@/app/types";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { SaveChangesButton } from "@/app/settings/SaveChangesButton";
 import { delay, labelToName } from "@/app/modules/utils";
 import { handleUpdatePredefinedActivities } from "@/database/actions";
@@ -10,6 +10,7 @@ import { EditButton } from "@/app/settings/EditButton";
 import { DoneButton } from "@/app/settings/DoneButton";
 import { DeleteButton } from "@/app/settings/DeleteButton";
 import { AddButton } from "@/app/settings/AddButton";
+import userDataContext from "@/app/modules/context/userDataContext";
 
 const getMetricLabel = ( userMetrics: IHealthMetric[], metricKey: string ) => userMetrics?.find( ( metric ) => metric.name === metricKey )?.label ?? metricKey;
 const MetricRuleTag = ( { metrics, label, metricKey }: { metrics: IPredefinedActivity["metrics"], label: string, metricKey: string} ) => {
@@ -23,7 +24,7 @@ const MetricRuleTag = ( { metrics, label, metricKey }: { metrics: IPredefinedAct
 		</div> );
 };
 
-interface IActivityFormFielProps {
+interface IActivityFormFieldProps {
 	activity: IPredefinedActivity ,
 	userMetrics: IHealthMetric[],
 	onDelete: ( activityType: string ) => void,
@@ -31,10 +32,11 @@ interface IActivityFormFielProps {
 	isEditing?: boolean;
 }
 
-const ActivityFormField = ( { activity, userMetrics, onDelete, onSave, isEditing } : IActivityFormFielProps ) => {
+const ActivityFormField = ( { activity, userMetrics, onDelete, onSave, isEditing } : IActivityFormFieldProps ) => {
 	const editing = useBoolean( isEditing );
 	const [ metrics, setMetrics ] = useState<IPredefinedActivity["metrics"]>( activity.metrics );
 	const [ label, setLabel ] = useState<string>( activity.label );
+
 	const handleSave = () => {
 		onSave( label, metrics );
 		editing.setFalse();
@@ -61,16 +63,20 @@ const ActivityFormField = ( { activity, userMetrics, onDelete, onSave, isEditing
 						</div> )}
 				</div>
 				:
-				<div className='flex gap-2 mt-2 flex flex-wrap'>
-					{Object.keys( metrics ).filter( ( metricRulesKey ) => metrics[metricRulesKey] !== null && userMetrics.find( metric => metric.name === metricRulesKey ) ).map( ( metricRules, i ) =>
-						<MetricRuleTag key={i} metrics={metrics} label={getMetricLabel( userMetrics, metricRules )} metricKey={metricRules}/> )}
-				</div>
+				<>
+					<div className='flex gap-2 mt-2 flex flex-wrap'>
+						{Object.keys( metrics ).filter( ( metricRulesKey ) => metrics[metricRulesKey] !== null && userMetrics.find( metric => metric.name === metricRulesKey ) ).map( ( metricRules, i ) =>
+							<MetricRuleTag key={i} metrics={metrics} label={getMetricLabel( userMetrics, metricRules )} metricKey={metricRules}/> )}
+					</div>
+				</>
 			}
 		</div>
 	);
 };
-export const PredefinedActivitiesForm = ( { predefinedActivities, userMetrics }: { predefinedActivities: IPredefinedActivity[], userMetrics: IHealthMetric[]} ) => {
-	const [ activities, setActivities ] = useState( predefinedActivities );
+export const PredefinedActivitiesForm = ( ) => {
+	const userData = useContext( userDataContext );
+	const userMetrics = userData?.metrics ?? [];
+	const [ activities, setActivities ] = useState( userData?.activities_stats ?? [] );
 	const addingNew = useBoolean( false );
 	const loading = useBoolean( false );
 	const done = useBoolean( false );
