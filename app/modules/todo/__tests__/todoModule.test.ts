@@ -6,6 +6,10 @@ const mockHealthStats: IHealthStat[] = [ { name: 'mental_health', label: 'Mental
 const mockDoneActivities: IDoneActivity[] = [ { id: 0, type: 'walk', label: 'Walk', created_at: new Date( '2024/02/10' ) }, { id: 1, type: 'meditation', label: 'Meditation', created_at: new Date() } ];
 const durationConditionMockWalk: IDurationConditionDefinition = { id: 0, comparisonOperator: '>', unit: 'h', activityType: 'walk', userDuration: 60 };
 describe( 'Todo module tests', () => {
+	beforeAll( () => {
+		jest.useFakeTimers( 'modern' );
+		jest.setSystemTime( new Date( '2024/03/11' ) );
+	} );
 
 	describe( 'isConditionTrue', () => {
 		it( 'should return false when falsy metric condition provided', () => {

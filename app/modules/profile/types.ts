@@ -66,6 +66,12 @@ export interface ITag {
 	selected?: boolean;
 }
 
+export interface IHabit {
+	label: string;
+	type: string;
+	daysToTrack: number[];
+}
+
 
 export const isConditionDefinitionType = ( input: IConditionDefinition | INestedRule ): input is IConditionDefinition => input.hasOwnProperty( 'comparisonOperator' );
 export const isMetricConditionDefinition = ( input: IConditionDefinition ): input is IMetricConditionDefinition => input.hasOwnProperty( 'metric' );
@@ -85,4 +91,5 @@ export interface IUserData {
 	activities_stats: Nullable<IPredefinedActivity[]>;
 	recommendations: Nullable<IRecommendation[]>;
 	tags: Nullable<ITag[]>
+	habits: IHabit[];
 }
