@@ -4,7 +4,7 @@ import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { IHealthMetric } from "@/app/types";
-import { IPredefinedActivity, IRecommendation, ITag } from "@/app/modules/profile/types";
+import { IHabit, IPredefinedActivity, IRecommendation, ITag } from "@/app/modules/profile/types";
 import { getLogger } from "@/app/modules/logger/logger";
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
 
@@ -71,7 +71,7 @@ export const handleUpdateTags = async ( tags: ITag[] ) => {
 	const user = await supabase.auth.getUser();
 	const result = await supabase.from( "profiles" ).update( { tags } ).eq( 'id', user?.data.user?.id );
 	revalidatePath( "/" );
-	logSupabaseResult( 'db - handleUpdateTags', result, 'Failed to update tags', 'Tags successfully updated' );
+	logSupabaseResult( 'db - handleUpdateTags', result, 'Tags successfully updated', 'Failed to update tags' );
 };
 
 export const handleUpdatePredefinedActivities = async ( activities: IPredefinedActivity[] ) => {
@@ -79,6 +79,13 @@ export const handleUpdatePredefinedActivities = async ( activities: IPredefinedA
 	const result = await supabase.from( "profiles" ).update( { activities_stats: activities } ).eq( 'id', user?.data.user?.id );
 	revalidatePath( "/" );
 	logSupabaseResult( 'db - handleUpdatePredefinedActivities', result,'PredefinedActivities successfully updated','Failed to update predefinedActivities' );
+};
+
+export const handleUpdateHabits = async ( activities: IHabit[] ) => {
+	const user = await supabase.auth.getUser();
+	const result = await supabase.from( "profiles" ).update( { habits: activities } ).eq( 'id', user?.data.user?.id );
+	revalidatePath( "/" );
+	logSupabaseResult( 'db - handleUpdatePredefinedActivities', result,'Habits successfully updated','Failed to update habits' );
 };
 
 export const handleUpdateRecommendations = async ( recommendations: IRecommendation[] ) => {

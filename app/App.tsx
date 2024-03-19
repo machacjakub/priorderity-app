@@ -25,6 +25,7 @@ import { labelToName } from "@/app/modules/utils";
 import DoneModuleContext from "@/app/modules/context/doneModuleContext";
 import useTodoActivities from "@/app/utils/hooks/useTodoActivities";
 import UserDataContext from "@/app/modules/context/userDataContext";
+import { HabitsSection } from "@/app/modules/habits/HabitsSection";
 
 interface IProps {
 	user: Nullable<User>;
@@ -89,6 +90,7 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 									<ActivitiesToAdd/>
 								</div>
 							</div>
+							<HabitsSection/>
 						</div>
 					</div>
 				</Responsive.Desktop>

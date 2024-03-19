@@ -1,8 +1,8 @@
-import { toReadableDate } from "@/app/utils/date";
+import { toReadableDateTime } from "@/app/utils/date";
 
 
 export const getLogger = ( module: string ) => {
-	const messageComposer = ( status: string, level: 'debug' | 'info' | 'warn' | 'error', message: string, detail?: string ) => `${toReadableDate( new Date )} | ${level} | ${module} | ${status} | ${message} ${detail && `| ${detail}`}`;
+	const messageComposer = ( status: string, level: 'debug' | 'info' | 'warn' | 'error', message: string, detail?: string ) => `${toReadableDateTime( new Date )} | ${level} | ${module} | ${status} | ${message} ${detail && `| ${detail}`}`;
 	return {
 		debug: ( status: string, message: string, detail?: string ) => console.debug( messageComposer( status, 'debug', message, detail ) ),
 		info: ( status: string, message: string, detail?: string ) => console.info( messageComposer( status, 'info', message, detail ) ),
