@@ -7,6 +7,7 @@ import { useContext, useState } from "react";
 import doneModuleContext from "@/app/modules/context/doneModuleContext";
 import { Tags } from "@/app/modules/todo/Tags";
 import { ITag } from "@/app/modules/profile/types";
+import { getActivitiesFilteredByTags } from "@/app/modules/todo/utils";
 
 interface IProps {
 	onFormOpen: () => void;
@@ -42,7 +43,7 @@ export const ActivitiesToDo = ( { onFormOpen, activities, onDelete, onUpdate, on
 			{tags.length > 0 && <div className='m-4'>
 				<Tags tags={tags} onUpdate={onTagsUpdate}/>
 			</div>}
-			<TodoList activities={activities.filter( a => a.tags?.every( tag => tags.filter( t => t.selected ).map( t => t.label ).includes( tag ) ) || !a.tags )} onDelete={onDelete} onUpdate={onUpdate} onMarkAsDone={onMarkAsDone}/>
+			<TodoList activities={getActivitiesFilteredByTags( activities, tags )} onDelete={onDelete} onUpdate={onUpdate} onMarkAsDone={onMarkAsDone}/>
 		</>
 	);
 };

@@ -16,3 +16,11 @@ export const toReadableDate = ( date: Date ) => {
 
 	return `${day}.${month}.${year}`;
 };
+
+export const getDayAtMidnight = ( date: Date ): Date => {
+	const day = ( `0${ date.getDate()}` ).slice( -2 );
+	const month = ( `0${ date.getMonth() + 1}` ).slice( -2 );
+	const year = date.getFullYear();
+
+	return new Date( `${year}/${month}/${day}` );
+};
