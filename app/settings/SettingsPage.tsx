@@ -61,6 +61,8 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 							<PredefinedActivitiesForm />
 							<DashboardSectionHeadingMobile>Recommendation</DashboardSectionHeadingMobile>
 							<RecommendationsForm />
+							<DashboardSectionHeadingMobile>Habits</DashboardSectionHeadingMobile>
+							<HabitsForm/>
 						</div>
 					</div>
 				</div>
