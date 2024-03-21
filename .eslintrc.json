@@ -20,7 +20,7 @@
     "keyword-spacing": ["error", { "before": true }],
     "arrow-spacing": ["error", { "before": true, "after": true }],
     "indent": ["error", "tab"],
-    "unused-imports/no-unused-imports": "error",
-    "unused-imports/no-unused-vars": ["warn", { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }]
+    "unused-imports/no-unused-imports": "error"
+//    "unused-imports/no-unused-vars": ["warn", { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }]
   }
 }

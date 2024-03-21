@@ -7,6 +7,7 @@ export interface IPredefinedActivity {
 	metrics: {
 		[key: string]: CategoryAttributes;
 	};
+	tags?: string[];
 }
 
 
@@ -53,8 +54,18 @@ export type IRules = {
 export interface IRecommendation {
 	activityType: string;
 	activityLabel: string;
+	tags?: string[];
 	rules: IRules;
 }
+
+type TagColor = 'yellow' | 'red' | 'green' | 'blue' | 'orange' | 'gray' | 'cyan' | 'pink' | 'purple' | 'lime';
+export interface ITag {
+	label: string;
+	color: TagColor;
+	hidden: boolean;
+	selected?: boolean;
+}
+
 
 export const isConditionDefinitionType = ( input: IConditionDefinition | INestedRule ): input is IConditionDefinition => input.hasOwnProperty( 'comparisonOperator' );
 export const isMetricConditionDefinition = ( input: IConditionDefinition ): input is IMetricConditionDefinition => input.hasOwnProperty( 'metric' );
@@ -73,4 +84,5 @@ export interface IUserData {
 	metrics: Nullable<IHealthMetric[]>;
 	activities_stats: Nullable<IPredefinedActivity[]>;
 	recommendations: Nullable<IRecommendation[]>;
+	tags: Nullable<ITag[]>
 }

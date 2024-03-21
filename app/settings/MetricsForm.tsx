@@ -1,6 +1,6 @@
 import { IHealthMetric } from "@/app/types";
 import useBoolean from "@/app/utils/hooks/useBoolean";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { handleUpdateMetrics } from "@/database/actions";
 import { EyeOutlined, EyeSlashOutlined } from "@/icons";
 import { SaveChangesButton } from "@/app/settings/SaveChangesButton";
@@ -9,6 +9,7 @@ import { DoneButton } from "@/app/settings/DoneButton";
 import { EditButton } from "@/app/settings/EditButton";
 import { DeleteButton } from "@/app/settings/DeleteButton";
 import { AddButton } from "@/app/settings/AddButton";
+import userDataContext from "@/app/modules/context/userDataContext";
 
 const MetricField = ( { metric, onUpdate, onDelete, index }: { metric: IHealthMetric; index: number; onUpdate: ( updatedLabel: string, index: number, hidden?: boolean ) => void, onDelete: ( index: number ) => void } ) => {
 	const [ label, setLabel ] = useState( metric.label );
@@ -34,7 +35,8 @@ const MetricField = ( { metric, onUpdate, onDelete, index }: { metric: IHealthMe
 			</div>
 		</div> );
 };
-export const MetricsForm = ( { userMetrics }: { userMetrics: IHealthMetric[] } ) => {
+export const MetricsForm = ( ) => {
+	const userMetrics = useContext( userDataContext )?.metrics ?? [];
 	const [ metrics, setMetrics ] = useState<IHealthMetric[]>( userMetrics );
 	const loading = useBoolean( false );
 	const done = useBoolean( false );
@@ -44,8 +46,7 @@ export const MetricsForm = ( { userMetrics }: { userMetrics: IHealthMetric[] } )
 	const deleteMetricField = ( index: number ) => setMetrics( metrics.filter( ( metric, i ) => index !== i ) );
 	const handleSave = async () => {
 		loading.setTrue();
-		const result = await handleUpdateMetrics( metrics );
-		console.log( result );
+		await handleUpdateMetrics( metrics );
 		loading.setFalse();
 		done.setTrue();
 		await delay( 4000 );
