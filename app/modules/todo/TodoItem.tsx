@@ -39,6 +39,34 @@ const Options = ( { onClose, onUpdate, activity, userTags }: IOptionsProps ) => 
 		</>
 	);
 };
+
+interface ICommonProps {
+	activity: ITodoActivity;
+	onDelete: ( id: number ) => void;
+}
+
+export const Common = ( { activity, onDelete }: ICommonProps ) => {
+	const handleDelete = async ( e: any ) => {
+		e.stopPropagation();
+		await onDelete( activity.id );
+	};
+
+	const priorityToDisplay = returnIfNotHigher( Math.ceil( activity.calculatedPriority ), 11 );
+	return (
+		<>
+			<span className="my-2 mx-2 w-7 text-center text-sm pt-0.5 text-transparent group-hover:text-foreground/70 group-hover:bg-foreground/10 rounded-full">
+				{priorityToDisplay}
+			</span>
+			<div className='flex justify-between w-full' >
+				<span className="my-2">{activity.name}</span>
+				<button className="pr-4 hover:text-foreground/60 sm:my-2 sm:mr-4 sm:pr-0" onClick={handleDelete}>
+					<XOutlined className={`w-5 ${activity.isRecommended && 'text-transparent'}`}/>
+				</button>
+			</div>
+		</>
+	);
+};
+
 interface ITodoItemProps {
 	activity: ITodoActivity;
 	onDelete: ( id: number ) => void;
@@ -83,15 +111,7 @@ export const TodoItem = ( { activity, onDelete, onMarkAsDone, onUpdate }: ITodoI
 						onClick={handleItemClick}
 						onContextMenu={activity.isRecommended ? () => null : handleItemRightClick}
 					>
-						<span className="my-2 mx-2 w-7 text-center text-sm pt-0.5 text-transparent group-hover:text-foreground/70 group-hover:bg-foreground/10 rounded-full">
-							{priorityToDisplay}
-						</span>
-						<div className='flex justify-between w-full' >
-							<span className="my-2">{activity.name}</span>
-							<button className="pr-4 hover:text-foreground/60 sm:my-2 sm:mr-4 sm:pr-0" onClick={handleDelete}>
-								<XOutlined className={`w-5 ${activity.isRecommended && 'text-transparent'}`}/>
-							</button>
-						</div>
+						<Common activity={activity} onDelete={onDelete}/>
 					</div>
 					{optionsDisplayed.value && <Options onClose={optionsDisplayed.setFalse} onUpdate={onUpdate} activity={activity} userTags={userData?.tags?.map( tag => activity?.tags?.includes( tag.label ) ? { ...tag, selected: true } : { ...tag, selected: false } ) ?? []} />}
 				</div>
@@ -105,15 +125,7 @@ export const TodoItem = ( { activity, onDelete, onMarkAsDone, onUpdate }: ITodoI
 						onTouchEnd={onTouchEnd}
 						onTouchMove={onTouchMove}
 					>
-						<span className="my-2 mx-2 w-7 text-center text-sm pt-0.5 text-transparent group-hover:text-foreground/70 group-hover:bg-foreground/10 rounded-full">
-							{priorityToDisplay}
-						</span>
-						<div className='flex justify-between w-full' >
-							<span className="my-2">{activity.name}</span>
-							<button className="pr-4 hover:text-foreground/60 sm:my-2 sm:mr-4 sm:pr-0" onClick={handleDelete}>
-								<XOutlined className={`w-5 ${activity.isRecommended && 'text-transparent'}`}/>
-							</button>
-						</div>
+						<Common activity={activity} onDelete={onDelete}/>
 					</div>
 					{optionsDisplayed.value && <Options onClose={optionsDisplayed.setFalse} onUpdate={onUpdate} activity={activity} userTags={userData?.tags?.map( tag => activity?.tags?.includes( tag.label ) ? { ...tag, selected: true } : { ...tag, selected: false } ) ?? []} />}
 				</div>
