@@ -108,7 +108,7 @@ export const TodoForm = ( { onClose, isOpen, onAdd, onUpdate, initialValue, user
 							{ hasDeadline.value && (
 								<input
 									className="ml-5 w-32 px-1 text-black/80"
-									defaultValue={`${new Date( initialValue?.deadline ?? '' ).getFullYear()}-${new Date( initialValue?.deadline ?? '' ).getMonth() + 1}-${padNumber( new Date( initialValue?.deadline ?? '' ).getDate() )}`}
+									defaultValue={`${new Date( initialValue?.deadline ?? '' ).getFullYear()}-${ padNumber( new Date( initialValue?.deadline ?? '' ).getMonth() + 1 )}-${padNumber( new Date( initialValue?.deadline ?? '' ).getDate() )}`}
 									type="date"
 									name="deadline"
 									ref={deadlineDatePickerRef}

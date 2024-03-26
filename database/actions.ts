@@ -27,6 +27,16 @@ export const handleAddDoneActivity = async ( activity: { label: string; type: st
 	logSupabaseResult( 'db - handleAddDoneActivity', result,'New doneActivity successfully added','Failed to add doneActivity',JSON.stringify( activity ) );
 };
 
+export const handleUpdateDoneActivity = async ( { id, created_at }: {id: number, created_at: Date} ) => {
+	const { data: { user } } = await supabase.auth.getUser();
+	const result = await supabase
+		.from( "done-activities" )
+		.update( { created_at } )
+		.eq( 'id', id );
+	revalidatePath( "/" );
+	logSupabaseResult( 'db - handleUpdateDoneActivity', result,'DoneActivity successfully updated','Failed to update doneActivity',`activityId: ${id}` );
+};
+
 export const handleDeleteDoneActivity = async ( activityId: number ) => {
 	const result = await supabase.from( "done-activities" ).delete().eq( "id", activityId );
 	revalidatePath( "/" );
