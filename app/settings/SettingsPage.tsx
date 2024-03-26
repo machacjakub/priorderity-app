@@ -9,7 +9,7 @@ import { DashboardSectionHeading } from "@/app/modules/components/DashboardSecti
 import { DashboardSectionHeadingMobile } from "@/app/modules/components/mobile/DashboardSectionHeadingMobile";
 import { MetricsForm } from "@/app/settings/MetricsForm";
 import { User } from "@supabase/gotrue-js";
-import { PredefinedActivitiesForm } from "@/app/settings/PredefinedActivitiesForm";
+import { PredefinedActivitiesForm } from "@/app/settings/predefinedActivities/PredefinedActivitiesForm";
 import { IUserData } from "@/app/modules/profile/types";
 import { getPredefinedActivitiesAttributes } from "@/app/modules/attributes-stats/predefinedActivities";
 import { PageHeadingMobile } from "@/app/modules/components/mobile/PageHeadingMobile";
@@ -18,6 +18,7 @@ import { TagsForm } from "@/app/settings/tags/TagsForm";
 import UserDataContext from "@/app/modules/context/userDataContext";
 import { IHealthMetric } from "@/app/types";
 import { defaultMetrics } from "@/app/App";
+import { HabitsForm } from "@/app/settings/habits/HabitsForm";
 
 interface IProps {
 	user: Nullable<User>;
@@ -60,6 +61,8 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 							<PredefinedActivitiesForm />
 							<DashboardSectionHeadingMobile>Recommendation</DashboardSectionHeadingMobile>
 							<RecommendationsForm />
+							<DashboardSectionHeadingMobile>Habits</DashboardSectionHeadingMobile>
+							<HabitsForm/>
 						</div>
 					</div>
 				</div>
@@ -83,6 +86,8 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 								<MetricsForm />
 								<DashboardSectionHeading>Recommendation rules</DashboardSectionHeading>
 								<RecommendationsForm/>
+								<DashboardSectionHeading>Habits</DashboardSectionHeading>
+								<HabitsForm/>
 							</div>
 							<div>
 								<DashboardSectionHeading>Tags</DashboardSectionHeading>

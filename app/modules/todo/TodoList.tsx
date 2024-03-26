@@ -38,7 +38,7 @@ export const TodoList = ( { activities, onDelete, onUpdate, onMarkAsDone }: IPro
 		);
 	}
 
-	return <div className="m-2 mb-20 text-foreground">
+	return <div className="m-2 mb-4 text-foreground">
 		{activities.filter( isTodoActivity ).map( activity =>
 			<TodoItem onUpdate={onUpdate} activity={activity} key={activity.id} onDelete={onDelete} onMarkAsDone={onMarkAsDone} /> )}
 	</div>;

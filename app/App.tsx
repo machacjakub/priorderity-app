@@ -25,6 +25,8 @@ import { labelToName } from "@/app/modules/utils";
 import DoneModuleContext from "@/app/modules/context/doneModuleContext";
 import useTodoActivities from "@/app/utils/hooks/useTodoActivities";
 import UserDataContext from "@/app/modules/context/userDataContext";
+import { HabitsSection } from "@/app/modules/habits/HabitsSection";
+import { HabitsSectionMobile } from "@/app/modules/habits/HabitsSectionMobile";
 
 interface IProps {
 	user: Nullable<User>;
@@ -58,8 +60,9 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 						{todoFormDisplayed.value && <TodoForm onClose={todoFormDisplayed.setFalse} isOpen={todoFormDisplayed.value} onAdd={addPlannedActivity} userTags={userTags.map( tag => ( { ...tag, selected: false } ) )}/> }
 						<div className="mt-16 h-full w-screen">
 							<HealthBarsMobile />
-							<ActivitiesToDoMobile onUpdate={updatePlannedActivity} activities={todoActivities} onDelete={deletePlannedActivity} onMarkAsDone={handleMarkTodoActivityAsDone}/>
+							<ActivitiesToDoMobile onUpdate={updatePlannedActivity} activities={todoActivities} onDelete={deletePlannedActivity} onMarkAsDone={handleMarkTodoActivityAsDone} userTags={userTags}/>
 							<ActivitiesToAddMobile/>
+							<HabitsSectionMobile/>
 							<DoneActivitiesHistoryMobile />
 							<BottomBarButton onClick={todoFormDisplayed.setTrue} icon={<PlusOutlined />}/>
 							<div className='mb-20'/>
@@ -89,6 +92,7 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 									<ActivitiesToAdd/>
 								</div>
 							</div>
+							<HabitsSection/>
 						</div>
 					</div>
 				</Responsive.Desktop>

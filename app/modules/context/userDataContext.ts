@@ -15,6 +15,7 @@ const defaultValue: Nullable<IUserData> = {
 	activities_stats: [],
 	recommendations: [],
 	tags: [],
+	habits: []
 };
 const userDataContext = createContext<Nullable<IUserData>>( defaultValue );
 
