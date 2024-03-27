@@ -12,6 +12,7 @@ import {
 } from "@/database/actions";
 import { Tags } from "@/app/modules/todo/Tags";
 import { ITag } from "@/app/modules/profile/types";
+import { getDateInput } from "@/app/utils/date";
 
 interface IProps {
 	onClose: () => void;
@@ -104,11 +105,11 @@ export const TodoForm = ( { onClose, isOpen, onAdd, onUpdate, initialValue, user
 						<div className="col-span-2 flex p-1">
 							<div className="mt-1.5">
 								<Switch value={hasDeadline.value} size="tiny" onToggle={onDeadlineToggle}/>
-							</div>{" "}
+							</div>
 							{ hasDeadline.value && (
 								<input
 									className="ml-5 w-32 px-1 text-black/80"
-									defaultValue={`${new Date( initialValue?.deadline ?? '' ).getFullYear()}-${ padNumber( new Date( initialValue?.deadline ?? '' ).getMonth() + 1 )}-${padNumber( new Date( initialValue?.deadline ?? '' ).getDate() )}`}
+									defaultValue={getDateInput( initialValue?.deadline ?? new Date() )}
 									type="date"
 									name="deadline"
 									ref={deadlineDatePickerRef}

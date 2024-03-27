@@ -3,13 +3,14 @@ import { Button } from "@/app/modules/components/Button";
 import { ModalWindow } from "@/app/modules/components/ModalWindow";
 import { IDoneActivity } from "@/app/types";
 import { handleUpdateDoneActivity } from "@/database/actions";
-import { padNumber } from "@/app/modules/todo/utils";
+import { getDateTimeInput } from "@/app/utils/date";
 
 interface IProps {
     onClose: () => void;
     isOpen: boolean;
     activity: IDoneActivity;
 }
+
 export const EditDoneDateForm = ( { onClose, isOpen, activity }: IProps ) => {
 	const handleSubmit = async ( formData: FormData ) => {
 		const doneDate = formData.get( "done_date" );
@@ -33,8 +34,8 @@ export const EditDoneDateForm = ( { onClose, isOpen, activity }: IProps ) => {
 						</label>
 						<div className="col-span-2 flex p-1">
 							<input
-								className="ml-5 w-32 px-1 text-black/80"
-								defaultValue={`${new Date( activity.created_at ).getFullYear()}-${padNumber( new Date( activity.created_at ).getMonth() + 1 )}-${padNumber( new Date( activity.created_at ).getDate() )}`}
+								className="ml-5 w-48 px-1 text-black/80"
+								defaultValue={getDateTimeInput( activity.created_at )}
 								type="datetime-local"
 								name="done_date"
 							/>
