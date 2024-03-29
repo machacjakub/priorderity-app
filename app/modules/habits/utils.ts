@@ -3,7 +3,7 @@ import { IDoneActivity } from "@/app/types";
 import { getDayAtMidnight, toReadableDate } from "@/app/utils/date";
 
 export const getStreak = ( habit: IHabit, doneActivities: IDoneActivity[], withToday?: boolean ) => {
-	const filtered = doneActivities.filter( a => a.type === habit.type );
+	const filtered = doneActivities.filter( a => habit.activityTypes.includes( a.type ) );
 	const arrayOfDates = filtered.map( a => new Date( a.created_at ) ).sort( ( a, b ) => b.getTime() - a.getTime() );
 	if ( withToday ) {
 		return countConsecutiveDatesFromToday( [ new Date() ,...arrayOfDates ] );

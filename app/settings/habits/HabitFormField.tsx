@@ -4,24 +4,29 @@ import { IHabit } from "@/app/modules/profile/types";
 import { DoneButton } from "@/app/settings/DoneButton";
 import { EditButton } from "@/app/settings/EditButton";
 import { DeleteButton } from "@/app/settings/DeleteButton";
+import { ActivityToTrackAsHabit } from "@/app/settings/habits/ActivityToTrackAsHabit";
+import { PredefinedActivitySelect } from "@/app/settings/habits/PredefinedActivitySelect";
+import { PlusButton } from "@/app/settings/PlusButton";
 
 interface IActivityFormFieldProps {
-    activity: IHabit,
+    habit: IHabit,
     onDelete: ( activityType: string ) => void,
-    onSave: ( label: string, daysToTrack: number[] ) => void
+    onSave: ( label: string, activityTypes: string[] ) => void
     isEditing?: boolean;
 }
-export const HabitFormField = ( { activity, onDelete, onSave, isEditing } : IActivityFormFieldProps ) => {
+export const HabitFormField = ( { habit, onDelete, onSave, isEditing } : IActivityFormFieldProps ) => {
 	const editing = useBoolean( isEditing );
-	const [ label, setLabel ] = useState<string>( activity.label );
-	const [ daysToTrack, setDaysToTrack ] = useState<number[]>( activity.daysToTrack );
+	const [ label, setLabel ] = useState<string>( habit.label );
+	const [ activityTypes, setActivityTypes ] = useState<string[]>( habit.activityTypes ?? [] );
+	// const [ daysToTrack, setDaysToTrack ] = useState<number[]>( activity.daysToTrack );
 
-	const handleSave = () => {
-		onSave( label, daysToTrack );
+	const handleSave = async () => {
+		const newActivityTypes = Array.from( new Set( activityTypes ) ).filter( type => type !== '-' );
+		await onSave( label, newActivityTypes ) ;
+		setActivityTypes( newActivityTypes );
 		editing.setFalse();
 	};
 
-	const arrayItemToggle = ( item: any, array: any[] ) => array.includes( item ) ? array.filter( x => x !== item ) : [ ...array, item ];
 	return (
 		<div className='border-2 p-2 pl-4 rounded-xl my-2'>
 			<div className='flex justify-between'>
@@ -30,9 +35,14 @@ export const HabitFormField = ( { activity, onDelete, onSave, isEditing } : IAct
 					{editing.value
 						? <DoneButton onClick={handleSave} />
 						: <EditButton onClick={editing.setTrue} />}
-					<DeleteButton onClick={() => onDelete( activity.type )} />
+					<DeleteButton onClick={() => onDelete( habit.type )} />
 				</div>
 			</div>
+			{editing.value
+				? <div className='flex flex-col gap-2 m-2'>{activityTypes?.map( ( a, index1 ) => <PredefinedActivitySelect key={`${index1}-${a}`} value={a} onChange={( event ) => setActivityTypes( activityTypes.map( ( type, index2 ) => ( type === a && index1 === index2 ? event.target.value : type ) ) )}/> )}</div>
+				: <div>{activityTypes.filter( type => type !== '-' ).map( a => <ActivityToTrackAsHabit key={a} activityType={a}/> )}</div>
+			}
+			{editing.value && <PlusButton onClick={() => setActivityTypes( [ ...activityTypes, '-' ] )} label={'Add activity'}/>}
 			{/*TODO add when ready*/}
 			{/*{editing.value*/}
 			{/*	?*/}
