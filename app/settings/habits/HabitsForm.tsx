@@ -14,11 +14,11 @@ export const HabitsForm = ( ) => {
 	const loading = useBoolean( false );
 	const done = useBoolean( false );
 	const handleActivityDelete = ( activityType: string ) => setActivities( activities.filter( activity => activity.type !== activityType ) );
-	const handleActivityUpdate = ( activityType: string ) => ( label: string, daysToTrack: number[] ) => {
-		setActivities( activities.map( ( activity ) => activity.type === activityType ? ( { ...activity, label, daysToTrack, type: labelToName( label ) } ) : activity ) );
+	const handleActivityUpdate = ( activityType: string ) => ( label: string, activityTypes: string[] ) => {
+		setActivities( activities.map( ( activity ) => activity.type === activityType ? ( { ...activity, label, daysToTrack: [], type: labelToName( label ), activityTypes } ) : activity ) );
 	};
-	const handleAddNewActivity = ( label: string, daysToTrack: number[] ) => {
-		setActivities( [ ...activities, { type: labelToName( label ), label, daysToTrack } ] );
+	const handleAddNewActivity = ( label: string, activityTypes: string[] ) => {
+		setActivities( [ ...activities, { type: labelToName( label ), label, activityTypes, daysToTrack: [] } ] );
 		addingNew.setFalse();
 	};
 
@@ -32,9 +32,9 @@ export const HabitsForm = ( ) => {
 	};
 	return (
 		<div className='text-foreground px-4 mb-2'>
-			{activities.map( ( activity, i ) => <HabitFormField key={`${i}-${activity.type}`} activity={activity} onDelete={handleActivityDelete} onSave={handleActivityUpdate( activity.type )} /> )}
+			{activities.map( ( activity, i ) => <HabitFormField key={`${i}-${activity.type}`} habit={activity} onDelete={handleActivityDelete} onSave={handleActivityUpdate( activity.type )} /> )}
 			{addingNew.value
-				? <HabitFormField onDelete={addingNew.setFalse} onSave={handleAddNewActivity} activity={{ label: '', type: '', daysToTrack:[ 0, 1, 2, 3, 4, 5, 6 ] }} isEditing={true} />
+				? <HabitFormField onDelete={addingNew.setFalse} onSave={handleAddNewActivity} habit={{ label: '', type: '', daysToTrack:[ 0, 1, 2, 3, 4, 5, 6 ], activityTypes: [] }} isEditing={true} />
 				: <div className='text-center'>
 					<AddButton onClick={addingNew.setTrue}/>
 				</div>
