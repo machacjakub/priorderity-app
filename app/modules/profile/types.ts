@@ -69,6 +69,7 @@ export interface ITag {
 export interface IHabit {
 	label: string;
 	type: string;
+	activityTypes: string[];
 	daysToTrack: number[];
 }
 
