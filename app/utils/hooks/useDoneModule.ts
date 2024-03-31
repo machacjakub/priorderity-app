@@ -1,7 +1,7 @@
 import { experimental_useOptimistic as useOptimistic } from "react";
 import { IDoneActivity, IHealthMetric } from "@/app/types";
 import { IDoneActivitiesModule } from "@/app/modules/context/doneModuleContext";
-import { handleAddDoneActivity, handleDeleteDoneActivity } from "@/database/actions";
+import { handleAddDoneActivity, handleDeleteDoneActivity, IAddDoneActivityArguments } from "@/database/actions";
 import { defaultMetrics } from "@/app/App";
 import { getPredefinedActivitiesAttributes } from "@/app/modules/attributes-stats/predefinedActivities";
 import { getHealthStats, isNotHidden } from "@/app/modules/health-bars/utils";
@@ -12,14 +12,14 @@ const useDoneModule = ( initial: IDoneActivity[], userData: Nullable<IUserData> 
 	const userMetrics: IHealthMetric[] = userData?.metrics ?? defaultMetrics;
 	const predefinedActivities = userData?.activities_stats ?? getPredefinedActivitiesAttributes();
 	const [ activities1, optimisticAdd ] = useOptimistic<IDoneActivity[], {label: string , type: string}>(
-		initial, ( state: IDoneActivity[], { label, type }: {label: string , type: string} ) => [ {
-			id: state[0]?.id + 1, type, label, created_at: new Date()
+		initial, ( state: IDoneActivity[], { label, type, stats }: IAddDoneActivityArguments ) => [ {
+			id: state[0]?.id + 1, type, label, stats, created_at: new Date()
 		}, ...state, ]
 	);
 	const [ doneActivities, optimisticDelete ] = useOptimistic<IDoneActivity[], number>( activities1, ( state: IDoneActivity[], deleted: number ) => {
 		return state.filter( ( x ) => x.id !== deleted );
 	} );
-	const addDoneActivity = async ( newDoneActivity: { label: string; type: string; } ) => {
+	const addDoneActivity = async ( newDoneActivity: IAddDoneActivityArguments ) => {
 		optimisticAdd( newDoneActivity );
 		await handleAddDoneActivity( newDoneActivity );
 	};

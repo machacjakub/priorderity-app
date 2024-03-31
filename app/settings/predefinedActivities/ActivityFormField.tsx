@@ -6,6 +6,7 @@ import { EditButton } from "@/app/settings/EditButton";
 import { DeleteButton } from "@/app/settings/DeleteButton";
 import { ArrowSmallUpOutlined, ClocksOutlined } from "@/icons";
 import { IHealthMetric } from "@/app/types";
+import { PredefinedStatsForm } from "@/app/settings/predefinedActivities/PredefinedStatsForm";
 
 const getMetricLabel = ( userMetrics: IHealthMetric[], metricKey: string ) => userMetrics?.find( ( metric ) => metric.name === metricKey )?.label ?? metricKey;
 const MetricRuleTag = ( { metrics, label, metricKey }: { metrics: IPredefinedActivity["metrics"], label: string, metricKey: string} ) => {
@@ -49,12 +50,7 @@ export const ActivityFormField = ( { activity, userMetrics, onDelete, onSave, is
 			{editing.value
 				?
 				<div className='mt-2'>
-					{userMetrics.map( ( metric,i ) =>
-						<div key={i} className='text-sm grid grid-cols-4 my-1'>
-							<div className='col-span-2'>{metric.label}</div>
-							<div className='flex'><ArrowSmallUpOutlined className='w-4 mx-1'/><input type='number' className='w-12 text-black pl-1' onChange={( e ) => setMetrics( { ...metrics, [metric.name]: { points: Number( e.target.value ), duration: metrics[metric.name]?.duration ?? 0 } } )} defaultValue={metrics[metric.name]?.points}/></div>
-							<div className='flex'><ClocksOutlined className='w-4 mx-1'/><input type='number' className='w-12 text-black pl-1' onChange={( e ) => setMetrics( { ...metrics, [metric.name]: { duration: Number( e.target.value ), points: metrics[metric.name]?.points ?? 0 } } )} defaultValue={metrics[metric.name]?.duration}/></div>
-						</div> )}
+					<PredefinedStatsForm userMetrics={userMetrics} metrics={metrics} onChange={setMetrics}/>
 				</div>
 				:
 				<>

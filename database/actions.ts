@@ -18,17 +18,18 @@ const logSupabaseResult = ( module: string, result: PostgrestSingleResponse<null
 		log.info( result.statusText, successMessage, detail );
 	}
 };
-export const handleAddDoneActivity = async ( activity: { label: string; type: string; } ) => {
+
+export interface IAddDoneActivityArguments { label: string; type: string; stats?: IPredefinedActivity['metrics'] }
+export const handleAddDoneActivity = async ( { label, type, stats }: IAddDoneActivityArguments ) => {
 	const { data: { user } } = await supabase.auth.getUser();
 	const result = await supabase
 		.from( "done-activities" )
-		.insert( { type: activity.type, label: activity.label, user_id: user?.id } );
+		.insert( { type, label, stats, user_id: user?.id } );
 	revalidatePath( "/" );
-	logSupabaseResult( 'db - handleAddDoneActivity', result,'New doneActivity successfully added','Failed to add doneActivity',JSON.stringify( activity ) );
+	logSupabaseResult( 'db - handleAddDoneActivity', result,'New doneActivity successfully added','Failed to add doneActivity',JSON.stringify( { label, type, stats } ) );
 };
 
 export const handleUpdateDoneActivity = async ( { id, created_at }: {id: number, created_at: Date} ) => {
-	const { data: { user } } = await supabase.auth.getUser();
 	const result = await supabase
 		.from( "done-activities" )
 		.update( { created_at } )
@@ -43,13 +44,13 @@ export const handleDeleteDoneActivity = async ( activityId: number ) => {
 	logSupabaseResult( 'db - handleDeleteDoneActivity', result,'DoneActivity successfully deleted','Failed to delete doneActivity', `activityId: ${activityId}` );
 };
 
-export interface IHandleAddPlannedActivityArguments { name: string; priority: number; deadline: Date | null; delayed_to: Date | null; tags: string[] }
-export type IHandleAddPlannedActivity = ( { name, priority, deadline, delayed_to, tags }: IHandleAddPlannedActivityArguments ) => void;
-export const handleAddPlannedActivity = async ( { name, priority, deadline, delayed_to, tags }: { name: string; priority: number; deadline: Date | null; delayed_to: Date | null; tags: string[] } ) => {
+export interface IHandleAddPlannedActivityArguments { name: string; priority: number; deadline: Date | null; delayed_to: Date | null; tags: string[], stats: IPredefinedActivity['metrics'] }
+export type IHandleAddPlannedActivity = ( { name, priority, deadline, delayed_to, tags, stats }: IHandleAddPlannedActivityArguments ) => void;
+export const handleAddPlannedActivity = async ( { name, priority, deadline, delayed_to, tags, stats }: IHandleAddPlannedActivityArguments ) => {
 	const { data: { user }, } = await supabase.auth.getUser();
 	const result = await supabase
 		.from( "planned" )
-		.insert( { name, priority, deadline, delayed_to, tags, user_id: user?.id } );
+		.insert( { name, priority, deadline, delayed_to, tags, stats, user_id: user?.id } );
 	revalidatePath( "/" );
 	logSupabaseResult( 'db - handleAddPlannedActivity', result, 'PlannedActivity successfully created','Failed to create plannedActivity', JSON.stringify( { name, priority, deadline, delayed_to, tags } ) );
 };
@@ -60,12 +61,12 @@ export const handleDeletePlannedActivity = async ( activityId: number ) => {
 	logSupabaseResult( 'db - handleDeletePlannedActivity', result,'PlannedActivity successfully deleted', 'Failed to delete plannedActivity',`activityId: ${activityId}` );
 };
 
-export interface IHandleUpdatePlannedActivityArguments { id: number, name: string; priority: number; deadline: Date | null; delayed_to: Date | null; tags: string[] }
-export type IHandleUpdatePlannedActivity = ( { id, name, priority, deadline, delayed_to, tags }: IHandleUpdatePlannedActivityArguments ) => void;
-export const handleUpdatePlannedActivity = async ( { id, name, priority, deadline, delayed_to, tags }: IHandleUpdatePlannedActivityArguments ) => {
+export interface IHandleUpdatePlannedActivityArguments { id: number, name: string; priority: number; deadline: Date | null; delayed_to: Date | null; tags: string[], stats: IPredefinedActivity['metrics'] }
+export type IHandleUpdatePlannedActivity = ( { id, name, priority, deadline, delayed_to, tags, stats }: IHandleUpdatePlannedActivityArguments ) => void;
+export const handleUpdatePlannedActivity = async ( { id, name, priority, deadline, delayed_to, tags, stats }: IHandleUpdatePlannedActivityArguments ) => {
 	const result = await supabase
 		.from( "planned" )
-		.update( { name, priority, deadline, delayed_to, tags } )
+		.update( { name, priority, deadline, delayed_to, tags, stats } )
 		.eq( 'id', id );
 	revalidatePath( "/" );
 	logSupabaseResult( 'db - handleUpdatePlannedActivity', result, 'PlannedActivity successfully updated','Failed to update plannedActivity',JSON.stringify( { name, priority, deadline, delayed_to, tags } ) );
