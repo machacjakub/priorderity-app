@@ -20,7 +20,6 @@ import { BottomBarButton } from "@/app/modules/components/mobile/BottomBarButton
 import { HealthBars } from "@/app/modules/health-bars/HealthBars";
 import { PlusOutlined } from "@/icons";
 import { IUserData } from "@/app/modules/profile/types";
-import { DashboardSectionHeading } from "@/app/modules/components/DashboardSectionHeading";
 import { labelToName } from "@/app/modules/utils";
 import DoneModuleContext from "@/app/modules/context/doneModuleContext";
 import useTodoActivities from "@/app/utils/hooks/useTodoActivities";
@@ -83,9 +82,6 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 									<HealthBars/>
 								</div>
 								<div className="top row-span-3 mt-16 overflow-auto bg-background">
-									<DashboardSectionHeading>
-									History
-									</DashboardSectionHeading>
 									<DoneActivitiesHistory/>
 								</div>
 								<div className="col-span-2 row-span-2 mt-16 overflow-auto bg-background">
