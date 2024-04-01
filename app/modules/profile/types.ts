@@ -7,7 +7,6 @@ export interface IPredefinedActivity {
 	metrics: {
 		[key: string]: CategoryAttributes;
 	};
-	tags?: string[];
 }
 
 
