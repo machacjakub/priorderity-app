@@ -107,11 +107,11 @@ export const TodoItem = ( { activity, onDelete, onMarkAsDone, onUpdate }: ITodoI
 			<Responsive.Desktop>
 				<div className={`group m-2 flex flex-col rounded-lg border-l-8 border-l-priority-${priorityToDisplay} bg-gradient-to-r from-gray-500/10 to-blue-400/30 cursor-pointer hover:bg-gray-500/20`}>
 					<div
-						className='flex '
+						className='flex'
 						onClick={handleItemClick}
 						onContextMenu={activity.isRecommended ? () => null : handleItemRightClick}
 					>
-						<Common activity={activity} onDelete={onDelete}/>
+						<Common activity={activity} onDelete={handleDelete}/>
 					</div>
 					{optionsDisplayed.value && <Options onClose={optionsDisplayed.setFalse} onUpdate={onUpdate} activity={activity} userTags={userData?.tags?.map( tag => activity?.tags?.includes( tag.label ) ? { ...tag, selected: true } : { ...tag, selected: false } ) ?? []} />}
 				</div>
@@ -125,7 +125,7 @@ export const TodoItem = ( { activity, onDelete, onMarkAsDone, onUpdate }: ITodoI
 						onTouchEnd={onTouchEnd}
 						onTouchMove={onTouchMove}
 					>
-						<Common activity={activity} onDelete={onDelete}/>
+						<Common activity={activity} onDelete={handleDelete}/>
 					</div>
 					{optionsDisplayed.value && <Options onClose={optionsDisplayed.setFalse} onUpdate={onUpdate} activity={activity} userTags={userData?.tags?.map( tag => activity?.tags?.includes( tag.label ) ? { ...tag, selected: true } : { ...tag, selected: false } ) ?? []} />}
 				</div>
