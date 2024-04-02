@@ -17,9 +17,9 @@ const getSingleStatPoints = (
 	return points >= 0 ? points : 0;
 };
 
-const getStatsPoints = ( rules: IPredefinedActivity, hours: number, userStats: IHealthMetric[] ): IHealthStat[] => {
-	const getRules = ( name: string ) => rules.metrics[name];
-	return userStats.map( stat => ( { ...stat, score: getSingleStatPoints( getRules( stat.name ), hours ) } ) );
+const getStatsPoints = ( rules: IPredefinedActivity, hours: number, userMetrics: IHealthMetric[] ): IHealthStat[] => {
+	const getRules = ( name: string ) => rules.metrics[ name ];
+	return userMetrics.map( metric => ( { ...metric, score: getSingleStatPoints( getRules( metric.name ), hours ) } ) );
 };
 
 const getCurrentStats = (
@@ -32,13 +32,17 @@ const getCurrentStats = (
 			new Date( activity.created_at ).getTime() ) /
 			3600000,
 	);
-	const thisActivityRules: IPredefinedActivity | undefined = activitiesRules.find(
+	const thisActivityAssignedRules: IPredefinedActivity | undefined = !!activity.stats ? { metrics: activity.stats ?? {}, type: activity.type, label: activity.label } : undefined;
+	if ( thisActivityAssignedRules ) {
+		return getStatsPoints( thisActivityAssignedRules, lengthInHours, userMetrics );
+	}
+	const thisActivityPredefinedRules: IPredefinedActivity | undefined = activitiesRules.find(
 		( currentActivity ) => currentActivity.type === activity.type,
 	);
-	if ( thisActivityRules === undefined ) {
+	if ( thisActivityPredefinedRules === undefined ) {
 		return;
 	}
-	return getStatsPoints( thisActivityRules, lengthInHours, userMetrics );
+	return getStatsPoints( thisActivityPredefinedRules, lengthInHours, userMetrics );
 };
 
 export const isNotHidden = ( metric: IHealthMetric ): boolean => !metric.hidden;

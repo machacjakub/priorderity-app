@@ -44,7 +44,7 @@ export const App = ( { user, done, planned, userData }: IProps ) => {
 	const userTags = userData?.tags?.filter( t => !t.hidden ) ?? [];
 
 	const handleMarkTodoActivityAsDone = async ( activity: ITodoActivity ) => {
-		await addDoneActivity( { label: activity.name, type: labelToName( activity.name ) } );
+		await addDoneActivity( { label: activity.name, type: labelToName( activity.name ), stats: activity.stats } );
 		if ( !activity.isRecommended ) {
 			await deletePlannedActivity( activity.id );
 		}
