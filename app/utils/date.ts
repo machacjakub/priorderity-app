@@ -1,3 +1,5 @@
+import { padNumber } from "@/app/modules/todo/utils";
+
 export const toReadableDateTime = ( date: Date ) => {
 	const hours = ( `0${ date.getHours()}` ).slice( -2 );
 	const minutes = ( `0${ date.getMinutes()}` ).slice( -2 );
@@ -24,3 +26,6 @@ export const getDayAtMidnight = ( date: Date ): Date => {
 
 	return new Date( `${year}/${month}/${day}` );
 };
+
+export const getDateTimeInput = ( date: Date ) => `${new Date( date ).getFullYear()}-${padNumber( new Date( date ).getMonth() + 1 )}-${padNumber( new Date( date ).getDate() )}T${padNumber( new Date( date ).getHours() )}:${padNumber( new Date( date ).getMinutes() )}`;
+export const getDateInput = ( date: Date ) => `${new Date( date ).getFullYear()}-${padNumber( new Date( date ).getMonth() + 1 )}-${padNumber( new Date( date ).getDate() )}`;

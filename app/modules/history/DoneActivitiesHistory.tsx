@@ -5,6 +5,9 @@ import { getDayName, isSameDay, returnIfNotLower, WeekDayNumber } from "@/app/mo
 import { useContext } from "react";
 import doneModuleContext from "@/app/modules/context/doneModuleContext";
 import Link from "next/link";
+import { EditOutlined } from "@/icons";
+import { FadingLine } from "@/app/modules/components/FadingLine";
+import useBoolean from "@/app/utils/hooks/useBoolean";
 
 interface IProps {
 	daysVisible?: number;
@@ -16,6 +19,7 @@ const getDaysToDisplayCount = ( daysSinceFirst: number, maxDays?: number ): numb
 const dayInSeconds = 86400000;
 export const DoneActivitiesHistory = ( { daysVisible }: IProps ) => {
 	const { doneActivities, deleteDoneActivity } = useContext( doneModuleContext );
+	const editing = useBoolean( false );
 	if ( doneActivities.length === 0 ) {
 		return (
 			<div className='text-center text-foreground'>
@@ -44,13 +48,23 @@ export const DoneActivitiesHistory = ( { daysVisible }: IProps ) => {
 	return (
 		<>
 			<div className="mx-3 max-w-lg mx-auto">
+				<div className="sticky top-0 bg-background/70 py-[0.1px] text-foreground backdrop-blur-sm">
+					<h1 className="flex justify-between gap-2 my-3 mx-4 text-center text-xl">
+						<span></span>
+						<span className='py-0.5 pl-4'>History</span>
+						<button className={`text-foreground p-1 bg-blue-400/20 rounded-2xl hover:bg-blue-400/50`} onClick={editing.toggle}>
+							<EditOutlined className='w-6' />
+						</button>
+					</h1>
+					<FadingLine/>
+				</div>
 				{days.map( ( day, i ) => {
 					return (
 						<div key={i} className="mx-3 my-2 rounded-xl bg-gradient-to-l bg-foreground/5 from-foreground/5 via-blue-400/20 to-blue-400/30 dark:from-foreground/10 dark:via-blue-600/20 dark:to-blue-600/40 p-2 text-foreground">
 							<div className="px-2 text-foreground/80">
 								{day.title}
 							</div>
-							<ActivitiesInHistoryList activities={day.activities} handleDelete={deleteDoneActivity}/>
+							<ActivitiesInHistoryList activities={day.activities} handleDelete={deleteDoneActivity} editing={editing.value}/>
 						</div>
 					);
 				} )}
