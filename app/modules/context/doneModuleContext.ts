@@ -2,10 +2,11 @@ import { createContext } from "react";
 import { IDoneActivity, IHealthStat } from "@/app/types";
 import { IPredefinedActivity } from "@/app/modules/profile/types";
 import { getPredefinedActivitiesAttributes } from "@/app/modules/attributes-stats/predefinedActivities";
+import { IAddDoneActivityArguments } from "@/database/actions";
 
 export interface IDoneActivitiesModule {
     doneActivities: IDoneActivity[];
-    addDoneActivity: ( newDoneActivity: { label: string; type: string; } ) => void;
+    addDoneActivity: ( newDoneActivity: IAddDoneActivityArguments ) => void;
     deleteDoneActivity: ( activityId: number ) => void;
     predefinedActivities: IPredefinedActivity[];
     healthStats: IHealthStat[];

@@ -2,16 +2,17 @@ import { ModalWindow } from "@/app/modules/components/ModalWindow";
 import { FadingLine } from "@/app/modules/components/FadingLine";
 import { Switch } from "@/app/modules/components/Switch";
 import useBoolean from "@/app/utils/hooks/useBoolean";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { delay, returnIfNotLower } from "@/app/modules/utils";
 import { Button } from "@/app/modules/components/Button";
 import { ITodoActivity } from "@/app/types";
-import { padNumber } from "@/app/modules/todo/utils";
 import {
 	IHandleAddPlannedActivity, IHandleUpdatePlannedActivity
 } from "@/database/actions";
 import { Tags } from "@/app/modules/todo/Tags";
-import { ITag } from "@/app/modules/profile/types";
+import { IPredefinedActivity, ITag } from "@/app/modules/profile/types";
+import { PredefinedStatsForm } from "@/app/settings/predefinedActivities/PredefinedStatsForm";
+import userDataContext from "@/app/modules/context/userDataContext";
 import { getDateInput } from "@/app/utils/date";
 
 interface IProps {
@@ -21,21 +22,30 @@ interface IProps {
 	onUpdate?: IHandleUpdatePlannedActivity;
 	initialValue?: ITodoActivity;
 	userTags: ITag[];
-
 }
 
 export const TodoForm = ( { onClose, isOpen, onAdd, onUpdate, initialValue, userTags }: IProps ) => {
+	const userData = useContext( userDataContext );
 	const deadlineDatePickerRef = useRef<HTMLInputElement | null>( null );
 	const delayDatePickerRef = useRef<HTMLInputElement | null>( null );
 	const hasDeadline = useBoolean( !!initialValue?.deadline );
-	const isDelayed = useBoolean( !!initialValue?.delayed_to );
+	const hasDelay = useBoolean( !!initialValue?.delayed_to );
+	const hasMetricScores = useBoolean( !!initialValue?.stats );
 	const [ tags, setTags ] = useState( userTags );
+	const [ metrics, setMetrics ] = useState<IPredefinedActivity['metrics']>( initialValue?.stats ?? {} );
 	const handleSubmit = async ( formData: FormData ) => {
 		const name = formData.get( "name" );
 		const priority = formData.get( "priority" );
 		const deadline = formData.get( "deadline" );
 		const delay = formData.get( "delayed_to" );
-		const payload = { name: String( name ), priority: returnIfNotLower( Number( priority ), 1 ), deadline: deadline ? new Date( String( deadline ) ) : null, delayed_to: delay ? new Date( String( delay ) ) : null, tags: tags.filter( tag => tag.selected ).map( tag => tag.label ) };
+		const payload = {
+			name: String( name ),
+			priority: returnIfNotLower( Number( priority ), 1 ),
+			deadline: deadline ? new Date( String( deadline ) ) : null,
+			delayed_to: delay ? new Date( String( delay ) ) : null,
+			tags: tags.filter( tag => tag.selected ).map( tag => tag.label ),
+			stats: metrics,
+		};
 		if ( initialValue?.id && onUpdate ) {
 			await onUpdate( { ...payload, id: initialValue.id } );
 		}
@@ -55,11 +65,14 @@ export const TodoForm = ( { onClose, isOpen, onAdd, onUpdate, initialValue, user
 	};
 
 	const onDelayToggle = async () => {
-		isDelayed.toggle();
+		hasDelay.toggle();
 		await delay( 40 );
 		if ( delayDatePickerRef.current ) {
 			delayDatePickerRef.current.focus();
 		}
+	};
+	const onMetricScoresToggle = async () => {
+		hasMetricScores.toggle();
 	};
 	return (
 		<ModalWindow
@@ -121,12 +134,12 @@ export const TodoForm = ( { onClose, isOpen, onAdd, onUpdate, initialValue, user
 						</label>{" "}
 						<div className="col-span-2 flex p-1">
 							<div className="mt-1.5">
-								<Switch value={isDelayed.value} size="tiny" onToggle={onDelayToggle}/>
+								<Switch value={hasDelay.value} size="tiny" onToggle={onDelayToggle}/>
 							</div>{" "}
-							{ isDelayed.value && (
+							{ hasDelay.value && (
 								<input
 									className="ml-5 w-32 px-1 text-black/80"
-									defaultValue={`${new Date( initialValue?.delayed_to ?? '' ).getFullYear()}-${new Date( initialValue?.delayed_to ?? '' ).getMonth() + 1}-${padNumber( new Date( initialValue?.delayed_to ?? '' ).getDate() )}`}
+									defaultValue={getDateInput( initialValue?.delayed_to ?? new Date() )}
 									type="date"
 									name="delayed_to"
 									ref={delayDatePickerRef}
@@ -134,8 +147,22 @@ export const TodoForm = ( { onClose, isOpen, onAdd, onUpdate, initialValue, user
 							)}
 						</div>
 						<label className="p-2 text-right">
+							Metrics score:
+						</label>
+						<div className="col-span-2 flex p-1">
+							<div className="mt-1.5">
+								<Switch value={hasMetricScores.value} size="tiny" onToggle={onMetricScoresToggle}/>
+							</div>
+						</div>
+						{ hasMetricScores.value && <div/>}
+						{ hasMetricScores.value && (
+							<div className={'ml-3 col-span-3 sm:col-span-2'}>
+								<PredefinedStatsForm userMetrics={userData?.metrics ?? null} metrics={metrics} onChange={setMetrics}/>
+							</div>
+						)}
+						<label className="p-2 text-right">
 							Tags:
-						</label>{" "}
+						</label>
 						<div className="col-span-2 flex px-1 py-2" >
 							<Tags tags={tags} onUpdate={( clicked: string ) => setTags( tags.map( tag => tag.label === clicked ? { ...tag, selected: !tag.selected } : tag ) )}/>
 						</div>

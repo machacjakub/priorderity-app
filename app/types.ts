@@ -1,8 +1,11 @@
+import { IPredefinedActivity } from "@/app/modules/profile/types";
+
 export interface IDoneActivity {
 	id: number;
 	type: string;
 	label: string;
 	created_at: Date;
+	stats?: IPredefinedActivity['metrics'];
 }
 
 export interface IPlannedActivity {
@@ -13,6 +16,7 @@ export interface IPlannedActivity {
 	deadline: Date | null;
 	delayed_to: Date | null;
 	tags?: string [];
+	stats?: IPredefinedActivity['metrics']
 }
 
 export interface ITodoActivity extends IPlannedActivity {
