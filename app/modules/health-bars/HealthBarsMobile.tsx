@@ -18,10 +18,10 @@ const StatsBar = ( { title, stat }: { title: string; stat: number } ) => {
 };
 
 export const HealthBarsMobile = ( ) => {
-	const { healthStats } = useContext( doneModuleContext );
+	const { currentHealthStats } = useContext( doneModuleContext );
 	return (
 		<div className="mt-1 flex w-screen justify-evenly">
-			{healthStats.map( ( healthStat, i ) => <div key={`${i}-${healthStat.name}`}><StatsBar title={healthStat.label} stat={healthStat.score}/></div> )}
+			{currentHealthStats.map( ( healthStat, i ) => <div key={`${i}-${healthStat.name}`}><StatsBar title={healthStat.label} stat={healthStat.score}/></div> )}
 		</div>
 	);
 };

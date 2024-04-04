@@ -8,7 +8,7 @@ import { getHealthStats, isNotHidden } from "@/app/modules/health-bars/utils";
 import { Nullable } from "fputils";
 import { IUserData } from "@/app/modules/profile/types";
 
-const useDoneModule = ( initial: IDoneActivity[], userData: Nullable<IUserData> ): IDoneActivitiesModule => {
+const useDoneModule = ( initial: IDoneActivity[], userData: Nullable<IUserData>, day?: Date ): IDoneActivitiesModule => {
 	const userMetrics: IHealthMetric[] = userData?.metrics ?? defaultMetrics;
 	const predefinedActivities = userData?.activities_stats ?? getPredefinedActivitiesAttributes();
 	const [ activities1, optimisticAdd ] = useOptimistic<IDoneActivity[], {label: string , type: string}>(
@@ -28,8 +28,9 @@ const useDoneModule = ( initial: IDoneActivity[], userData: Nullable<IUserData> 
 		optimisticDelete( activityId );
 		await handleDeleteDoneActivity( activityId );
 	};
-	const healthStats = getHealthStats( doneActivities, userMetrics.filter( isNotHidden ), predefinedActivities );
-	return { doneActivities, addDoneActivity, deleteDoneActivity, predefinedActivities, healthStats };
+	const currentHealthStats = getHealthStats( doneActivities, userMetrics.filter( isNotHidden ), predefinedActivities );
+	const selectedHealthStats = getHealthStats( doneActivities, userMetrics.filter( isNotHidden ), predefinedActivities, day );
+	return { doneActivities, addDoneActivity, deleteDoneActivity, predefinedActivities, currentHealthStats , selectedHealthStats };
 };
 
 export default useDoneModule;
