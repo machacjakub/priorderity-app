@@ -10,13 +10,24 @@ import {
 } from "@/app/modules/profile/types";
 import { returnIfNotHigher, returnIfNotLower } from "@/app/modules/utils";
 import { isObjectPropertyEqual } from "@/app/utils/functionalProgramming";
+import { decrementDay, getDayAtMidnight, isSameDay } from "@/app/utils/date";
 
-
+export const filterDelayedActivities = ( day?: Date ) => ( activity: ITodoActivity ) => {
+	if ( !activity.delayed_to ) {
+		return true;
+	}
+	const delayDateInMs = new Date( activity.delayed_to ).getTime();
+	if ( !!day ) {
+		return delayDateInMs <= day.getTime();
+	}
+	return delayDateInMs <= new Date().getTime();
+};
 
 interface IGetRecommendedArguments {
 	healthStats: IHealthStat[];
 	doneActivities: IDoneActivity[];
 	recommendations: IRecommendation[];
+	day?: Date;
 }
 
 export const isConditionTrue = ( condition: IConditionToCompute ) => {
@@ -26,20 +37,20 @@ export const isConditionTrue = ( condition: IConditionToCompute ) => {
 	return condition.comparisonOperator === '<' ? condition.hoursSinceLast < condition.userHours : condition.hoursSinceLast > condition.userHours;
 };
 
-export const getConditionToCompute = ( healthStats: IHealthStat[], doneActivities: IDoneActivity[] ) => ( condition: IConditionDefinition ): IConditionToCompute => {
+export const getConditionToCompute = ( healthStats: IHealthStat[], doneActivities: IDoneActivity[], day?: Date ) => ( condition: IConditionDefinition ): IConditionToCompute => {
 	if ( isMetricConditionDefinition( condition ) ) {
 		return { comparisonOperator: condition.comparisonOperator, metricScore: healthStats.find( x => x.name === condition.metric )?.score ?? 0, value: condition.value };
 	}
-	return { hoursSinceLast: getHoursSince( doneActivities.find( isObjectPropertyEqual( condition.activityType, 'label' ) )?.created_at ?? 1000 ), userHours: getHours( condition.unit )( condition.userDuration ), comparisonOperator: condition.comparisonOperator };
+	return { hoursSinceLast: getHoursSince( doneActivities.find( isObjectPropertyEqual( condition.activityType, 'label' ) )?.created_at ?? 1000, day ), userHours: getHours( condition.unit )( condition.userDuration ), comparisonOperator: condition.comparisonOperator };
 };
 
 // export const passActivityNameToCondition = ( recommendation: IRecommendation ) => ( condition: IConditionDefinition ): IConditionDefinition => {
 // 	if ( isMetricConditionDefinition( condition ) ) return condition;
 // 	return { ...condition, activityType: recommendation.activityType };
 // };
-export const isActivityToRecommendByRules = ( healthStats: IHealthStat[], doneActivities: IDoneActivity[] ) => ( recommendation: IRecommendation ): boolean => {
+export const isActivityToRecommendByRules = ( healthStats: IHealthStat[], doneActivities: IDoneActivity[], day?: Date ) => ( recommendation: IRecommendation ): boolean => {
 	if ( recommendation.rules.conditions.every( isConditionDefinitionType ) ) {
-		const conditionsToResolve: IConditionToCompute[] = recommendation.rules.conditions.map( getConditionToCompute( healthStats, doneActivities ) );
+		const conditionsToResolve: IConditionToCompute[] = recommendation.rules.conditions.map( getConditionToCompute( healthStats, doneActivities, day ) );
 		return conditionsToResolve.every( isConditionTrue );
 	}
 	return false;
@@ -51,26 +62,28 @@ const getPriorityFromMetricCondition = ( condition: IMetricConditionToCompute ) 
 const getPriorityFromDurationCondition = ( condition: IDurationConditionToCompute ) => {
 	return condition.comparisonOperator === '>' ? returnIfNotHigher( ( condition.hoursSinceLast - condition.userHours )/( condition.userHours/2 ), 11 ): 1;
 };
-const getPriority = ( healthStats: IHealthStat[], doneActivities: IDoneActivity[] ) => ( recommendation: IRecommendation ) => {
+const getPriority = ( healthStats: IHealthStat[], doneActivities: IDoneActivity[], day?: Date ) => ( recommendation: IRecommendation ) => {
 	const conditionDefinitions = recommendation.rules.conditions.filter( isConditionDefinitionType );
 	return conditionDefinitions.reduce( ( acc, condition ) => {
-		const conditionToCompute = getConditionToCompute( healthStats, doneActivities )( condition );
+		const conditionToCompute = getConditionToCompute( healthStats, doneActivities, day )( condition );
 		const currentPriority = isMetricConditionToCompute( conditionToCompute ) ? getPriorityFromMetricCondition( conditionToCompute ) : getPriorityFromDurationCondition( conditionToCompute );
 		return Math.max( currentPriority, acc );
 	}, 0 );
 };
-export const getRecommendedActivities = ( { healthStats, doneActivities, recommendations } :IGetRecommendedArguments ): ITodoActivity[] => {
+export const getRecommendedActivities = ( { healthStats, doneActivities, recommendations, day } :IGetRecommendedArguments ): ITodoActivity[] => {
 	if ( recommendations.length === 0 ) {
 		return [];
 	}
-	return recommendations.filter( isActivityToRecommendByRules( healthStats, doneActivities ) ).map( ( activity, i ) => ( { name: activity.activityLabel, isRecommended: true, calculatedPriority: getPriority( healthStats, doneActivities )( activity ), priority: 9, deadline: null, delayed_to: null, id: i, created_at: new Date(), tags: activity.tags } ) );
+	return recommendations.filter( isActivityToRecommendByRules( healthStats, doneActivities, day ) ).map( ( activity, i ) => ( { name: activity.activityLabel, isRecommended: true, calculatedPriority: getPriority( healthStats, doneActivities, day )( activity ), priority: 9, deadline: null, delayed_to: null, id: i, created_at: new Date(), tags: activity.tags } ) );
 };
 
 interface IGetTodoArguments extends IGetRecommendedArguments{
 	plannedActivities: IPlannedActivity[];
+	day: Date;
+	yesterday?: boolean;
 }
-export const getTodoActivities = ( { plannedActivities, healthStats, doneActivities, recommendations } :IGetTodoArguments ): ITodoActivity[] => {
-	const now = new Date().getTime();
+export const getTodoActivities = ( { plannedActivities, healthStats, doneActivities, recommendations, day, yesterday } :IGetTodoArguments ): ITodoActivity[] => {
+	const now = day ? day.getTime() : new Date().getTime();
 	const planned = plannedActivities.map( a => {
 		if ( a.deadline ) {
 			const daysRemaining = Math.ceil( ( new Date( a.deadline ).getTime() - now ) / 86400000 );
@@ -79,7 +92,14 @@ export const getTodoActivities = ( { plannedActivities, healthStats, doneActivit
 		}
 		return { ...a, calculatedPriority: a.priority, isRecommended: false };
 	} );
-	const recommended = getRecommendedActivities( { healthStats, doneActivities, recommendations } );
-	return [ ...planned, ...recommended ].sort( calculatedPrioritySorter );
+	const recommended = getRecommendedActivities( { healthStats, doneActivities, recommendations, day } );
+	const todoActivities = [ ...planned, ...recommended ].sort( calculatedPrioritySorter ).filter( filterDelayedActivities( day ) );
+	const getDiffInHours = ( date1: Date, date2: Date ) => Math.floor( ( date1.getTime() - date2.getTime() ) / ( 1000 * 60 * 60 ) );
+	const diffInHours = getDiffInHours( getDayAtMidnight( day ), getDayAtMidnight( new Date() ) );
+	if ( diffInHours > 22 && !yesterday ) {
+		const yesterdayActivities = getTodoActivities( { plannedActivities, healthStats, doneActivities, recommendations, yesterday: true, day: isSameDay( decrementDay( day ), new Date() ) ? new Date() : decrementDay( day ) } ).map( a => a.name );
+		return todoActivities.filter( a => !yesterdayActivities.includes( a.name ) );
+	}
+	return todoActivities;
 };
 

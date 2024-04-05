@@ -25,10 +25,11 @@ const getStatsPoints = ( rules: IPredefinedActivity, hours: number, userMetrics:
 const getCurrentStats = (
 	activity: IDoneActivity,
 	activitiesRules: IPredefinedActivity[],
-	userMetrics: IHealthMetric[]
+	userMetrics: IHealthMetric[],
+	day?: Date
 ): Optional<IHealthStat[]> => {
 	const lengthInHours = Math.floor(
-		( new Date().getTime() -
+		( ( day ? day.getTime() : new Date().getTime() ) -
 			new Date( activity.created_at ).getTime() ) /
 			3600000,
 	);
@@ -47,10 +48,10 @@ const getCurrentStats = (
 
 export const isNotHidden = ( metric: IHealthMetric ): boolean => !metric.hidden;
 
-export const getHealthStats = ( doneActivities: IDoneActivity[], userMetrics: IHealthMetric[], activitiesStats: IPredefinedActivity[] ): IHealthStat[] => {
+export const getHealthStats = ( doneActivities: IDoneActivity[], userMetrics: IHealthMetric[], activitiesStats: IPredefinedActivity[], day?:Date ): IHealthStat[] => {
 	return doneActivities.reduce(
 		( acc, curr ) => {
-			const currentStats = getCurrentStats( curr, activitiesStats, userMetrics );
+			const currentStats = getCurrentStats( curr, activitiesStats, userMetrics, day );
 			if ( currentStats === undefined ) {
 				return acc;
 			}
