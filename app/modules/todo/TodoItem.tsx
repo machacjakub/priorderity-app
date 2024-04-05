@@ -95,11 +95,6 @@ export const TodoItem = ( { activity, onDelete, onMarkAsDone, onUpdate }: ITodoI
 		optionsDisplayed.setTrue();
 	};
 
-	const handleDelete = async ( e: any ) => {
-		e.stopPropagation();
-		await onDelete( activity.id );
-	};
-
 	const priorityToDisplay = returnIfNotHigher( Math.ceil( activity.calculatedPriority ), 11 );
 	const colors = [ 'border-l-priority-11', 'border-l-priority-10','border-l-priority-9','border-l-priority-8','border-l-priority-7','border-l-priority-6','border-l-priority-5','border-l-priority-4','border-l-priority-3','border-l-priority-2','border-l-priority-1', ];
 	return (
@@ -111,7 +106,7 @@ export const TodoItem = ( { activity, onDelete, onMarkAsDone, onUpdate }: ITodoI
 						onClick={handleItemClick}
 						onContextMenu={activity.isRecommended ? () => null : handleItemRightClick}
 					>
-						<Common activity={activity} onDelete={handleDelete}/>
+						<Common activity={activity} onDelete={onDelete}/>
 					</div>
 					{optionsDisplayed.value && <Options onClose={optionsDisplayed.setFalse} onUpdate={onUpdate} activity={activity} userTags={userData?.tags?.map( tag => activity?.tags?.includes( tag.label ) ? { ...tag, selected: true } : { ...tag, selected: false } ) ?? []} />}
 				</div>
@@ -125,7 +120,7 @@ export const TodoItem = ( { activity, onDelete, onMarkAsDone, onUpdate }: ITodoI
 						onTouchEnd={onTouchEnd}
 						onTouchMove={onTouchMove}
 					>
-						<Common activity={activity} onDelete={handleDelete}/>
+						<Common activity={activity} onDelete={onDelete}/>
 					</div>
 					{optionsDisplayed.value && <Options onClose={optionsDisplayed.setFalse} onUpdate={onUpdate} activity={activity} userTags={userData?.tags?.map( tag => activity?.tags?.includes( tag.label ) ? { ...tag, selected: true } : { ...tag, selected: false } ) ?? []} />}
 				</div>
