@@ -9,7 +9,8 @@ export interface IDoneActivitiesModule {
     addDoneActivity: ( newDoneActivity: IAddDoneActivityArguments ) => void;
     deleteDoneActivity: ( activityId: number ) => void;
     predefinedActivities: IPredefinedActivity[];
-    healthStats: IHealthStat[];
+    currentHealthStats: IHealthStat[];
+    selectedHealthStats: IHealthStat[];
 }
 
 const defaultValue: IDoneActivitiesModule = {
@@ -17,7 +18,8 @@ const defaultValue: IDoneActivitiesModule = {
 	addDoneActivity: ( newDoneActivity ) => null,
 	deleteDoneActivity: ( activityId: number ) => null,
 	predefinedActivities: getPredefinedActivitiesAttributes(),
-	healthStats: []
+	currentHealthStats: [],
+	selectedHealthStats: []
 };
 const doneModuleContext = createContext<IDoneActivitiesModule>( defaultValue );
 

@@ -1,13 +1,14 @@
 "use client";
 
 import { ActivitiesInHistoryList } from "@/app/modules/history/ActivitiesInHistoryList";
-import { getDayName, isSameDay, returnIfNotLower, WeekDayNumber } from "@/app/modules/utils";
+import { getDayName, returnIfNotLower, WeekDayNumber } from "@/app/modules/utils";
 import { useContext } from "react";
 import doneModuleContext from "@/app/modules/context/doneModuleContext";
 import Link from "next/link";
 import { EditOutlined } from "@/icons";
 import { FadingLine } from "@/app/modules/components/FadingLine";
 import useBoolean from "@/app/utils/hooks/useBoolean";
+import { isSameDay } from "@/app/utils/date";
 
 interface IProps {
 	daysVisible?: number;
@@ -41,7 +42,7 @@ export const DoneActivitiesHistory = ( { daysVisible }: IProps ) => {
 				thisDay.getMonth() + 1
 			}.`,
 			activities: doneActivities.filter( ( activity ) =>
-				isSameDay( activity.created_at, thisDay ),
+				isSameDay( new Date( activity.created_at ), thisDay ),
 			),
 		};
 	} );

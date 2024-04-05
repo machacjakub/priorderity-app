@@ -8,9 +8,10 @@ import {
 	IHandleUpdatePlannedActivityArguments
 } from "@/database/actions";
 
-type IAddPlannedActivityArguments = { name: string , priority: number, deadline: Date | null, delayed_to: Date | null, tags: string[], stats: IPredefinedActivity['metrics'] };
-const useTodoActivities = ( { planned, healthStats, doneActivities, recommendations }: { planned: IPlannedActivity[], healthStats: IHealthStat[], doneActivities: IDoneActivity[], recommendations: IRecommendation[]} ) => {
-	const [ activities1, addOptimistic ] = useOptimistic<IPlannedActivity[], IAddPlannedActivityArguments>( planned, ( state: IPlannedActivity[], { name, priority, deadline, delayed_to, tags, stats }: IAddPlannedActivityArguments ) =>
+type IAddPlannedActivityArgs = { name: string , priority: number, deadline: Date | null, delayed_to: Date | null, tags: string[], stats: IPredefinedActivity['metrics'] };
+interface IUseTodoActivitiesArgs { planned: IPlannedActivity[], healthStats: IHealthStat[], doneActivities: IDoneActivity[], recommendations: IRecommendation[], day: Date}
+const useTodoActivities = ( { planned, healthStats, doneActivities, recommendations, day }: IUseTodoActivitiesArgs ) => {
+	const [ activities1, addOptimistic ] = useOptimistic<IPlannedActivity[], IAddPlannedActivityArgs>( planned, ( state: IPlannedActivity[], { name, priority, deadline, delayed_to, tags, stats }: IAddPlannedActivityArgs ) =>
 		[
 			{
 				id: 0,
@@ -31,7 +32,7 @@ const useTodoActivities = ( { planned, healthStats, doneActivities, recommendati
 	const [ plannedActivities, updateOptimistic ] = useOptimistic<IPlannedActivity[], IHandleUpdatePlannedActivityArguments>( activities2, ( state: IPlannedActivity[], { id, name, priority, deadline, delayed_to, tags, stats }: IHandleUpdatePlannedActivityArguments ) => {
 		return state.map( ( x ) => x.id === id ? { ...x, id, name, priority, deadline, delayed_to, tags, stats } : x );
 	} );
-	const addPlannedActivity = async ( activity: IAddPlannedActivityArguments ) => {
+	const addPlannedActivity = async ( activity: IAddPlannedActivityArgs ) => {
 		addOptimistic( activity );
 		await handleAddPlannedActivity( activity );
 	};
@@ -46,13 +47,8 @@ const useTodoActivities = ( { planned, healthStats, doneActivities, recommendati
 		await handleUpdatePlannedActivity( activity );
 	};
 
-	const todoActivities = getTodoActivities( { plannedActivities, healthStats, doneActivities, recommendations } ).filter( ( activity ) => {
-		if ( !activity.delayed_to ) {
-			return true;
-		}
-		return new Date( activity.delayed_to ).getTime() < new Date().getTime();
-	} );
-	
+	const todoActivities = getTodoActivities( { plannedActivities, healthStats, doneActivities, recommendations, day } );
+
 	return {
 		todoActivities,
 		addPlannedActivity,
