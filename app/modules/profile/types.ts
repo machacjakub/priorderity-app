@@ -55,6 +55,7 @@ export interface IRecommendation {
 	activityLabel: string;
 	tags?: string[];
 	rules: IRules;
+	delayed_to?: Date;
 }
 
 type TagColor = 'yellow' | 'red' | 'green' | 'blue' | 'orange' | 'gray' | 'cyan' | 'pink' | 'purple' | 'lime';

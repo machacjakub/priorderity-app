@@ -45,10 +45,10 @@ export const ActivitiesToDo = ( { onFormOpen, activities, onDelete, onUpdate, on
 					</button>
 				</h1>
 				<FadingLine/>
+				{tags.length > 0 && <div className='m-4'>
+					<Tags tags={tags} onUpdate={onTagsUpdate}/>
+				</div>}
 			</div>
-			{tags.length > 0 && <div className='m-4'>
-				<Tags tags={tags} onUpdate={onTagsUpdate}/>
-			</div>}
 			<TodoList activities={getActivitiesFilteredByTags( activities, tags )} onDelete={onDelete} onUpdate={onUpdate} onMarkAsDone={onMarkAsDone}/>
 		</>
 	);

@@ -1,27 +1,9 @@
 import { IDoneActivity, IHealthStat, IPlannedActivity, ITodoActivity } from "@/app/types";
 import { calculatedPrioritySorter, getHours, getHoursSince } from "@/app/modules/todo/utils";
-import {
-	IConditionDefinition,
-	IConditionToCompute, IDurationConditionToCompute, IMetricConditionToCompute,
-	IRecommendation,
-	isConditionDefinitionType,
-	isMetricConditionDefinition,
-	isMetricConditionToCompute
-} from "@/app/modules/profile/types";
+import { IConditionDefinition, IConditionToCompute, IDurationConditionToCompute, IMetricConditionToCompute, IRecommendation, isConditionDefinitionType, isMetricConditionDefinition, isMetricConditionToCompute } from "@/app/modules/profile/types";
 import { returnIfNotHigher, returnIfNotLower } from "@/app/modules/utils";
 import { isObjectPropertyEqual } from "@/app/utils/functionalProgramming";
-import { decrementDay, getDayAtMidnight, isSameDay } from "@/app/utils/date";
-
-export const filterDelayedActivities = ( day?: Date ) => ( activity: ITodoActivity ) => {
-	if ( !activity.delayed_to ) {
-		return true;
-	}
-	const delayDateInMs = new Date( activity.delayed_to ).getTime();
-	if ( !!day ) {
-		return delayDateInMs <= day.getTime();
-	}
-	return delayDateInMs <= new Date().getTime();
-};
+import { decrementDay, getDayAtMidnight, getDiffInHours, isSameDay } from "@/app/utils/date";
 
 interface IGetRecommendedArguments {
 	healthStats: IHealthStat[];
@@ -29,6 +11,13 @@ interface IGetRecommendedArguments {
 	recommendations: IRecommendation[];
 	day?: Date;
 }
+
+export const filterDelayedActivities = ( recommendations: IRecommendation[], day?: Date ) => ( activity: ITodoActivity ) => {
+	if ( activity.isRecommended ) {
+		return recommendations.some( r => r.activityLabel === activity.name && ( !r.delayed_to || ( day ? day.getTime() >= new Date( r.delayed_to ).getTime() : new Date().getTime() >= new Date( r.delayed_to ).getTime() ) ) );
+	}
+	return !activity.delayed_to || ( day ? day.getTime() >= new Date( activity.delayed_to ).getTime() : new Date().getTime() >= new Date( activity.delayed_to ).getTime() );
+};
 
 export const isConditionTrue = ( condition: IConditionToCompute ) => {
 	if ( isMetricConditionToCompute( condition ) ) {
@@ -44,10 +33,6 @@ export const getConditionToCompute = ( healthStats: IHealthStat[], doneActivitie
 	return { hoursSinceLast: getHoursSince( doneActivities.find( isObjectPropertyEqual( condition.activityType, 'label' ) )?.created_at ?? 1000, day ), userHours: getHours( condition.unit )( condition.userDuration ), comparisonOperator: condition.comparisonOperator };
 };
 
-// export const passActivityNameToCondition = ( recommendation: IRecommendation ) => ( condition: IConditionDefinition ): IConditionDefinition => {
-// 	if ( isMetricConditionDefinition( condition ) ) return condition;
-// 	return { ...condition, activityType: recommendation.activityType };
-// };
 export const isActivityToRecommendByRules = ( healthStats: IHealthStat[], doneActivities: IDoneActivity[], day?: Date ) => ( recommendation: IRecommendation ): boolean => {
 	if ( recommendation.rules.conditions.every( isConditionDefinitionType ) ) {
 		const conditionsToResolve: IConditionToCompute[] = recommendation.rules.conditions.map( getConditionToCompute( healthStats, doneActivities, day ) );
@@ -93,8 +78,8 @@ export const getTodoActivities = ( { plannedActivities, healthStats, doneActivit
 		return { ...a, calculatedPriority: a.priority, isRecommended: false };
 	} );
 	const recommended = getRecommendedActivities( { healthStats, doneActivities, recommendations, day } );
-	const todoActivities = [ ...planned, ...recommended ].sort( calculatedPrioritySorter ).filter( filterDelayedActivities( day ) );
-	const getDiffInHours = ( date1: Date, date2: Date ) => Math.floor( ( date1.getTime() - date2.getTime() ) / ( 1000 * 60 * 60 ) );
+	const todoActivities = [ ...planned, ...recommended ].sort( calculatedPrioritySorter ).filter( filterDelayedActivities( recommendations, day ) );
+
 	const diffInHours = getDiffInHours( getDayAtMidnight( day ), getDayAtMidnight( new Date() ) );
 	if ( diffInHours > 22 && !yesterday ) {
 		const yesterdayActivities = getTodoActivities( { plannedActivities, healthStats, doneActivities, recommendations, yesterday: true, day: isSameDay( decrementDay( day ), new Date() ) ? new Date() : decrementDay( day ) } ).map( a => a.name );
