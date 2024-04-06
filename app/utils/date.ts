@@ -43,3 +43,4 @@ export const getDayAtMidnight = ( date: Date ): Date => new Date( `${toStringDat
 export const getDayAt6AM = ( day: Date ): Date => new Date( `${toStringDate( day )} 6:00` );
 export const getDateTimeInput = ( date: Date ) => `${new Date( date ).getFullYear()}-${padNumber( new Date( date ).getMonth() + 1 )}-${padNumber( new Date( date ).getDate() )}T${padNumber( new Date( date ).getHours() )}:${padNumber( new Date( date ).getMinutes() )}`;
 export const getDateInput = ( date: Date ) => `${new Date( date ).getFullYear()}-${padNumber( new Date( date ).getMonth() + 1 )}-${padNumber( new Date( date ).getDate() )}`;
+export const getDiffInHours = ( date1: Date, date2: Date ) => Math.floor( ( date1.getTime() - date2.getTime() ) / ( 1000 * 60 * 60 ) );

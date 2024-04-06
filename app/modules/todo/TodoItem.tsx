@@ -1,16 +1,19 @@
 import { ITodoActivity } from "@/app/types";
 import {
+	handleUpdatePlannedActivity, handleUpdateRecommendations,
 	IHandleUpdatePlannedActivity, IHandleUpdatePlannedActivityArguments
 } from "@/database/actions";
 import { XOutlined } from "@/icons";
 import { returnIfNotHigher } from "@/app/modules/utils";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import { TodoForm } from "@/app/modules/todo/TodoForm";
-import { ITag } from "@/app/modules/profile/types";
+import { IRecommendation, ITag } from "@/app/modules/profile/types";
 import { useContext } from "react";
 import userDataContext from "@/app/modules/context/userDataContext";
 import { useTouch } from "@/app/utils/hooks/useTouch";
 import { Responsive } from "@/app/modules/components/Responsive";
+import { getDayAt6AM, incrementDay } from "@/app/utils/date";
+import { pipe } from "fputils";
 
 interface IOptionsProps {
 	onClose: () => void
@@ -18,10 +21,23 @@ interface IOptionsProps {
 	activity: ITodoActivity;
 	userTags: ITag[];
 }
-const Options = ( { onClose, onUpdate, activity, userTags }: IOptionsProps ) => {
+
+const delayRecommendedActivity = ( activity: ITodoActivity, date: Date ) => ( recommendation: IRecommendation ) => recommendation.activityLabel === activity.name ? { ...recommendation, delayed_to: date } : recommendation;
+const Options = ( { onClose, onUpdate, activity, userTags
+}: IOptionsProps ) => {
 	const formDisplayed = useBoolean( false );
+	const recommendations = useContext( userDataContext )?.recommendations ?? [];
 	const handleClick = ( e: any ) => {
 		e.stopPropagation();
+	};
+	const handlePostponeTomorrow = async () => {
+		onClose();
+		const tomorrow = pipe( new Date(), incrementDay, getDayAt6AM );
+		if ( !activity.isRecommended ) {
+			await handleUpdatePlannedActivity( { ...activity, delayed_to: tomorrow } );
+			return;
+		}
+		await handleUpdateRecommendations( recommendations?.map( delayRecommendedActivity( activity, tomorrow ) ) );
 	};
 
 	const onEdit = async ( activity: IHandleUpdatePlannedActivityArguments ) => {
@@ -34,7 +50,8 @@ const Options = ( { onClose, onUpdate, activity, userTags }: IOptionsProps ) => 
 			{formDisplayed.value && <div className='w-screen h-screen top-0 z-30 fixed'><TodoForm onClose={formDisplayed.setFalse} isOpen={formDisplayed.value} onUpdate={onEdit} initialValue={activity} userTags={userTags}/></div>}
 			<div className='fixed z-20 w-screen h-screen top-0 cursor-auto' onClick={onClose}/>
 			<div className='z-30 bg-background/70 p-1 border-t rounded-b-lg flex justify-around cursor-auto' onClick={handleClick}>
-				{!activity?.isRecommended && <div className='cursor-pointer' onClick={formDisplayed.setTrue}>Edit</div>}
+				<div className='cursor-pointer' onClick={formDisplayed.setTrue}>Edit</div>
+				<div className='cursor-pointer' onClick={handlePostponeTomorrow}>Tomorrow</div>
 			</div>
 		</>
 	);
@@ -74,22 +91,20 @@ interface ITodoItemProps {
 	onMarkAsDone: ( activity: ITodoActivity ) => void;
 }
 export const TodoItem = ( { activity, onDelete, onMarkAsDone, onUpdate }: ITodoItemProps ) => {
+	const userData = useContext( userDataContext );
 	const optionsDisplayed = useBoolean( false );
 	const { onTouchStart, onTouchEnd, onTouchMove } = useTouch( {
-		onHold: activity.isRecommended ? () => null : async () => {
+		onHold: async () => {
 			optionsDisplayed.setTrue();
-			console.log( 'hold' );
 		},
 		onTap: async () => {
 			await onMarkAsDone( activity );
-			console.log( 'tap' );
 		},
 	} );
 
 	const handleItemClick = async () => {
 		await onMarkAsDone( activity );
 	};
-	const userData = useContext( userDataContext );
 	const handleItemRightClick = async ( event: any ) => {
 		event.preventDefault();
 		optionsDisplayed.setTrue();
@@ -104,7 +119,7 @@ export const TodoItem = ( { activity, onDelete, onMarkAsDone, onUpdate }: ITodoI
 					<div
 						className='flex'
 						onClick={handleItemClick}
-						onContextMenu={activity.isRecommended ? () => null : handleItemRightClick}
+						onContextMenu={handleItemRightClick}
 					>
 						<Common activity={activity} onDelete={onDelete}/>
 					</div>
