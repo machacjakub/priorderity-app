@@ -1,4 +1,5 @@
-import { experimental_useOptimistic as useOptimistic } from "react";
+'use client';
+import { useOptimistic } from "react";
 import { IDoneActivity, IHealthMetric } from "@/app/types";
 import { IDoneActivitiesModule } from "@/app/modules/context/doneModuleContext";
 import { handleAddDoneActivity, handleDeleteDoneActivity, IAddDoneActivityArguments } from "@/database/actions";
