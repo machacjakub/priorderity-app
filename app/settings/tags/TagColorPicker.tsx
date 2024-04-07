@@ -7,7 +7,7 @@ interface IProps {
 export const TagColorPicker = ( { value, onChange }: IProps ) => {
 	return <div className='my-auto mr-4'>
 		<select id="colorSelect" value={value} onChange={onChange} className='text-black'>
-			<option value="gray">Select a color</option>
+			<option value="white">Select a color</option>
 			<option value="yellow">Yellow</option>
 			<option value="red">Red</option>
 			<option value="green">Green</option>

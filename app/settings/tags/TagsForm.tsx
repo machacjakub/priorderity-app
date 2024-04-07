@@ -23,7 +23,7 @@ const TagField = ( { tag, onUpdate, onDelete, index }: { tag: ITag; index: numbe
 		<div className='border-2 p-1.5 pl-4 my-2 flex justify-between rounded-xl w-full'>
 			<div className='flex'>
 				{editing.value || tag.label === 'new tag' ? <TagColorPicker value={color} onChange={( e ) => setColor( e.target.value )}/> : <div className={`w-5 h-5 my-auto mr-4 rounded-full bg-${color}-${hidden.value ? '200/70' : 400}`}/>}
-				{editing.value || tag.label === 'new tag' ? <input className='text-black px-2 max-w-fit' value={label} onChange={( e ) => setLabel( e.target.value )}/> : <div className={`mt-0.5 ${hidden.value && 'text-gray-400 dark:text-gray-700' }`}>{tag.label}</div>}
+				{editing.value || tag.label === 'new tag' ? <input className='text-black px-2 max-w-fit' value={label === 'new tag' ? undefined : label} placeholder={label === 'new tag' ? 'tag name' : undefined} onChange={( e ) => setLabel( e.target.value )}/> : <div className={`mt-0.5 ${hidden.value && 'text-gray-400 dark:text-gray-700' }`}>{tag.label}</div>}
 			</div>
 			<div className='flex gap-2'>
 				<button className='p-1.5 rounded-full' onClick={() => {
@@ -62,7 +62,7 @@ export const TagsForm = ( ) => {
 		done.setFalse();
 	};
 	return <div className='text-foreground px-4 mb-2'>
-		{tags.map( ( tag, i ) => <div key={`${tag.label}-${tag.color}`}><TagField tag={tag} onUpdate={updateTag} onDelete={deleteTag} index={i}/></div> )}
+		{tags.map( ( tag, i ) => <div key={`${tag.label}-${tag.color}-${i}`}><TagField tag={tag} onUpdate={updateTag} onDelete={deleteTag} index={i}/></div> )}
 		<div className='text-center'><AddButton onClick={() => setTags( [ ...tags, { label: 'new tag', color: 'yellow', hidden: false } ] ) } /></div>
 		<div className='text-right'><SaveChangesButton loading={loading.value} done={done.value} onClick={handleSave}/></div>
 	</div>;
