@@ -1,7 +1,7 @@
 import { IDoneActivity, IHealthStat, IPlannedActivity } from "@/app/types";
 import { IPredefinedActivity, IRecommendation } from "@/app/modules/profile/types";
 import { getTodoActivities } from "@/app/modules/todo/todoModule";
-import { experimental_useOptimistic as useOptimistic } from "react";
+import { useOptimistic } from "react";
 import {
 	handleAddPlannedActivity,
 	handleDeletePlannedActivity, handleUpdatePlannedActivity,

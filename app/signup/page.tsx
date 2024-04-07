@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SignUpButton } from "@/app/modules/components/SignUpButton";
 import Messages from "@/app/login/messages";
+import { Suspense } from "react";
 
 export default function Signup () {
 	return (
@@ -65,7 +66,9 @@ export default function Signup () {
 					Sign Up
 				</SignUpButton>
 				<Link href='/login' className='text-center text-foreground/60 mt-4'>Already have an account? <b className='text-action-dark hover:text-action-light'>Log in</b></Link>
-				<Messages />
+				<Suspense>
+					<Messages />
+				</Suspense>
 			</form>
 		</div>
 	);

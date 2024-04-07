@@ -1,10 +1,11 @@
-import { getTimeUnitsSince } from "@/app/modules/todo/utils";
+import { getTimeUnitsSince } from "../utils";
 
 describe( 'utils', () => {
 	describe( 'getTimeUnitsSince', () => {
 		beforeAll( () => {
-			jest.useFakeTimers( 'modern' );
-			jest.setSystemTime( new Date( '2024/03/11' ) );
+			jest.useFakeTimers( {
+				now: new Date( '2024/03/11' ),
+			} );
 		} );
 		it( 'should correctly return time units since event', ( ) => {
 			expect( getTimeUnitsSince( 'h' )( new Date( '2024/03/11' ) ) ).toEqual( 0 );
