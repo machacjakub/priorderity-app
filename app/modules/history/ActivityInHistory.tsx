@@ -1,10 +1,12 @@
-import { IDoneActivity } from "@/app/types";
+import { IDoneActivity, IPlannedActivity } from "@/app/types";
 import {
 	handleDeleteDoneActivity
 } from "@/database/actions";
-import { EditOutlined, XOutlined } from "@/icons";
+import { ArrowLeftOutlined, EditOutlined, XOutlined } from "@/icons";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import { EditDoneDateForm } from "@/app/modules/history/EditDoneDateForm";
+import { useContext } from "react";
+import todoModuleContext from "@/app/modules/context/todoModuleContext";
 
 interface IProps {
 	activity: IDoneActivity;
@@ -12,7 +14,19 @@ interface IProps {
 	editing: boolean;
 }
 
+const handleRevert = async ( activity: IDoneActivity, handleDelete: ( id: number ) => void, handleAddPlanned: ( activity: IPlannedActivity ) => void ) => {
+	await handleDelete( Number( activity.id ) );
+	await handleDeleteDoneActivity( Number( activity.id ) );
+	if ( activity.planned?.isRecommended ) {
+		return;
+	}
+	if ( activity.planned ) {
+		await handleAddPlanned( activity.planned );
+	}
+};
+
 export const ActivityInHistory = ( { activity, handleDelete, editing }: IProps ) => {
+	const todoModule = useContext( todoModuleContext );
 	const formDisplayed = useBoolean( false );
 	//TODO dodelat zobrazeni activity.label
 	return (
@@ -26,7 +40,10 @@ export const ActivityInHistory = ( { activity, handleDelete, editing }: IProps )
 				</div>}
 			<div className="px-1">{activity.label ?? activity.type}</div>
 			{editing &&
-				<div className='p-0 mr-0.5 w-12 h-5 flex gap-2'>
+				<div className='p-0 mr-0.5 w-18 h-5 flex gap-3'>
+					<button value={activity.id} name="id" className='hover:text-foreground/50' onClick={() => handleRevert( activity, handleDelete , todoModule.addPlannedActivity )}>
+						<ArrowLeftOutlined className='w-5 mt-0.5'/>
+					</button>
 					<button value={activity.id} name="id" className='hover:text-foreground/50' onClick={formDisplayed.setTrue}>
 						<EditOutlined className='w-5 mt-0.5'/>
 					</button>
