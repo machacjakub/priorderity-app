@@ -8,7 +8,7 @@ import {
 	IHandleUpdatePlannedActivityArguments
 } from "@/database/actions";
 
-type IAddPlannedActivityArgs = { name: string , priority: number, deadline: Date | null, delayed_to: Date | null, tags: string[], stats: IPredefinedActivity['metrics'] };
+type IAddPlannedActivityArgs = { name: string , priority: number, deadline: Date | null, delayed_to: Date | null, tags?: string[], stats?: IPredefinedActivity['metrics'] };
 interface IUseTodoActivitiesArgs { planned: IPlannedActivity[], healthStats: IHealthStat[], doneActivities: IDoneActivity[], recommendations: IRecommendation[], day: Date}
 const useTodoActivities = ( { planned, healthStats, doneActivities, recommendations, day }: IUseTodoActivitiesArgs ) => {
 	const [ activities1, addOptimistic ] = useOptimistic<IPlannedActivity[], IAddPlannedActivityArgs>( planned, ( state: IPlannedActivity[], { name, priority, deadline, delayed_to, tags, stats }: IAddPlannedActivityArgs ) =>

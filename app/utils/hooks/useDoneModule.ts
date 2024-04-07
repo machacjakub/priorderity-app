@@ -12,8 +12,8 @@ const useDoneModule = ( initial: IDoneActivity[], userData: Nullable<IUserData>,
 	const userMetrics: IHealthMetric[] = userData?.metrics ?? defaultMetrics;
 	const predefinedActivities = userData?.activities_stats ?? getPredefinedActivitiesAttributes();
 	const [ activities1, optimisticAdd ] = useOptimistic<IDoneActivity[], {label: string , type: string}>(
-		initial, ( state: IDoneActivity[], { label, type, stats }: IAddDoneActivityArguments ) => [ {
-			id: state[0]?.id + 1, type, label, stats, created_at: new Date()
+		initial, ( state: IDoneActivity[], { label, type, stats, planned }: IAddDoneActivityArguments ) => [ {
+			id: state[0]?.id + 1, type, label, stats, planned, created_at: new Date()
 		}, ...state, ]
 	);
 	const [ doneActivities, optimisticDelete ] = useOptimistic<IDoneActivity[], number>( activities1, ( state: IDoneActivity[], deleted: number ) => {
