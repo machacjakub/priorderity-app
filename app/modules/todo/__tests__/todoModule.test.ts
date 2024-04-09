@@ -1,14 +1,26 @@
-import { IDoneActivity, IHealthStat } from "@/app/types";
-import { IConditionToCompute, IDurationConditionDefinition, isDurationConditionToCompute, isMetricConditionToCompute } from "@/app/modules/profile/types";
-import { getConditionToCompute, getRecommendedActivities, isActivityToRecommendByRules, isConditionTrue } from "@/app/modules/todo/todoModule";
+import { IDoneActivity, IHealthStat } from "../../../types";
+import {
+	getConditionToCompute,
+	getRecommendedActivities,
+	isActivityToRecommendByRules,
+	isConditionTrue
+} from "../todoModule";
+import {
+	IConditionToCompute,
+	IDurationConditionDefinition,
+	isDurationConditionToCompute,
+	isMetricConditionToCompute
+} from "../../profile/types";
+
 
 const mockHealthStats: IHealthStat[] = [ { name: 'mental_health', label: 'Mental health', score: 60 }, { name: 'physical_health', label: 'Physical health', score: 40 }, ];
 const mockDoneActivities: IDoneActivity[] = [ { id: 0, type: 'walk', label: 'Walk', created_at: new Date( '2024/02/10' ) }, { id: 1, type: 'meditation', label: 'Meditation', created_at: new Date() } ];
 const durationConditionMockWalk: IDurationConditionDefinition = { id: 0, comparisonOperator: '>', unit: 'h', activityType: 'walk', userDuration: 60 };
 describe( 'Todo module tests', () => {
 	beforeAll( () => {
-		jest.useFakeTimers( 'modern' );
-		jest.setSystemTime( new Date( '2024/03/11' ) );
+		jest.useFakeTimers( {
+			now: new Date( '2024/03/11' ),
+		} );
 	} );
 
 	describe( 'isConditionTrue', () => {

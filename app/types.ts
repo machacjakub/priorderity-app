@@ -6,6 +6,7 @@ export interface IDoneActivity {
 	label: string;
 	created_at: Date;
 	stats?: IPredefinedActivity['metrics'];
+	planned?: ITodoActivity
 }
 
 export interface IPlannedActivity {
