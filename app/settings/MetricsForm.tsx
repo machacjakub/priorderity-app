@@ -54,6 +54,7 @@ export const MetricsForm = ( ) => {
 	};
 	return (
 		<div className='text-foreground px-4 mb-2 mx-auto sm:mx-0 lg:mx-30'>
+
 			{metrics.map( ( metric, i ) => <div key={`${i}-${metric.name}`}><MetricField metric={metric} onUpdate={updateMetricField} onDelete={deleteMetricField} index={i}/></div> )}
 			<div className='text-center'><AddButton onClick={() => setMetrics( [ ...metrics, { name: 'none', label: '', hidden: false } ] ) } /></div>
 			<div className='text-right'><SaveChangesButton loading={loading.value} done={done.value} onClick={handleSave}/></div>

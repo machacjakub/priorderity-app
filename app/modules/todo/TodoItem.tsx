@@ -1,7 +1,6 @@
 import { ITodoActivity } from "@/app/types";
 import {
-	handleUpdatePlannedActivity, handleUpdateRecommendations,
-	IHandleUpdatePlannedActivity, IHandleUpdatePlannedActivityArguments
+	handleUpdatePlannedActivity, IHandleUpdatePlannedActivityArguments
 } from "@/database/actions";
 import { XOutlined } from "@/icons";
 import { returnIfNotHigher } from "@/app/modules/utils";
@@ -14,19 +13,19 @@ import { useTouch } from "@/app/utils/hooks/useTouch";
 import { Responsive } from "@/app/modules/components/Responsive";
 import { getDayAt6AM, incrementDay } from "@/app/utils/date";
 import { pipe } from "fputils";
+import todoModuleContext from "@/app/modules/context/todoModuleContext";
 
 interface IOptionsProps {
 	onClose: () => void
-	onUpdate: IHandleUpdatePlannedActivity;
 	activity: ITodoActivity;
 	userTags: ITag[];
 }
 
 const delayRecommendedActivity = ( activity: ITodoActivity, date: Date ) => ( recommendation: IRecommendation ) => recommendation.activityLabel === activity.name ? { ...recommendation, delayed_to: date } : recommendation;
-const Options = ( { onClose, onUpdate, activity, userTags
-}: IOptionsProps ) => {
+const Options = ( { onClose, activity, userTags }: IOptionsProps ) => {
+	const { updatePlannedActivity, updateRecommendations, recommendations } = useContext( todoModuleContext );
 	const formDisplayed = useBoolean( false );
-	const recommendations = useContext( userDataContext )?.recommendations ?? [];
+	const userData = useContext( userDataContext );
 	const handleClick = ( e: any ) => {
 		e.stopPropagation();
 	};
@@ -37,13 +36,13 @@ const Options = ( { onClose, onUpdate, activity, userTags
 			await handleUpdatePlannedActivity( { ...activity, delayed_to: tomorrow } );
 			return;
 		}
-		await handleUpdateRecommendations( recommendations?.map( delayRecommendedActivity( activity, tomorrow ) ) );
+		await updateRecommendations( recommendations?.map( delayRecommendedActivity( activity, tomorrow ) ) ?? null );
 	};
 
 	const onEdit = async ( activity: IHandleUpdatePlannedActivityArguments ) => {
 		onClose();
 		formDisplayed.setFalse;
-		await onUpdate( activity );
+		await updatePlannedActivity( activity );
 	};
 	return (
 		<>
@@ -59,13 +58,13 @@ const Options = ( { onClose, onUpdate, activity, userTags
 
 interface ICommonProps {
 	activity: ITodoActivity;
-	onDelete: ( id: number ) => void;
 }
 
-export const Common = ( { activity, onDelete }: ICommonProps ) => {
+export const Common = ( { activity }: ICommonProps ) => {
+	const { deletePlannedActivity } = useContext( todoModuleContext );
 	const handleDelete = async ( e: any ) => {
 		e.stopPropagation();
-		await onDelete( activity.id );
+		await deletePlannedActivity( activity.id );
 	};
 
 	const priorityToDisplay = returnIfNotHigher( Math.ceil( activity.calculatedPriority ), 11 );
@@ -86,11 +85,9 @@ export const Common = ( { activity, onDelete }: ICommonProps ) => {
 
 interface ITodoItemProps {
 	activity: ITodoActivity;
-	onDelete: ( id: number ) => void;
-	onUpdate: IHandleUpdatePlannedActivity
-	onMarkAsDone: ( activity: ITodoActivity ) => void;
 }
-export const TodoItem = ( { activity, onDelete, onMarkAsDone, onUpdate }: ITodoItemProps ) => {
+export const TodoItem = ( { activity }: ITodoItemProps ) => {
+	const { handleMarkTodoActivityAsDone } = useContext( todoModuleContext );
 	const userData = useContext( userDataContext );
 	const optionsDisplayed = useBoolean( false );
 	const { onTouchStart, onTouchEnd, onTouchMove } = useTouch( {
@@ -98,12 +95,12 @@ export const TodoItem = ( { activity, onDelete, onMarkAsDone, onUpdate }: ITodoI
 			optionsDisplayed.setTrue();
 		},
 		onTap: async () => {
-			await onMarkAsDone( activity );
+			await handleMarkTodoActivityAsDone( activity );
 		},
 	} );
 
 	const handleItemClick = async () => {
-		await onMarkAsDone( activity );
+		await handleMarkTodoActivityAsDone( activity );
 	};
 	const handleItemRightClick = async ( event: any ) => {
 		event.preventDefault();
@@ -121,9 +118,9 @@ export const TodoItem = ( { activity, onDelete, onMarkAsDone, onUpdate }: ITodoI
 						onClick={handleItemClick}
 						onContextMenu={handleItemRightClick}
 					>
-						<Common activity={activity} onDelete={onDelete}/>
+						<Common activity={activity} />
 					</div>
-					{optionsDisplayed.value && <Options onClose={optionsDisplayed.setFalse} onUpdate={onUpdate} activity={activity} userTags={userData?.tags?.map( tag => activity?.tags?.includes( tag.label ) ? { ...tag, selected: true } : { ...tag, selected: false } ) ?? []} />}
+					{optionsDisplayed.value && <Options onClose={optionsDisplayed.setFalse} activity={activity} userTags={userData?.tags?.map( tag => activity?.tags?.includes( tag.label ) ? { ...tag, selected: true } : { ...tag, selected: false } ) ?? []} />}
 				</div>
 			</Responsive.Desktop>
 			<Responsive.Mobile>
@@ -135,9 +132,9 @@ export const TodoItem = ( { activity, onDelete, onMarkAsDone, onUpdate }: ITodoI
 						onTouchEnd={onTouchEnd}
 						onTouchMove={onTouchMove}
 					>
-						<Common activity={activity} onDelete={onDelete}/>
+						<Common activity={activity} />
 					</div>
-					{optionsDisplayed.value && <Options onClose={optionsDisplayed.setFalse} onUpdate={onUpdate} activity={activity} userTags={userData?.tags?.map( tag => activity?.tags?.includes( tag.label ) ? { ...tag, selected: true } : { ...tag, selected: false } ) ?? []} />}
+					{optionsDisplayed.value && <Options onClose={optionsDisplayed.setFalse} activity={activity} userTags={userData?.tags?.map( tag => activity?.tags?.includes( tag.label ) ? { ...tag, selected: true } : { ...tag, selected: false } ) ?? []} />}
 				</div>
 			</Responsive.Mobile>
 		</>
