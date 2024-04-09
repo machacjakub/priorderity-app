@@ -1,4 +1,4 @@
-import { decrementDay, getDayAt6AM, getDayAtMidnight, incrementDay } from "../date";
+import { decrementDay, getDayAt6AM, getDayAtMidnight, getDiffInHours, incrementDay } from "../date";
 
 describe( 'getDayAt6AM', () => {
 	it( 'should return a Date object representing 6:00 AM on the given day', () => {
@@ -152,7 +152,32 @@ describe( 'decrementDay', () => {
 		expect( result.getSeconds() ).toEqual( 0 );
 		expect( result.getMilliseconds() ).toEqual( 0 );
 	} );
-
-	// Add more test cases as needed
 } );
+
+describe( 'getDiffInHours', () => {
+	// Test case 1: Testing with date1 > date2
+	it( 'should return the correct difference in hours when date1 > date2', () => {
+		const date1 = new Date( '2024-04-01T12:00:00' );
+		const date2 = new Date( '2024-04-01T06:00:00' );
+		const diff = getDiffInHours( date1, date2 );
+		expect( diff ).toBe( 6 ); // Expecting a difference of 6 hours
+	} );
+
+	// Test case 2: Testing with date1 < date2
+	it( 'should return the correct difference in hours when date1 < date2', () => {
+		const date1 = new Date( '2024-04-01T06:00:00' );
+		const date2 = new Date( '2024-04-01T12:00:00' );
+		const diff = getDiffInHours( date1, date2 );
+		expect( diff ).toBe( -6 ); // Expecting a difference of -6 hours
+	} );
+
+	// Test case 3: Testing with date1 = date2
+	it( 'should return 0 when date1 equals date2', () => {
+		const date1 = new Date( '2024-04-01T12:00:00' );
+		const date2 = new Date( '2024-04-01T12:00:00' );
+		const diff = getDiffInHours( date1, date2 );
+		expect( diff ).toBe( 0 ); // Expecting a difference of 0 hours
+	} );
+} );
+
 

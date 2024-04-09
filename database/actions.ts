@@ -61,7 +61,7 @@ export const handleDeletePlannedActivity = async ( activityId: number ) => {
 	logSupabaseResult( 'db - handleDeletePlannedActivity', result,'PlannedActivity successfully deleted', 'Failed to delete plannedActivity',`activityId: ${activityId}` );
 };
 
-export interface IHandleUpdatePlannedActivityArguments { id: number, name: string; priority: number; deadline: Date | null; delayed_to: Date | null; tags: string[], stats: IPredefinedActivity['metrics'] }
+export interface IHandleUpdatePlannedActivityArguments { id: number, name: string; priority: number; deadline: Date | null; delayed_to: Date | null; tags?: string[], stats?: IPredefinedActivity['metrics'] }
 export type IHandleUpdatePlannedActivity = ( { id, name, priority, deadline, delayed_to, tags, stats }: IHandleUpdatePlannedActivityArguments ) => void;
 export const handleUpdatePlannedActivity = async ( { id, name, priority, deadline, delayed_to, tags, stats }: IHandleUpdatePlannedActivityArguments ) => {
 	const result = await supabase
