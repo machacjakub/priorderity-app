@@ -57,6 +57,8 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 						<div className='my-12'>
 							<DashboardSectionHeadingMobile>Metrics</DashboardSectionHeadingMobile>
 							<MetricsForm/>
+							<DashboardSectionHeadingMobile>Tags</DashboardSectionHeadingMobile>
+							<TagsForm />
 							<DashboardSectionHeadingMobile>Predefined activities</DashboardSectionHeadingMobile>
 							<PredefinedActivitiesForm />
 							<DashboardSectionHeadingMobile>Recommendation</DashboardSectionHeadingMobile>

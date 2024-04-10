@@ -1,6 +1,5 @@
 import { TodoItem } from "@/app/modules/todo/TodoItem";
 import { ITodoActivity } from "@/app/types";
-import { IHandleUpdatePlannedActivity } from "@/database/actions";
 import Link from "next/link";
 import { useContext } from "react";
 import doneModuleContext from "@/app/modules/context/doneModuleContext";
@@ -8,13 +7,10 @@ import { CheckOutlined } from "@/icons";
 
 interface IProps {
     activities: ITodoActivity[];
-    onDelete: ( action: number ) => void;
-    onUpdate: IHandleUpdatePlannedActivity
-    onMarkAsDone: ( activity: ITodoActivity ) => void;
 }
 
 const isTodoActivity= ( x: any ): x is ITodoActivity => x !== null;
-export const TodoList = ( { activities, onDelete, onUpdate, onMarkAsDone }: IProps ) => {
+export const TodoList = ( { activities }: IProps ) => {
 	const { doneActivities } = useContext( doneModuleContext );
 	if ( activities.length === 0 && doneActivities.length < 2 ) {
 		return (
@@ -40,6 +36,6 @@ export const TodoList = ( { activities, onDelete, onUpdate, onMarkAsDone }: IPro
 
 	return <div className="m-2 mb-4 text-foreground">
 		{activities.filter( isTodoActivity ).map( activity =>
-			<TodoItem onUpdate={onUpdate} activity={activity} key={activity.id} onDelete={onDelete} onMarkAsDone={onMarkAsDone} /> )}
+			<TodoItem activity={activity} key={activity.id} /> )}
 	</div>;
 };
