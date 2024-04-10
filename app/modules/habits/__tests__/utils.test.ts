@@ -1,4 +1,4 @@
-import { countConsecutiveDatesFromToday } from "@/app/modules/habits/utils";
+import { countConsecutiveDatesFromToday } from "../utils";
 
 const arr5 = [ new Date( '2024/03/19 12:04' ), new Date( '2024/03/18 16:04' ), new Date( '2024/03/17 16:04' ), new Date( '2024/03/16 16:04' ), new Date( '2024/03/15 16:04' ) ];
 const arr0 = [ new Date( '2024/03/18 16:55' ), new Date( '2024/03/17 16:04' ), new Date( '2024/03/16 16:04' ), new Date( '2024/03/15 16:04' ) ];
@@ -11,8 +11,9 @@ const whenTimeChangesFall3 = [ new Date( '2024/10/28 15:09' ), new Date( '2024/1
 describe( 'countConsecutiveDatesFromToday', () => {
 	describe( 'normal scenarions', () => {
 		beforeAll( () => {
-			jest.useFakeTimers( 'modern' );
-			jest.setSystemTime( new Date( '2024/03/19' ) );
+			jest.useFakeTimers( {
+				now: new Date( '2024/03/19' ),
+			} );
 		} );
 		it( 'streak counter 0', () => {
 			expect( countConsecutiveDatesFromToday( [] ) ).toEqual( 0 );
@@ -40,8 +41,9 @@ describe( 'countConsecutiveDatesFromToday', () => {
 	} );
 	describe( 'time change scenarios spring', () => {
 		beforeAll( () => {
-			jest.useFakeTimers( 'modern' );
-			jest.setSystemTime( new Date( '2024/04/01' ) );
+			jest.useFakeTimers( {
+				now: new Date( '2024/04/01' ),
+			} );
 		} );
 		it( 'time change', () => {
 			expect( countConsecutiveDatesFromToday( whenTimeChangesSpring4 ) ).toEqual( 4 );
@@ -49,8 +51,9 @@ describe( 'countConsecutiveDatesFromToday', () => {
 	} );
 	describe( 'time change scenarios autumn', () => {
 		beforeAll( () => {
-			jest.useFakeTimers( 'modern' );
-			jest.setSystemTime( new Date( '2024/10/28' ) );
+			jest.useFakeTimers( {
+				now: new Date( '2024/10/28' ),
+			} );
 		} );
 		it( 'time change', () => {
 			expect( countConsecutiveDatesFromToday( whenTimeChangesFall3 ) ).toEqual( 3 );

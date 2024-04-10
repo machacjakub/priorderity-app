@@ -3,7 +3,7 @@
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
-import { IHealthMetric } from "@/app/types";
+import { IHealthMetric, ITodoActivity } from "@/app/types";
 import { IHabit, IPredefinedActivity, IRecommendation, ITag } from "@/app/modules/profile/types";
 import { getLogger } from "@/app/modules/logger/logger";
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
@@ -19,12 +19,12 @@ const logSupabaseResult = ( module: string, result: PostgrestSingleResponse<null
 	}
 };
 
-export interface IAddDoneActivityArguments { label: string; type: string; stats?: IPredefinedActivity['metrics'] }
-export const handleAddDoneActivity = async ( { label, type, stats }: IAddDoneActivityArguments ) => {
+export interface IAddDoneActivityArguments { label: string; type: string; stats?: IPredefinedActivity['metrics'], planned?: ITodoActivity }
+export const handleAddDoneActivity = async ( { label, type, stats, planned }: IAddDoneActivityArguments ) => {
 	const { data: { user } } = await supabase.auth.getUser();
 	const result = await supabase
 		.from( "done-activities" )
-		.insert( { type, label, stats, user_id: user?.id } );
+		.insert( { type, label, stats, planned, user_id: user?.id } );
 	revalidatePath( "/" );
 	logSupabaseResult( 'db - handleAddDoneActivity', result,'New doneActivity successfully added','Failed to add doneActivity',JSON.stringify( { label, type, stats } ) );
 };
@@ -44,7 +44,7 @@ export const handleDeleteDoneActivity = async ( activityId: number ) => {
 	logSupabaseResult( 'db - handleDeleteDoneActivity', result,'DoneActivity successfully deleted','Failed to delete doneActivity', `activityId: ${activityId}` );
 };
 
-export interface IHandleAddPlannedActivityArguments { name: string; priority: number; deadline: Date | null; delayed_to: Date | null; tags: string[], stats: IPredefinedActivity['metrics'] }
+export interface IHandleAddPlannedActivityArguments { name: string; priority: number; deadline: Date | null; delayed_to: Date | null; tags?: string[], stats?: IPredefinedActivity['metrics'] }
 export type IHandleAddPlannedActivity = ( { name, priority, deadline, delayed_to, tags, stats }: IHandleAddPlannedActivityArguments ) => void;
 export const handleAddPlannedActivity = async ( { name, priority, deadline, delayed_to, tags, stats }: IHandleAddPlannedActivityArguments ) => {
 	const { data: { user }, } = await supabase.auth.getUser();
