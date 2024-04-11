@@ -98,7 +98,7 @@ describe( 'Todo module tests', () => {
 					activityType:  "30min_exercise",
 					activityLabel: '30min exercise',
 					rules: {
-						logicalOperator: "or",
+						logicalOperator: "and",
 						conditions: [ { id: 0, comparisonOperator: "<", metric: 'physical_health', value: 60 }, { id: 1, comparisonOperator: "<", metric: 'mental_health', value: 40 } ],
 					}
 					,
@@ -126,7 +126,53 @@ describe( 'Todo module tests', () => {
 				}
 			] } ) ).toEqual( [] );
 		} );
-		it( 'should array of recommended activities', () => {
+		it( 'should return array of recommended activities - or', () => {
+			expect( getRecommendedActivities( { healthStats: mockHealthStats, doneActivities: mockDoneActivities, recommendations: [
+				{
+					activityType:  "30min_exercise",
+					activityLabel: '30min exercise',
+					rules: {
+						logicalOperator: "or",
+						conditions: [ { id: 0, comparisonOperator: "<", metric: 'physical_health', value: 60 }, { id: 1, comparisonOperator: "<", metric: 'mental_health', value: 40 } ],
+					}
+					,
+					tags: [],
+				},
+				{
+					activityType: "15min_meditation",
+					activityLabel: '15min meditation',
+					rules: {
+						logicalOperator: "and",
+						conditions: [ { id: 0, comparisonOperator: "<", metric: 'mental_health', value: 50 } ],
+					}
+					,
+					tags: [],
+				},
+				{
+					activityType: "meditation",
+					activityLabel: 'Meditation',
+					rules: {
+						logicalOperator: "and",
+						conditions: [ { id: 0, comparisonOperator: ">", userDuration: 100, activityType: 'Meditation', unit: 'h' } ],
+					}
+					,
+					tags: [],
+				}
+			] } ) ).toEqual( [
+				{
+					calculatedPriority: 4,
+					created_at: new Date( '2024-03-10T23:00:00.000Z' ),
+					deadline: null,
+					delayed_to: null,
+					id: 0,
+					isRecommended: true,
+					name: "30min exercise",
+					priority: 9,
+					tags: []
+				}
+			] );
+		} );
+		it( 'should array of recommended activities - and', () => {
 			expect( getRecommendedActivities( { healthStats: mockHealthStats, doneActivities: mockDoneActivities, recommendations: [
 				{
 					activityType:  "30min_exercise",
