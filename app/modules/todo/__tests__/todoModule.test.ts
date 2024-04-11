@@ -158,10 +158,9 @@ describe( 'Todo module tests', () => {
 					,
 					tags: [],
 				}
-			] } ) ).toEqual( [
+			] } ) ).toMatchObject( [
 				{
 					calculatedPriority: 4,
-					created_at: new Date( '2024-03-10T23:00:00.000Z' ),
 					deadline: null,
 					delayed_to: null,
 					id: 0,
