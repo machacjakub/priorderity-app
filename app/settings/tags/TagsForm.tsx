@@ -8,7 +8,7 @@ import { DeleteButton } from "@/app/settings/DeleteButton";
 import { delay } from "@/app/modules/utils";
 import { AddButton } from "@/app/settings/AddButton";
 import { SaveChangesButton } from "@/app/settings/SaveChangesButton";
-import { handleUpdateTags } from "@/database/actions";
+import { handleUpdateRecommendations, handleUpdateTags } from "@/database/actions";
 import { TagColorPicker } from "@/app/settings/tags/TagColorPicker";
 import userDataContext from "@/app/modules/context/userDataContext";
 
@@ -45,25 +45,26 @@ const TagField = ( { tag, onUpdate, onDelete, index }: { tag: ITag; index: numbe
 
 
 export const TagsForm = ( ) => {
-	const userTags = useContext( userDataContext )?.tags ?? [];
-	const [ tags, setTags ] = useState<ITag[]>( userTags );
+	const { tags, recommendations } = useContext( userDataContext );
+	const [ tagsState, setTagsState ] = useState<ITag[]>( tags ?? [] );
 	const loading = useBoolean( false );
 	const done = useBoolean( false );
 	const updateTag = ( updatedLabel: string, updatedColor: ITag['color'], index: number, hidden?: boolean ) => {
-		setTags( tags.map( ( tag, i ) => index === i ? { ...tag, label: updatedLabel, color: updatedColor, hidden: !!hidden } : tag ) );
+		setTagsState( tagsState.map( ( tag, i ) => index === i ? { ...tag, label: updatedLabel, color: updatedColor, hidden: !!hidden } : tag ) );
 	};
-	const deleteTag = ( index: number ) => setTags( tags.filter( ( tag, i ) => index !== i ) );
+	const deleteTag = ( index: number ) => setTagsState( tagsState.filter( ( tag, i ) => index !== i ) );
 	const handleSave = async () => {
 		loading.setTrue();
-		await handleUpdateTags( tags );
+		await handleUpdateTags( tagsState );
+		await handleUpdateRecommendations( recommendations?.map( r => ( { ...r, tags: r.tags?.filter( tag => tagsState.map( t => t.label ).includes( tag ) ) } ) ) ?? [] );
 		loading.setFalse();
 		done.setTrue();
 		await delay( 4000 );
 		done.setFalse();
 	};
 	return <div className='text-foreground px-4 mb-2'>
-		{tags.map( ( tag, i ) => <div key={`${tag.label}-${tag.color}-${i}`}><TagField tag={tag} onUpdate={updateTag} onDelete={deleteTag} index={i}/></div> )}
-		<div className='text-center'><AddButton onClick={() => setTags( [ ...tags, { label: 'new tag', color: 'yellow', hidden: false } ] ) } /></div>
+		{tagsState.map( ( tag, i ) => <div key={`${tag.label}-${tag.color}-${i}`}><TagField tag={tag} onUpdate={updateTag} onDelete={deleteTag} index={i}/></div> )}
+		<div className='text-center'><AddButton onClick={() => setTagsState( [ ...tagsState, { label: 'new tag', color: 'yellow', hidden: false } ] ) } /></div>
 		<div className='text-right'><SaveChangesButton loading={loading.value} done={done.value} onClick={handleSave}/></div>
 	</div>;
 };

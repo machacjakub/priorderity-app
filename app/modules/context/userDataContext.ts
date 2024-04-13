@@ -1,9 +1,8 @@
 import { createContext } from "react";
 import { IUserData } from "@/app/modules/profile/types";
-import { Nullable } from "fputils";
 
 
-const defaultValue: Nullable<IUserData> = {
+const defaultValue: IUserData = {
 	id: '',
 	updated_at: 0,
 	username: '',
@@ -17,6 +16,6 @@ const defaultValue: Nullable<IUserData> = {
 	tags: [],
 	habits: []
 };
-const userDataContext = createContext<Nullable<IUserData>>( defaultValue );
+const userDataContext = createContext<IUserData>( defaultValue );
 
 export default userDataContext;
