@@ -19,12 +19,9 @@ export const filterDelayedActivities = ( recommendations: IRecommendation[], day
 	return !activity.delayed_to || ( day ? day.getTime() >= new Date( activity.delayed_to ).getTime() : new Date().getTime() >= new Date( activity.delayed_to ).getTime() );
 };
 
-export const isConditionTrue = ( condition: IConditionToCompute ) => {
-	if ( isMetricConditionToCompute( condition ) ) {
-		return condition.comparisonOperator === '<' ? condition.metricScore < condition.value : condition.metricScore > condition.value ;
-	}
-	return condition.comparisonOperator === '<' ? condition.hoursSinceLast < condition.userHours : condition.hoursSinceLast > condition.userHours;
-};
+export const isDurationConditionTrue = ( condition: IDurationConditionToCompute ) => condition.comparisonOperator === '<' ? condition.hoursSinceLast < condition.userHours : condition.hoursSinceLast > condition.userHours;
+export const isMetricConditionTrue = ( condition: IMetricConditionToCompute ) => condition.comparisonOperator === '<' ? condition.metricScore < condition.value : condition.metricScore > condition.value ;
+export const isConditionTrue = ( condition: IConditionToCompute ) => isMetricConditionToCompute( condition ) ? isMetricConditionTrue( condition ) : isDurationConditionTrue( condition );
 
 export const getConditionToCompute = ( healthStats: IHealthStat[], doneActivities: IDoneActivity[], day?: Date ) => ( condition: IConditionDefinition ): IConditionToCompute => {
 	if ( isMetricConditionDefinition( condition ) ) {
@@ -33,11 +30,14 @@ export const getConditionToCompute = ( healthStats: IHealthStat[], doneActivitie
 	return { hoursSinceLast: getHoursSince( doneActivities.find( isObjectPropertyEqual( condition.activityType, 'label' ) )?.created_at ?? 1000, day ), userHours: getHours( condition.unit )( condition.userDuration ), comparisonOperator: condition.comparisonOperator };
 };
 
+export const areMultipleConditionsTrue = ( logicalOperator: IRecommendation["rules"]["logicalOperator"], conditions: IConditionToCompute[] ) => ( logicalOperator === 'and' && conditions.every( isConditionTrue ) ) || ( logicalOperator === 'or' && conditions.some( isConditionTrue ) );
+
 export const isActivityToRecommendByRules = ( healthStats: IHealthStat[], doneActivities: IDoneActivity[], day?: Date ) => ( recommendation: IRecommendation ): boolean => {
 	if ( recommendation.rules.conditions.every( isConditionDefinitionType ) ) {
 		const conditionsToResolve: IConditionToCompute[] = recommendation.rules.conditions.map( getConditionToCompute( healthStats, doneActivities, day ) );
-		return conditionsToResolve.every( isConditionTrue );
+		return areMultipleConditionsTrue( recommendation.rules.logicalOperator, conditionsToResolve );
 	}
+	console.warn( 'This should not happen !!! - invalid condition.' );
 	return false;
 };
 const getPriorityFromMetricCondition = ( condition: IMetricConditionToCompute ) => {
