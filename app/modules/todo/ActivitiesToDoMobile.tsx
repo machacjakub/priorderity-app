@@ -1,35 +1,32 @@
 import { ITodoActivity } from "@/app/types";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import { ShowMoreButton } from "@/app/modules/components/mobile/ShowMoreButton";
-import { handleUpdateTags, IHandleUpdatePlannedActivity } from "@/database/actions";
+import { handleUpdateTags } from "@/database/actions";
 import { TodoList } from "@/app/modules/todo/TodoList";
 import { Tags } from "@/app/modules/todo/Tags";
 import { ITag } from "@/app/modules/profile/types";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { getActivitiesFilteredByTags, getDay } from "@/app/modules/todo/utils";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@/icons";
-import { IDayReducerAction } from "@/app/App";
-import { isSameDay } from "@/app/utils/date";
+import { IDayReducerAction, isSameDay } from "@/app/utils/date";
+import todoModuleContext from "@/app/modules/context/todoModuleContext";
 
 interface IProps {
-	activities: ITodoActivity[];
-	onDelete: ( action: number ) => void;
-	onUpdate: IHandleUpdatePlannedActivity;
-	onMarkAsDone: ( activity: ITodoActivity ) => void;
 	userTags: ITag[];
 	day: Date;
 	setDay: ( action: IDayReducerAction ) => void
 }
 const isTodoActivity= ( x: any ): x is ITodoActivity => x !== null;
-export const ActivitiesToDoMobile = ( { activities, onDelete, onUpdate, onMarkAsDone, userTags, day, setDay }: IProps ) => {
+export const ActivitiesToDoMobile = ( { userTags, day, setDay }: IProps ) => {
+	const { todoActivities } = useContext( todoModuleContext );
 	const [ tags, setTags ] = useState( userTags );
 	const isPreview = useBoolean( true );
 	const previewLength = 3;
-	const activitiesToDisplay: ITodoActivity[] = getActivitiesFilteredByTags( activities, tags ).map( ( acitivity, i ) => {
+	const activitiesToDisplay: ITodoActivity[] = getActivitiesFilteredByTags( todoActivities, tags ).map( ( activity, i ) => {
 		if ( isPreview.value && i >= previewLength ) {
 			return null;
 		}
-		return acitivity;
+		return activity;
 	}
 	).filter( isTodoActivity );
 
@@ -50,8 +47,8 @@ export const ActivitiesToDoMobile = ( { activities, onDelete, onUpdate, onMarkAs
 				{tags.length > 0 && <div className='m-4'>
 					<Tags tags={tags} onUpdate={onTagsUpdate}/>
 				</div>}
-				<TodoList activities={activitiesToDisplay} onDelete={onDelete} onUpdate={onUpdate} onMarkAsDone={onMarkAsDone}/>
-				{activities.length > previewLength && <ShowMoreButton isPreview={isPreview}/>}
+				<TodoList activities={activitiesToDisplay}/>
+				{todoActivities.length > previewLength && <ShowMoreButton isPreview={isPreview}/>}
 			</div>
 		</div>
 	);
