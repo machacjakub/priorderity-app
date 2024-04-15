@@ -41,6 +41,7 @@ export const ActivitiesToDoMobile = ( { userTags, day, setDay }: IProps ) => {
 			<div className='text-foreground text-xl flex justify-between mx-5 gap-3'>
 				{isSameDay( day, new Date() ) ? <span className={'w-6'}/> : <button onClick={() => setDay( 'decrement_day' )} className='p-0.5 px-1 bg-blue-400/20 rounded-2xl'><ArrowLeftOutlined className='w-6 my-0.5'/></button>}
 				<span className='py-0.5'>{getDay( day )}</span>
+				<div className='py-0.5'>{JSON.stringify( day )}</div>
 				<button onClick={() => setDay( 'increment_day' )} className='p-0.5 px-1 bg-blue-400/20 rounded-2xl'><ArrowRightOutlined className='w-6 my-0.5'/></button>
 			</div>
 			<div className="m-2 mb-6 text-center text-foreground">
