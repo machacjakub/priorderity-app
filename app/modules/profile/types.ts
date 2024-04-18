@@ -45,7 +45,7 @@ export interface IDurationConditionToCompute {
 	hoursSinceLast: number;
 }
 
-export type IRules = {
+export type IRule = {
 	logicalOperator?: 'and' | 'or';
 	conditions: ( IConditionDefinition | INestedRule )[];
 }
@@ -54,7 +54,7 @@ export interface IRecommendation {
 	activityType: string;
 	activityLabel: string;
 	tags?: string[];
-	rules: IRules;
+	rules: IRule;
 	delayed_to?: Date;
 }
 
@@ -76,7 +76,7 @@ export interface IHabit {
 
 export const isConditionDefinitionType = ( input: IConditionDefinition | INestedRule ): input is IConditionDefinition => input.hasOwnProperty( 'comparisonOperator' );
 export const isMetricConditionDefinition = ( input: IConditionDefinition ): input is IMetricConditionDefinition => input.hasOwnProperty( 'metric' );
-export const isMetricConditionToCompute = ( input: IConditionToCompute | IMetricConditionToCompute ): input is IMetricConditionToCompute => input.hasOwnProperty( 'metricScore' );
+export const 	isMetricConditionToCompute = ( input: IConditionToCompute | IMetricConditionToCompute ): input is IMetricConditionToCompute => input.hasOwnProperty( 'metricScore' );
 export const isDurationConditionToCompute = ( input: IConditionToCompute | IDurationConditionToCompute ): input is IDurationConditionToCompute => input.hasOwnProperty( 'hoursSinceLast' );
 
 
