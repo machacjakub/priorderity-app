@@ -2,10 +2,10 @@ import { padNumber } from "@/app/modules/todo/utils";
 import { pipe } from "fputils";
 import { add, format, setHours, setMinutes, startOfDay, sub } from "date-fns";
 
-export const toReadableDateTime = ( date: Date ) => format( date, 'hh:mm:ss dd.MM.YYYY' );
+export const toReadableDateTime = ( date: Date ) => format( date, 'hh:mm:ss dd.MM.yyyy' );
 
-export const toReadableDate = ( date: Date ) => format( date, 'dd.MM.YYYY' );
-export const toReadableDateWithDay = ( date: Date ) => format( date, 'iii dd.MM.YYYY' );
+export const toReadableDate = ( date: Date ) => format( date, 'dd.MM.yyyy' );
+export const toReadableDateWithDay = ( date: Date ) => format( date, 'iii dd.MM.yyyy' );
 export const incrementDay = ( date: Date ): Date => add( date, { days: 1 } );
 
 export const decrementDay = ( date: Date ): Date => sub( date, { days: 1 } );
