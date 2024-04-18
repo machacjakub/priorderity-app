@@ -1,6 +1,6 @@
 import { IDurationConditionDefinition, ITag } from "@/app/modules/profile/types";
 import { ITodoActivity } from "@/app/types";
-import { getDayAtMidnight, toReadableDate } from "@/app/utils/date";
+import { getDayAtMidnight, toReadableDateWithDay } from "@/app/utils/date";
 
 export const padNumber = ( num: number ) => ( `0${num}` ).slice( -2 );
 
@@ -21,7 +21,7 @@ export const getDay = ( inputDate: Date ) => {
 	if ( ( day.getTime() - today.getTime() ) / ( 1000 * 60 * 60 ) === 24 ) {
 		return 'Tomorrow';
 	}
-	return toReadableDate( new Date( day ) );
+	return toReadableDateWithDay( new Date( day ) );
 };
 
 export const getHoursSince = getTimeUnitsSince( 'h' );
