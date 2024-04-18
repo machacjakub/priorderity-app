@@ -21,7 +21,7 @@ export const getDay = ( inputDate: Date ) => {
 	if ( ( day.getTime() - today.getTime() ) / ( 1000 * 60 * 60 ) === 24 ) {
 		return 'Tomorrow';
 	}
-	return toReadableDate( day );
+	return toReadableDate( new Date( day ) );
 };
 
 export const getHoursSince = getTimeUnitsSince( 'h' );
