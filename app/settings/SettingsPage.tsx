@@ -22,7 +22,7 @@ import { HabitsForm } from "@/app/settings/habits/HabitsForm";
 
 interface IProps {
 	user: Nullable<User>;
-    userData: Nullable<IUserData>;
+    userData: IUserData;
 }
 
 export const SettingsPage = ( { userData, user }: IProps ) => {
@@ -30,7 +30,7 @@ export const SettingsPage = ( { userData, user }: IProps ) => {
 	const userMetrics: IHealthMetric[] = userData?.metrics ?? defaultMetrics;
 	const predefinedActivities = userData?.activities_stats ?? getPredefinedActivitiesAttributes();
 	return (
-		<UserDataContext.Provider value={userData && { ...userData, activities_stats: predefinedActivities, metrics: userMetrics }}>
+		<UserDataContext.Provider value={{ ...userData, activities_stats: predefinedActivities, metrics: userMetrics }}>
 			<Responsive.Mobile>
 				{profileNavIsDisplayed.value && (
 					<MenuDrawer
