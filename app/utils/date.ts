@@ -1,47 +1,22 @@
 import { padNumber } from "@/app/modules/todo/utils";
 import { pipe } from "fputils";
+import { add, format, setHours, setMinutes, startOfDay, sub } from "date-fns";
 
-export const toReadableDateTime = ( date: Date ) => {
-	const hours = ( `0${ date.getHours()}` ).slice( -2 );
-	const minutes = ( `0${ date.getMinutes()}` ).slice( -2 );
-	const seconds = ( `0${ date.getSeconds()}` ).slice( -2 );
-	const day = padNumber( date.getDate() );
-	const month = padNumber( date.getMonth() + 1 );
-	const year = date.getFullYear();
+export const toReadableDateTime = ( date: Date ) => format( date, 'hh:mm:ss dd.MM.yyyy' );
 
-	return `${hours}:${minutes}:${seconds} ${day}.${month}.${year}`;
-};
+export const toReadableDate = ( date: Date ) => format( date, 'dd.MM.yyyy' );
+export const toReadableDateWithDay = ( date: Date ) => format( date, 'iii dd.MM.yyyy' );
+export const incrementDay = ( date: Date ): Date => add( date, { days: 1 } );
 
-export const toReadableDate = ( date: Date ) => {
-	const day = padNumber( date.getDate() );
-	const month = padNumber( date.getMonth() + 1 );
-	const year = date.getFullYear();
-
-	return `${day}.${month}.${year}`;
-};
-
-export const toStringDate = ( date: Date ) => {
-	const day = padNumber( date.getDate() );
-	const month = padNumber( date.getMonth() + 1 );
-	const year = date.getFullYear();
-
-	return `${year}-${month}-${day}`;
-};
-export const incrementDay = ( date: Date ): Date => {
-	const nextDay = new Date( date );
-	nextDay.setDate( nextDay.getDate() + 1 );
-	return nextDay;
-};
-
-export const decrementDay = ( date: Date ): Date => {
-	const nextDay = new Date( date );
-	nextDay.setDate( nextDay.getDate() - 1 );
-	return nextDay;
-};
+export const decrementDay = ( date: Date ): Date => sub( date, { days: 1 } );
 
 export const isSameDay = ( date1: Date, date2: Date ): boolean => date1.getDate() === date2.getDate() && date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear();
-export const getDayAtMidnight = ( date: Date ): Date => new Date( `${toStringDate( date )} 0:00` );
-export const getDayAt6AM = ( day: Date ): Date => new Date( `${toStringDate( day )} 6:00` );
+export const getDayAtMidnight = ( date: Date ): Date => startOfDay( date );
+// export const getDayAt6AM = ( day: Date ): Date => new Date( `${toReadableDate( day )} 6:00` );
+export function getDayAt6AM ( date: Date ) {
+	const midnight = startOfDay( date );
+	return setMinutes( setHours( midnight, 6 ), 0 );
+}
 export const getDateTimeInput = ( date: Date ) => `${new Date( date ).getFullYear()}-${padNumber( new Date( date ).getMonth() + 1 )}-${padNumber( new Date( date ).getDate() )}T${padNumber( new Date( date ).getHours() )}:${padNumber( new Date( date ).getMinutes() )}`;
 export const getDateInput = ( date: Date ) => `${new Date( date ).getFullYear()}-${padNumber( new Date( date ).getMonth() + 1 )}-${padNumber( new Date( date ).getDate() )}`;
 export const getDiffInHours = ( date1: Date, date2: Date ) => Math.floor( ( date1.getTime() - date2.getTime() ) / ( 1000 * 60 * 60 ) );
