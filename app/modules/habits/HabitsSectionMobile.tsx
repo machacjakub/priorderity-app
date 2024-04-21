@@ -10,6 +10,9 @@ import { getStreak } from "@/app/modules/habits/utils";
 export const HabitsSectionMobile = () => {
 	const doneActivities: IDoneActivity [] = useContext( doneModuleContext ).doneActivities;
 	const habits: IUserData["habits"] = useContext( userDataContext )?.habits ?? [];
+	if ( habits.length === 0 ) {
+		return null;
+	}
 	return ( <div className='my-2'>
 		<DashboardSectionHeadingMobile>Habits</DashboardSectionHeadingMobile>
 		<div className='mx-4 my-2 flex gap-2'>
