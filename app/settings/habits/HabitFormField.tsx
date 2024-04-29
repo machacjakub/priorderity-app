@@ -40,7 +40,7 @@ export const HabitFormField = ( { habit, onDelete, onSave, isEditing } : IActivi
 			</div>
 			{editing.value
 				? <div className='flex flex-col gap-2 m-2'>{activityTypes?.map( ( a, index1 ) => <PredefinedActivitySelect key={`${index1}-${a}`} value={a} onChange={( event ) => setActivityTypes( activityTypes.map( ( type, index2 ) => ( type === a && index1 === index2 ? event.target.value : type ) ) )}/> )}</div>
-				: <div>{activityTypes.filter( type => type !== '-' ).map( a => <ActivityToTrackAsHabit key={a} activityType={a}/> )}</div>
+				: <div className='flex gap-3'>{activityTypes.filter( type => type !== '-' ).map( a => <ActivityToTrackAsHabit key={a} activityType={a}/> )}</div>
 			}
 			{editing.value && <PlusButton onClick={() => setActivityTypes( [ ...activityTypes, '-' ] )} label={'Add activity'}/>}
 			{/*TODO add when ready*/}
