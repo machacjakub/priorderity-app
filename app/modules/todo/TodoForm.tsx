@@ -81,7 +81,7 @@ export const TodoForm = ( { onClose, isOpen, onAdd, onUpdate, initialValue, user
 			tailwind="flex items-center justify-center bg-foreground/10"
 		>
 			<div
-				className="animate-in rounded-2xl bg-white/70 dark:bg-black/60 p-8 text-foreground backdrop-blur-lg shadow-2xl shadow-blue-950/70 dark:shadow-blue-500/70"
+				className="animate-in rounded-2xl bg-white/70 dark:bg-black/60 p-8 text-foreground backdrop-blur-lg shadow-2xl shadow-blue-950/70 dark:shadow-blue-500/70 z-50"
 				onClick={( e ) => e.stopPropagation()}
 			>
 				<h1 className="mx-6 mb-2 text-center text-xl p-1">
