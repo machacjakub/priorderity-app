@@ -2,7 +2,7 @@ import { padNumber } from "@/app/modules/todo/utils";
 import { pipe } from "fputils";
 import { add, format, setHours, setMinutes, startOfDay, sub } from "date-fns";
 
-export const toReadableDateTime = ( date: Date ) => format( date, 'hh:mm:ss dd.MM.yyyy' );
+export const toReadableDateTime = ( date: Date ) => format( date, 'HH:mm:ss dd.MM.yyyy' );
 
 export const toReadableDate = ( date: Date ) => format( date, 'dd.MM.yyyy' );
 export const toReadableDateWithDay = ( date: Date ) => format( date, 'iii dd.MM.yyyy' );
