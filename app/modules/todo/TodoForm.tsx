@@ -14,6 +14,7 @@ import { IPredefinedActivity, ITag } from "@/app/modules/profile/types";
 import { PredefinedStatsForm } from "@/app/settings/predefinedActivities/PredefinedStatsForm";
 import userDataContext from "@/app/modules/context/userDataContext";
 import { getDateInput } from "@/app/utils/date";
+import { defaultMetrics } from "@/app/App";
 
 interface IProps {
 	onClose: () => void;
@@ -157,7 +158,7 @@ export const TodoForm = ( { onClose, isOpen, onAdd, onUpdate, initialValue, user
 						{ hasMetricScores.value && <div/>}
 						{ hasMetricScores.value && (
 							<div className={'ml-3 col-span-3 sm:col-span-2'}>
-								<PredefinedStatsForm userMetrics={userData?.metrics ?? null} metrics={metrics} onChange={setMetrics}/>
+								<PredefinedStatsForm userMetrics={userData?.metrics ?? defaultMetrics} metrics={metrics} onChange={setMetrics}/>
 							</div>
 						)}
 						<label className="p-2 text-right">
