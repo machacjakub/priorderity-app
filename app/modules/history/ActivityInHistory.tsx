@@ -38,7 +38,7 @@ export const ActivityInHistory = ( { activity, handleDelete, editing }: IProps )
 				<div className='w-screen h-screen top-0 left-0 z-50 fixed'>
 					<EditDoneDateForm onClose={formDisplayed.setFalse} isOpen={formDisplayed.value} activity={activity}/>
 				</div>}
-			<div className="px-1">{activity.label ?? activity.type}</div>
+			<div className="px-1 text-left">{activity.label ?? activity.type}</div>
 			{editing &&
 				<div className='p-0 mr-0.5 w-18 h-5 flex gap-3'>
 					<button value={activity.id} name="id" className='hover:text-foreground/50' onClick={() => handleRevert( activity, handleDelete , todoModule.addPlannedActivity )}>
