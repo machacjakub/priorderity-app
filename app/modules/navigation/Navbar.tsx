@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { User } from "@supabase/gotrue-js";
 import { Nullable } from "fputils";
 import { MenuOutlined } from "@/icons";
 import { Responsive } from "@/app/modules/components/Responsive";
@@ -9,7 +8,7 @@ import { Button } from "@/app/modules/components/Button";
 import { LogInButton } from "@/app/modules/components/LoginButton";
 
 interface IProps {
-	user?: Nullable<User>;
+	user?: Nullable<{id: string}>;
 	onProfileClick?: () => void;
 }
 

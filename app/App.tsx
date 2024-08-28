@@ -1,6 +1,5 @@
 "use client";
 
-import { User } from "@supabase/gotrue-js";
 import { Navbar } from "@/app/modules/navigation/Navbar";
 import { IDoneActivity, IHealthMetric, IPlannedActivity, ITodoActivity } from "@/app/types";
 import { Nullable } from "fputils";
@@ -30,7 +29,7 @@ import { dayReducer } from "@/app/utils/date";
 import { useSettingsModule } from "@/app/utils/hooks/useSettingsModule";
 
 interface IProps {
-	user: Nullable<User>;
+	user: Nullable<{id: string}>;
 	done: Nullable<IDoneActivity[]>;
 	planned: Nullable<IPlannedActivity[]>;
 	userData: Nullable<IUserData>;
