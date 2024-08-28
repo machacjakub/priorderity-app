@@ -4,6 +4,7 @@ import { WelcomePage } from "@/app/WelcomePage";
 import { IUserData } from "@/app/modules/profile/types";
 import { NewUserWelcome } from "@/app/NewUserWelcome";
 import { App } from "@/app/App";
+import { User } from "@supabase/gotrue-js";
 
 // Separate data fetching functions
 async function getUser () {
@@ -45,14 +46,14 @@ export default async function Index () {
 
 	return (
 		<Suspense fallback={<LoadingUser />}>
-			<UserContent userId={user.id} />
+			<UserContent user={user} />
 		</Suspense>
 	);
 }
 
 // User content component
-async function UserContent ( { userId }: { userId: string } ) {
-	const userData: IUserData = await getUserData( userId );
+async function UserContent ( { user }: { user: User } ) {
+	const userData: IUserData = await getUserData( user.id );
 
 	if ( !userData || !userData.firstname ) {
 		return <NewUserWelcome />;
@@ -60,17 +61,17 @@ async function UserContent ( { userId }: { userId: string } ) {
 
 	return (
 		<Suspense fallback={<LoadingActivities />}>
-			<AppWithActivities userId={userId} userData={userData} />
+			<AppWithActivities user={user} userData={userData} />
 		</Suspense>
 	);
 }
 
 // App with activities component
-async function AppWithActivities ( { userId, userData }: { userId: string, userData: IUserData } ) {
+async function AppWithActivities ( { user, userData }: { user: User, userData: IUserData } ) {
 	const [ done, planned ] = await Promise.all( [
 		getDoneActivities(),
 		getPlannedActivities()
 	] );
 
-	return <App user={{ id: userId }} done={done} userData={userData} planned={planned} />;
+	return <App user={user} done={done} userData={userData} planned={planned} />;
 }
