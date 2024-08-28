@@ -38,6 +38,7 @@ function LoadingActivities () {
 
 // Main component
 export default async function Index () {
+	'use server';
 	const user = await getUser();
 
 	if ( !user ) {
