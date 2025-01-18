@@ -1,9 +1,9 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-import { User } from "@supabase/gotrue-js";
 import { IDoneActivity, IPlannedActivity } from "@/app/types";
 import { Nullable } from "fputils";
 import { PostgrestError } from "@supabase/supabase-js";
+import { User } from "@supabase/auth-js";
 
 export interface IDbOperations {
 	getUser: () => Promise<Nullable<User>>;
