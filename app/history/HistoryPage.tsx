@@ -1,6 +1,5 @@
 "use client";
 
-import { User } from "@supabase/gotrue-js";
 import { Navbar } from "@/app/modules/navigation/Navbar";
 import { IDoneActivity } from "@/app/types";
 import { Nullable } from "fputils";
@@ -13,6 +12,7 @@ import { DashboardSectionHeading } from "@/app/modules/components/DashboardSecti
 import { PageHeadingMobile } from "@/app/modules/components/mobile/PageHeadingMobile";
 import { IUserData } from "@/app/modules/profile/types";
 import DoneModuleContext from "@/app/modules/context/doneModuleContext";
+import { User } from "@supabase/auth-js";
 
 
 

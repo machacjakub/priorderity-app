@@ -1,6 +1,5 @@
 "use client";
 
-import { User } from "@supabase/gotrue-js";
 import { Navbar } from "@/app/modules/navigation/Navbar";
 import { Nullable } from "fputils";
 import { MenuDrawer } from "@/app/modules/navigation/MenuDrawer";
@@ -8,6 +7,7 @@ import useBoolean from "@/app/utils/hooks/useBoolean";
 import { Responsive } from "@/app/modules/components/Responsive";
 import { FadingLine } from "@/app/modules/components/FadingLine";
 import { IUserData } from "@/app/modules/profile/types";
+import { User } from "@supabase/auth-js";
 
 
 

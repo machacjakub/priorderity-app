@@ -4,7 +4,7 @@ import { WelcomePage } from "@/app/WelcomePage";
 import { IUserData } from "@/app/modules/profile/types";
 import { NewUserWelcome } from "@/app/NewUserWelcome";
 import { App } from "@/app/App";
-import { User } from "@supabase/gotrue-js";
+import { User } from "@supabase/auth-js";
 
 // Separate data fetching functions
 async function getUser () {
