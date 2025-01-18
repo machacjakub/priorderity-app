@@ -19,7 +19,7 @@
     "eslint-plugin-functional": "^5.0.5",
     "eslint-plugin-unused-imports": "^2.0.0",
     "fputils": "^1.2.10",
-    "next": "15.1.2",
+    "next": "14.2.23",
     "postcss": "8.4.47",
     "react": "19.0.0",
     "react-dom": "19.0.0",
