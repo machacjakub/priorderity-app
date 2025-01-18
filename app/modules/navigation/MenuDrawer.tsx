@@ -1,11 +1,11 @@
 import LogoutButton from "@/app/modules/components/LogoutButton";
-import { User } from "@supabase/gotrue-js";
 import { Nullable } from "fputils";
 import { ModalWindow } from "@/app/modules/components/ModalWindow";
 import { MenuLink } from "@/app/modules/navigation/MenuLink";
 import { usePathname } from "next/navigation";
 import { FadingLine } from "@/app/modules/components/FadingLine";
 import { ProfileThumbnail } from "@/app/modules/navigation/ProfileThumbnail";
+import { User } from "@supabase/auth-js";
 
 interface IProps {
 	onClose: () => void;

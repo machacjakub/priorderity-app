@@ -27,7 +27,7 @@ import { useReducer } from "react";
 import { ContextProviders } from "@/app/modules/context/ContextProviders";
 import { dayReducer } from "@/app/utils/date";
 import { useSettingsModule } from "@/app/utils/hooks/useSettingsModule";
-import { User } from "@supabase/gotrue-js";
+import { User } from "@supabase/auth-js";
 
 interface IProps {
 	user: Nullable<User>;

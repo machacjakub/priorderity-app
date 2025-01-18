@@ -15,6 +15,8 @@ import { PredefinedStatsForm } from "@/app/settings/predefinedActivities/Predefi
 import userDataContext from "@/app/modules/context/userDataContext";
 import { getDateInput } from "@/app/utils/date";
 import { defaultMetrics } from "@/app/App";
+import todoModuleContext from "@/app/modules/context/todoModuleContext";
+import { delayRecommendedActivity } from "@/app/modules/todo/utils";
 
 interface IProps {
 	onClose: () => void;
@@ -27,6 +29,7 @@ interface IProps {
 
 export const TodoForm = ( { onClose, isOpen, onAdd, onUpdate, initialValue, userTags }: IProps ) => {
 	const userData = useContext( userDataContext );
+	const { updateRecommendations, recommendations } = useContext( todoModuleContext );
 	const deadlineDatePickerRef = useRef<HTMLInputElement | null>( null );
 	const delayDatePickerRef = useRef<HTMLInputElement | null>( null );
 	const hasDeadline = useBoolean( !!initialValue?.deadline );
@@ -47,6 +50,10 @@ export const TodoForm = ( { onClose, isOpen, onAdd, onUpdate, initialValue, user
 			tags: tags.filter( tag => tag.selected ).map( tag => tag.label ),
 			stats: metrics,
 		};
+		if ( initialValue?.isRecommended ) {
+			updateRecommendations( recommendations?.map( delayRecommendedActivity( initialValue, payload.delayed_to ?? new Date() ) ) ?? null );
+			return;
+		}
 		if ( initialValue?.id && onUpdate ) {
 			await onUpdate( { ...payload, id: initialValue.id } );
 		}

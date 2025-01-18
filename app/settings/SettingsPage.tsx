@@ -8,7 +8,6 @@ import { Responsive } from "@/app/modules/components/Responsive";
 import { DashboardSectionHeading } from "@/app/modules/components/DashboardSectionHeading";
 import { DashboardSectionHeadingMobile } from "@/app/modules/components/mobile/DashboardSectionHeadingMobile";
 import { MetricsForm } from "@/app/settings/MetricsForm";
-import { User } from "@supabase/gotrue-js";
 import { PredefinedActivitiesForm } from "@/app/settings/predefinedActivities/PredefinedActivitiesForm";
 import { IUserData } from "@/app/modules/profile/types";
 import { getPredefinedActivitiesAttributes } from "@/app/modules/attributes-stats/predefinedActivities";
@@ -19,6 +18,7 @@ import UserDataContext from "@/app/modules/context/userDataContext";
 import { IHealthMetric } from "@/app/types";
 import { defaultMetrics } from "@/app/App";
 import { HabitsForm } from "@/app/settings/habits/HabitsForm";
+import { User } from "@supabase/auth-js";
 
 interface IProps {
 	user: Nullable<User>;
