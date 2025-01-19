@@ -15,7 +15,7 @@ export const HabitsSectionMobile = () => {
 	}
 	return ( <div className='my-2'>
 		<DashboardSectionHeadingMobile>Habits</DashboardSectionHeadingMobile>
-		<div className='mx-4 my-2 flex gap-2'>
+		<div className='mx-4 my-2 flex gap-2 flex-wrap'>
 			{habits.map( habit => <HabitStreakTag key={habit.label} label={habit.label} streak={getStreak( habit, doneActivities )} streakWithoutToday={getStreak( habit, doneActivities, true )} /> )}
 		</div>
 	</div>
