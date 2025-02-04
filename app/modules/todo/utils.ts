@@ -1,4 +1,4 @@
-import { IDurationConditionDefinition, ITag } from "@/app/modules/profile/types";
+import { IDurationConditionDefinition, IRecommendation, ITag } from "@/app/modules/profile/types";
 import { ITodoActivity } from "@/app/types";
 import { getDayAtMidnight, toReadableDateWithDay } from "@/app/utils/date";
 
@@ -30,3 +30,5 @@ export const getHours = ( timeUnit: IDurationConditionDefinition['unit'] ) => ( 
 export const calculatedPrioritySorter = ( a: ITodoActivity, b: ITodoActivity ) => a.calculatedPriority > b.calculatedPriority ? -1 : ( a.calculatedPriority < b.calculatedPriority ? 1 : ( a.created_at > b.created_at ? -1 : 1 ) );
 
 export const getActivitiesFilteredByTags = ( activities: ITodoActivity[], tags: ITag[] ) => activities.filter( a => a.tags?.every( tag => tags.filter( t => t.selected ).map( t => t.label ).includes( tag ) ) || !a.tags );
+
+export const delayRecommendedActivity = ( activity: ITodoActivity, date: Date ) => ( recommendation: IRecommendation ) => recommendation.activityLabel === activity.name ? { ...recommendation, delayed_to: date } : recommendation;

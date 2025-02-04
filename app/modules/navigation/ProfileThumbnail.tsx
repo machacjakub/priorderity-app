@@ -1,6 +1,6 @@
 import { UserOutlined } from "@/icons";
 import { Nullable } from "fputils";
-import { User } from "@supabase/gotrue-js";
+import { User } from "@supabase/auth-js";
 
 interface IProps {
     user: Nullable<User>;

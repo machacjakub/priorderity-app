@@ -1,11 +1,11 @@
 import { ITodoActivity } from "@/app/types";
-import { IRecommendation } from "@/app/modules/profile/types";
 import { useContext } from "react";
 import todoModuleContext from "@/app/modules/context/todoModuleContext";
 import userDataContext from "@/app/modules/context/userDataContext";
 import { pipe } from "fputils";
 import { getDayAt6AM, incrementDay } from "@/app/utils/date";
 import { handleUpdatePlannedActivity } from "@/database/actions";
+import { delayRecommendedActivity } from "@/app/modules/todo/utils";
 
 interface IOptionsProps {
     onClose: () => void
@@ -13,7 +13,7 @@ interface IOptionsProps {
     formDisplayed: {value: boolean, setFalse: () => void, setTrue: () => void};
 }
 
-const delayRecommendedActivity = ( activity: ITodoActivity, date: Date ) => ( recommendation: IRecommendation ) => recommendation.activityLabel === activity.name ? { ...recommendation, delayed_to: date } : recommendation;
+
 export const TodoItemOptions = ( { onClose, formDisplayed, activity }: IOptionsProps ) => {
 	const { updateRecommendations, recommendations } = useContext( todoModuleContext );
 	const userData = useContext( userDataContext );
