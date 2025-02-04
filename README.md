@@ -2,9 +2,9 @@
 
 `main` - `testing-deploy` - https://testing-deploy-priorderity.vercel.app/
 
-`preproduction` - `beta` - https://testing-deploy-priorderity.vercel.app/
+`preproduction` - `beta` - https://beta-priorderity.vercel.app/
 
-`production` - https://testing-deploy-priorderity.vercel.app/
+`production` - https://priorderity.vercel.app/
 
 # Priorderity App
 
