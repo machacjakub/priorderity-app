@@ -2,11 +2,11 @@
 
 import { Navbar } from "@/app/modules/navigation/Navbar";
 import { Nullable } from "fputils";
-import { User } from "@supabase/gotrue-js";
 import { MenuDrawer } from "@/app/modules/navigation/MenuDrawer";
 import useBoolean from "@/app/utils/hooks/useBoolean";
 import { FadingLine } from "@/app/modules/components/FadingLine";
 import Link from "next/link";
+import { User } from "@supabase/auth-js";
 
 const Card = ( { label, link }: {label: string, link: string} ) => <Link href={link} target='_blank'><button className='p-6 m-4 sm:m-0 sm:w-52 lg:w-60 bg-blue-500/20 hover:outline outline-4 outline-offset-2 outline-blue-500/40 border border-blue-400 rounded-xl'>{label}</button></Link>;
 interface IProps {
