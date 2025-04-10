@@ -14,8 +14,6 @@ export interface IStreaks {
 	clearWithToday: number;
 }
 
-const isZeroStreak = ( arrayOfDays: IEventType[], today: Date ) => !arrayOfDays.map( day => day.date ).map( toReadableDate ).includes( toReadableDate( today ) ) || arrayOfDays.length === 0 ;
-
 const TWO_DAYS_IN_SECONDS = 180000000;
 
 export const getStreak = ( habit: IHabit, doneActivities: IDoneActivity[] ): IStreaks => {
@@ -53,27 +51,4 @@ export const getStreak = ( habit: IHabit, doneActivities: IDoneActivity[] ): ISt
 		totalStreak: differenceInCalendarDays( daysWithEvents[0].day, daysWithEvents[daysWithEvents.length - 1].day ),
 		clearWithToday: includesToday ? streak : streak + 1
 	};
-};
-
-export const countConsecutiveDatesFromToday = ( eventsArray: IEventType[] ) => {
-	const today = getDayAtMidnight( new Date() );
-	const arrayOfDays = eventsArray.map( event => ( { date: getDayAtMidnight( event.date ), label: event.label } ) );
-	if ( isZeroStreak( arrayOfDays, today ) ) {
-		return 0;
-	}
-
-	let consecutiveCount = 0;
-	for ( let i = 1; i < eventsArray.length; i++ ) {
-		const prevDate = arrayOfDays[i - 1];
-		const diffInHours = Math.floor( ( prevDate.date.getTime() - arrayOfDays[i].date.getTime() ) / ( 1000 * 60 * 60 ) );
-		if ( diffInHours === 0 || eventsArray[i].label === 'Vacation' || eventsArray[i].label === 'Illness' ) {
-			continue;
-		}
-		if ( diffInHours < 23 || diffInHours > 25 ) {
-			break;
-		}
-		consecutiveCount++;
-	}
-
-	return consecutiveCount;
 };
