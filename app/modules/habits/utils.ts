@@ -48,7 +48,7 @@ export const getStreak = ( habit: IHabit, doneActivities: IDoneActivity[] ): ISt
 	const streak = daysWithEvents.filter( day => !day.events.every( event => event === 'Illness' || event === 'Vacation' ) ).length;
 	return {
 		clearStreak: includesToday ? streak : 0,
-		totalStreak: differenceInCalendarDays( daysWithEvents[0].day, daysWithEvents[daysWithEvents.length - 1].day ),
+		totalStreak: differenceInCalendarDays( daysWithEvents[0].day, daysWithEvents[daysWithEvents.length - 1].day ) + 1,
 		clearWithToday: includesToday ? streak : streak + 1
 	};
 };
